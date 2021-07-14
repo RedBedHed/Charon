@@ -20,6 +20,7 @@ namespace Charon {
         template<Alliance A, PieceType PT> [[nodiscard]]
         uint64_t attacksOn(Board* const board, const int sq) {
             static_assert(A == White || A == Black);
+            static_assert(PT >= Pawn && PT <= NullPT);
 
             // Determine alliances.
             constexpr const Alliance us = A, them = ~us;
@@ -56,7 +57,7 @@ namespace Charon {
                     (theirPlayer->getPieces<Bishop>() | theirQueens)) |
                    (attackBoard<Knight>(sq) & theirPlayer->getPieces<Knight>()) |
                    (attackBoard<us, Pawn>(sq) & theirPlayer->getPieces<Pawn>()) |
-                   (attackBoard<King>(sq) & theirPlayer->template getPieces<King>());
+                   (attackBoard<King>(sq) & theirPlayer->getPieces<King>());
         }
 
         /**
