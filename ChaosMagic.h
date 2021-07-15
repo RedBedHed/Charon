@@ -251,12 +251,16 @@ namespace Charon {
         /**
          * Castling destination squares, as shorts.
          */
-        constexpr short WhiteKingsideRookDestination = C1;
-        constexpr short WhiteKingsideKingDestination = G1;
+        constexpr short WhiteKingsideRookOrigin       = H1;
+        constexpr short WhiteKingsideRookDestination  = F1;
+        constexpr short WhiteKingsideKingDestination  = G1;
+        constexpr short WhiteQueensideRookOrigin      = A1;
         constexpr short WhiteQueensideRookDestination = D1;
         constexpr short WhiteQueensideKingDestination = C1;
-        constexpr short BlackKingsideRookDestination = F8;
-        constexpr short BlackKingsideKingDestination = G8;
+        constexpr short BlackKingsideRookOrigin       = H8;
+        constexpr short BlackKingsideRookDestination  = F8;
+        constexpr short BlackKingsideKingDestination  = G8;
+        constexpr short BlackQueensideRookOrigin      = A8;
         constexpr short BlackQueensideRookDestination = D8;
         constexpr short BlackQueensideKingDestination = C8;
 

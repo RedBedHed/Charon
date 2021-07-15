@@ -492,19 +492,19 @@ namespace Charon {
             // if we are in check, then castling moves are illegal.
             if (FT == Aggressive || ct != None) return;
 
-            if(ourPlayer->hasCastlingRights<KingSide>()) {
+            if(board->hasCastlingRights<A, KingSide>()) {
                 // Generate king-side castle.
-                uint64_t d = x->kingSideMask & ~board->getAllPieces();
-                if(d == x->kingSideMask && safeSquares<A>(board, d))
+                uint64_t d = x->kingSideMask & board->getAllPieces();
+                if(!d && safeSquares<A>(board, d))
                     *moves++ = Move::make<Castling>(
                             ksq, x->kingSideDestination
                     );
             }
 
-            if(ourPlayer->hasCastlingRights<QueenSide>()) {
+            if(board->hasCastlingRights<A, QueenSide>()) {
                 // Generate queen-side castle.
-                uint64_t d = x->queenSideMask & ~board->getAllPieces();
-                if(d == x->queenSideMask && safeSquares<A>(board, d))
+                uint64_t d = x->queenSideMask & board->getAllPieces();
+                if(!d && safeSquares<A>(board, d))
                     *moves = Move::make<Castling>(
                             ksq, x->queenSideDestination
                     );
@@ -520,9 +520,11 @@ namespace Charon {
          * @param moves a pointer to the list to populate
          */
         template <Alliance A, FilterType FT>
-        void makeMoves(Board* const board, MoveWrap* moves) {
+        int makeMoves(Board* const board, MoveWrap* moves) {
             static_assert(A == White || A == Black);
             static_assert(FT >= Aggressive && FT <= All);
+
+            const MoveWrap* initialPtr = moves;
 
             // Determine alliances.
             constexpr const Alliance us    = A, them = ~us;
@@ -593,6 +595,7 @@ namespace Charon {
             }
             // make king moves.
             makeKingMoves<us, FT>(board, checkType, partialFilter, moves);
+            return (moves - initialPtr);
         }
     } // namespace (anon)
 
@@ -641,7 +644,7 @@ namespace Charon {
          * structures to hold legal moves.
          */
         template<FilterType FT>
-        void generateMoves(Board *const board, MoveWrap *const moves) {
+        int generateMoves(Board *const board, MoveWrap *const moves) {
             static_assert(FT >= Aggressive && FT <= All);
             return board->currentPlayer() == White ?
                    makeMoves<White, FT>(board, moves) :
@@ -649,8 +652,8 @@ namespace Charon {
         }
 
         // Explicit instantiations.
-        template void generateMoves<Aggressive>(Board *, MoveWrap *);
-        template void generateMoves<Passive>(Board *, MoveWrap *);
-        template void generateMoves<All>(Board *, MoveWrap *);
+        template int generateMoves<Aggressive>(Board *, MoveWrap *);
+        template int generateMoves<Passive>(Board *, MoveWrap *);
+        template int generateMoves<All>(Board *, MoveWrap *);
     }
 } // namespace Charon

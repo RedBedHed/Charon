@@ -34,6 +34,7 @@
 				<Option type="1"/>
 				<Option compiler="msvc8"/>
 				<Compiler>
+					<Add directory="C:/Users/evcmo/CLionProjects/Charon/."/>
 					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\ATLMFC\include"/>
 					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\include"/>
 					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um"/>
@@ -57,6 +58,7 @@
 				<Option type="1"/>
 				<Option compiler="msvc8"/>
 				<Compiler>
+					<Add directory="C:/Users/evcmo/CLionProjects/Charon/."/>
 					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\ATLMFC\include"/>
 					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\include"/>
 					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um"/>
@@ -100,12 +102,6 @@
 			<Option target="Charon"/>
 		</Unit>
 		<Unit filename="C:/Users/evcmo/CLionProjects/Charon/List.h">
-			<Option target="Charon"/>
-		</Unit>
-		<Unit filename="C:/Users/evcmo/CLionProjects/Charon/LiteralList.cpp">
-			<Option target="Charon"/>
-		</Unit>
-		<Unit filename="C:/Users/evcmo/CLionProjects/Charon/LiteralList.h">
 			<Option target="Charon"/>
 		</Unit>
 		<Unit filename="C:/Users/evcmo/CLionProjects/Charon/Move.cpp">

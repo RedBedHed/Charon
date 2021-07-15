@@ -24,11 +24,11 @@ namespace Charon {
     enum PieceType : uint8_t
     { Pawn, Rook, Knight, Bishop, Queen, King, NullPT };
 
-    enum MoveType : unsigned int {
-        FreeForm  = 0,
-        EnPassant = 0x1000U,
-        Castling  = 0x2000U,
-        PawnJump  = 0x3000U
+    enum MoveType : uint8_t {
+        FreeForm,
+        EnPassant,
+        Castling,
+        PawnJump,
     };
 
     enum PromoStatus : unsigned int
@@ -65,7 +65,8 @@ namespace Charon {
         Move(const Move& move) = default;
         ~Move() = default;
 
-        constexpr int getManifest()
+        [[nodiscard]]
+        constexpr int getManifest() const
         { return manifest; }
 
         static constexpr Move make(const unsigned int manifest)
@@ -73,7 +74,7 @@ namespace Charon {
 
         template<MoveType MT>
         static constexpr Move make(unsigned int from, unsigned int to)
-        { return Move(MT + (from << 6U) + to); }
+        { return Move((MT << 12U) + (from << 6U) + to); }
 
         static constexpr Move
         make(const unsigned int from, const unsigned int to)
@@ -82,7 +83,7 @@ namespace Charon {
         template<PieceType PT>
         static constexpr Move
         makePromotion(const unsigned int from, const unsigned int to)
-        { return Move(Promotion + (PT << 12U) + ((from << 6U) + to)); }
+        { return Move((Promotion << 15U) + (PT << 12U) + ((from << 6U) + to)); }
 
         [[nodiscard]]
         constexpr int destination() const
@@ -103,6 +104,12 @@ namespace Charon {
         [[nodiscard]]
         constexpr int promotionPiece() const
         { return (manifest & PromoPiece) >> 12U; }
+
+        constexpr bool operator==(const Move& other) const
+        { return manifest == other.manifest; }
+
+        constexpr bool operator!=(const Move& other) const
+        { return manifest != other.manifest; }
 
         constexpr Move& operator=(const Move& mx) = default;
 

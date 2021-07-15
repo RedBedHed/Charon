@@ -207,33 +207,6 @@ List.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Charon.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Charon.dir\List.cpp.s
 .PHONY : List.cpp.s
 
-LiteralList.obj: LiteralList.cpp.obj
-
-.PHONY : LiteralList.obj
-
-# target to build an object file
-LiteralList.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Charon.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Charon.dir\LiteralList.cpp.obj
-.PHONY : LiteralList.cpp.obj
-
-LiteralList.i: LiteralList.cpp.i
-
-.PHONY : LiteralList.i
-
-# target to preprocess a source file
-LiteralList.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Charon.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Charon.dir\LiteralList.cpp.i
-.PHONY : LiteralList.cpp.i
-
-LiteralList.s: LiteralList.cpp.s
-
-.PHONY : LiteralList.s
-
-# target to generate assembly for a file
-LiteralList.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Charon.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Charon.dir\LiteralList.cpp.s
-.PHONY : LiteralList.cpp.s
-
 Move.obj: Move.cpp.obj
 
 .PHONY : Move.obj
@@ -387,9 +360,6 @@ help:
 	@echo ... List.obj
 	@echo ... List.i
 	@echo ... List.s
-	@echo ... LiteralList.obj
-	@echo ... LiteralList.i
-	@echo ... LiteralList.s
 	@echo ... Move.obj
 	@echo ... Move.i
 	@echo ... Move.s

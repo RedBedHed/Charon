@@ -37,7 +37,7 @@ namespace Charon {
 
     namespace MoveFactory {
         template<FilterType FT>
-        void generateMoves(Board *, MoveWrap *);
+        int generateMoves(Board *, MoveWrap *);
     }
 }
 

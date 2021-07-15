@@ -23,10 +23,6 @@ CMakeFiles\Charon.dir\ChaosMagic.cpp.obj: ..\Utility.h
 CMakeFiles\Charon.dir\List.cpp.obj: ..\List.cpp
 CMakeFiles\Charon.dir\List.cpp.obj: ..\List.h
 
-CMakeFiles\Charon.dir\LiteralList.cpp.obj: ..\List.h
-CMakeFiles\Charon.dir\LiteralList.cpp.obj: ..\LiteralList.cpp
-CMakeFiles\Charon.dir\LiteralList.cpp.obj: ..\LiteralList.h
-
 CMakeFiles\Charon.dir\Move.cpp.obj: ..\Move.cpp
 CMakeFiles\Charon.dir\Move.cpp.obj: ..\Move.h
 
