@@ -92,7 +92,11 @@ namespace Charon {
 
     struct CastlingRights final {
     public:
+
         uint8_t rights;
+
+        constexpr CastlingRights() : rights(0)
+        {  }
 
         template <CastleType CT>
         constexpr bool get() {
@@ -122,6 +126,14 @@ namespace Charon {
         PieceType capturedPiece;
         CastlingRights whiteCastlingRights;
         CastlingRights blackCastlingRights;
+
+        constexpr State() :
+        epSquare(NullSQ),
+        prevState(nullptr),
+        capturedPiece(NullPT),
+        whiteCastlingRights(CastlingRights()),
+        blackCastlingRights(CastlingRights())
+        {  }
 
         template <Alliance A, CastleType CT>
         constexpr bool getCastlingRights()
