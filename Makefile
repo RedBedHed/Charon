@@ -1,6 +1,6 @@
 CC = g++
 STD = -std=c++2a
-CFLAGS = $(STD) -g -Wall
+CFLAGS = $(STD) -g -Wall -pg
 O = main.o ChaosMagic.o MoveMake.o List.o UniqueList.o Move.o Board.o Position.o
 
 cc0: $(O)

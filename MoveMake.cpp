@@ -25,25 +25,23 @@ namespace Charon {
             // Determine alliances.
             constexpr const Alliance us = A, them = ~us;
             // Define players.
-            const Player* const ourPlayer = board->getPlayer<us>();
+            const Player* const ourPlayer   = board->getPlayer<us>();
             const Player* const theirPlayer = board->getPlayer<them>();
             // Get their queen.
 
             const uint64_t theirQueens = theirPlayer->getPieces<Queen>(),
-                           target = ourPlayer->getPieces<PT>(),
+                           target      = ourPlayer->getPieces<PT>(),
             // Board minus king
                            allPieces   = board->getAllPieces() & ~target;
             // Get the attack board for horizontal and vertical attacks
             // on the given square.
-            const uint64_t onAxisAttackMask =
-                    attackBoard<Rook>(allPieces, sq);
+            const uint64_t onAxisAttackMask   = attackBoard<Rook>(allPieces, sq);
             // Get the attack board for diagonal attacks on the given
             // square.
-            const uint64_t diagonalAttackMask =
-                    attackBoard<Bishop>(allPieces, sq);
+            const uint64_t diagonalAttackMask = attackBoard<Bishop>(allPieces, sq);
 
             // Calculate and return a bitboard representing all attackers.
-            return PT == King?
+            return PT == King ?
                    (onAxisAttackMask &
                    (theirPlayer->getPieces<Rook>()   | theirQueens)) |
                    (diagonalAttackMask &
@@ -467,20 +465,21 @@ namespace Charon {
             static_assert(A == White || A == Black);
             static_assert(FT >= Aggressive && FT <= All);
 
+            constexpr const Alliance us = A;
             // Define our player.
-            Player* const ourPlayer = board->getPlayer<A>();
+            Player* const ourPlayer = board->getPlayer<us>();
             // Find our king.
             const uint64_t king = ourPlayer->getPieces<King>();
             // Find our king's square.
             const int ksq = bitScanFwd(king);
             // Get the board defaults for our alliance.
-            constexpr const Defaults* const x = getDefaults<A>();
+            constexpr const Defaults* const x = getDefaults<us>();
 
             { // Generate normal king moves.
                 uint64_t d = SquareToKingAttacks[ksq];
                 for (d &= filter; d; d &= d - 1) {
                     const int dest = bitScanFwd(d);
-                    if (!attacksOn<A, King>(board, dest))
+                    if (!attacksOn<us, King>(board, dest))
                         *moves++ = Move::make(
                                 ksq, dest
                         );
@@ -492,20 +491,20 @@ namespace Charon {
             // if we are in check, then castling moves are illegal.
             if (FT == Aggressive || ct != None) return;
 
-            if(board->hasCastlingRights<A, KingSide>()) {
+            if(board->hasCastlingRights<us, KingSide>()) {
                 // Generate king-side castle.
                 uint64_t d = x->kingSideMask & board->getAllPieces();
-                if(!d && safeSquares<A>(board, d))
+                if(!d && safeSquares<us>(board, d))
                     *moves++ = Move::make<Castling>(
                             ksq, x->kingSideDestination
                     );
             }
 
-            if(board->hasCastlingRights<A, QueenSide>()) {
+            if(board->hasCastlingRights<us, QueenSide>()) {
                 // Generate queen-side castle.
                 uint64_t d = x->queenSideMask & board->getAllPieces();
-                if(!d && safeSquares<A>(board, d))
-                    *moves = Move::make<Castling>(
+                if(!d && safeSquares<us>(board, d))
+                    *moves++ = Move::make<Castling>(
                             ksq, x->queenSideDestination
                     );
             }
@@ -536,7 +535,7 @@ namespace Charon {
                            ourPieces   = ourPlayer->getAllPieces(),
                            theirPieces = theirPlayer->getAllPieces(),
             // Create the partial filter according to the filter type.
-            partialFilter = FT == All? ~ourPieces :
+            partialFilter = FT == All?     ~ourPieces :
                             FT == Passive? ~allPieces :
                             theirPieces,
             // Get our king board.

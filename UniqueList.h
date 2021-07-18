@@ -109,6 +109,7 @@ isEmpty() const {
 }
 
 template<typename T>
+inline
 T* UniqueList<T*>::
 operator[](int i) const {
     assert(i >= 0 && i < runningSize);

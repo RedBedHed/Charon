@@ -92,23 +92,32 @@ namespace Charon {
 
     struct CastlingRights final {
     public:
-        bool queenSide;
-        bool kingSide;
+        uint8_t kingSide;
+        uint8_t queenSide;
+
+        constexpr CastlingRights() :
+        kingSide(true), queenSide(true)
+        { }
 
         template <CastleType CT>
         constexpr bool get()
         { return CT == KingSide ? kingSide : queenSide; }
 
+        template <CastleType CT, bool R>
+        constexpr void set()
+        { if(CT == KingSide) kingSide = R;
+          else queenSide = R; }
+
         template <CastleType CT>
-        constexpr void set(const bool rights)
-        { if(CT == KingSide) kingSide = rights;
-          else queenSide = rights; }
+        constexpr void set(const bool r)
+        { if(CT == KingSide) kingSide = r;
+          else queenSide = r; }
     };
 
     struct State final {
     public:
         Square epSquare;
-        State* prevState;
+        State* prevState{};
         PieceType capturedPiece;
         CastlingRights whiteCastlingRights;
         CastlingRights blackCastlingRights;
@@ -174,7 +183,16 @@ namespace Charon {
         Player blackPlayer;
         uint64_t allPieces;
         Alliance currentPlayerAlliance;
-        PieceType board[BoardLength]{ NullPT };
+        PieceType board[BoardLength]{
+                NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT,
+                NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT,
+                NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT,
+                NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT,
+                NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT,
+                NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT,
+                NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT,
+                NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT
+        };
         State* currentState;
 
     public:
@@ -242,6 +260,14 @@ namespace Charon {
                 );
             }
             sb.append("\t    H   G   F   E   D   C   B   A\n");
+
+            /*for(int i = 0,k = 0; i < 8; i++) {
+                for(int j = 0; j < 8; j++) {
+                    sb.append(PieceTypeToString[board[k++]]);
+                    sb.push_back(' ');
+                }
+                sb.push_back('\n');
+            }*/
             return sb;
         }
 
@@ -391,14 +417,24 @@ namespace Charon {
                 currentState(b.state)
         { initBoard(b.pieces[White], b.pieces[Black]); }
 
-        template <Alliance A, CastleType CT>
-        inline void setCastlingRights(const bool canCastle) {
+        template <Alliance A, CastleType CT, bool R>
+        constexpr void setCastlingRights() {
             static_assert(A == White || A == Black);
             static_assert(CT == KingSide || CT == QueenSide);
             if(A == White)
-                currentState->whiteCastlingRights.set<CT>(canCastle);
+                currentState->whiteCastlingRights.set<CT, R>();
             else
-                currentState->blackCastlingRights.set<CT>(canCastle);
+                currentState->blackCastlingRights.set<CT, R>();
+        }
+
+        template <Alliance A, CastleType CT>
+        constexpr void setCastlingRights(const bool right) {
+            static_assert(A == White || A == Black);
+            static_assert(CT == KingSide || CT == QueenSide);
+            if(A == White)
+                currentState->whiteCastlingRights.set<CT>(right);
+            else
+                currentState->blackCastlingRights.set<CT>(right);
         }
 
         // ASSUME THAT THE MOVE IS LEGAL ! ! !
@@ -407,28 +443,29 @@ namespace Charon {
             assert(currentState != &state);
             state.prevState = currentState;
             currentState = &state;
-            constexpr const Alliance us = A, them = ~us;
-            const int origin = m.origin(), destination = m.destination(),
+            const int origin      = m.origin(),
+                      destination = m.destination(),
                       isPromotion = m.isPromotion();
-            const uint64_t originBoard      = SquareToBitBoard[origin],
-                           destinationBoard = SquareToBitBoard[destination],
-                           moveBB           = originBoard | destinationBoard;
-            Player* const ourPlayer     = getPlayer<us>();
-            Player* const theirPlayer   = getPlayer<them>();
             PieceType captureType = board[destination],
                       activeType  = board[origin];
             currentState->capturedPiece = captureType;
             if(captureType == King) return;
+            constexpr const Alliance us = A, them = ~us;
+            const uint64_t originBoard      = SquareToBitBoard[origin],
+                           destinationBoard = SquareToBitBoard[destination],
+                           moveBB           = originBoard | destinationBoard;
+            Player* const ourPlayer   = getPlayer<us>();
+            Player* const theirPlayer = getPlayer<them>();
+            const Defaults* const x = getDefaults<us>();
+            board[origin] = NullPT;
             setCastlingRights<us, KingSide>(
                     currentState->prevState->
-                    getCastlingRights<us, KingSide>()
+                            getCastlingRights<us, KingSide>()
             );
             setCastlingRights<us, QueenSide>(
                     currentState->prevState->
-                    getCastlingRights<us, QueenSide>()
+                            getCastlingRights<us, QueenSide>()
             );
-            const Defaults* const x = getDefaults<us>();
-            board[origin] = NullPT;
             currentPlayerAlliance = them;
             if(isPromotion) {
                 ourPlayer->pieces[activeType]    ^= moveBB;
@@ -451,16 +488,25 @@ namespace Charon {
                 allPieces = whitePlayer.allPieces | blackPlayer.allPieces;
                 if(activeType == Rook) {
                     if(x->kingSideRookOrigin == originBoard) {
-                        setCastlingRights<us, KingSide>(false);
+                        setCastlingRights<us, KingSide, false>();
+                        setCastlingRights<us, QueenSide>(
+                                currentState->prevState->
+                                        getCastlingRights<us, QueenSide>()
+                        );
                     }
                     else if(x->queenSideRookOrigin == originBoard) {
-                        setCastlingRights<us, KingSide>(false);
+                        setCastlingRights<us, KingSide, false>();
+                        setCastlingRights<us, KingSide>(
+                                currentState->prevState->
+                                        getCastlingRights<us, KingSide>()
+                        );
                     }
                 } else if(activeType == King) {
-                    setCastlingRights<us, KingSide>(false);
-                    setCastlingRights<us, QueenSide>(false);
+                    setCastlingRights<us, KingSide, false>();
+                    setCastlingRights<us, QueenSide, false>();
                 }
-                currentState->epSquare = moveType == PawnJump ? Square(destination) : NullSQ;
+                currentState->epSquare =
+                        moveType == PawnJump ? Square(destination) : NullSQ;
                 return;
             }
             if(moveType == Castling) {
@@ -490,10 +536,10 @@ namespace Charon {
             }
             const int epSquare = currentState->prevState->epSquare;
             const uint64_t captureBB = SquareToBitBoard[epSquare];
-            ourPlayer->pieces[Pawn] ^= moveBB;
-            ourPlayer->allPieces          ^= moveBB;
-            theirPlayer->pieces[Pawn]     ^= captureBB;
-            theirPlayer->allPieces        ^= captureBB;
+            ourPlayer->pieces[Pawn]   ^= moveBB;
+            ourPlayer->allPieces      ^= moveBB;
+            theirPlayer->pieces[Pawn] ^= captureBB;
+            theirPlayer->allPieces    ^= captureBB;
             allPieces = whitePlayer.allPieces | blackPlayer.allPieces;
             board[epSquare] = NullPT;
             currentState->epSquare = NullSQ;
@@ -504,19 +550,20 @@ namespace Charon {
         template<Alliance A>
         constexpr void undoMove(const Move& m) {
             constexpr const Alliance us = A, them = ~us;
-            const int origin = m.origin(), destination = m.destination(),
-                    isPromotion = m.isPromotion();
-            const uint64_t originBoard      = SquareToBitBoard[origin],
-                           destinationBoard = SquareToBitBoard[destination],
-                           moveBB           = originBoard | destinationBoard;
-            Player* const ourPlayer     = getPlayer<us>();
-            Player* const theirPlayer   = getPlayer<them>();
+            const int origin      = m.origin(),
+                      destination = m.destination(),
+                      isPromotion = m.isPromotion();
             PieceType captureType = currentState->capturedPiece,
                       activeType  = board[destination];
             if(captureType == King) {
                 currentState = currentState->prevState;
                 return;
             }
+            const uint64_t originBoard      = SquareToBitBoard[origin],
+                           destinationBoard = SquareToBitBoard[destination],
+                           moveBB           = originBoard | destinationBoard;
+            Player* const ourPlayer     = getPlayer<us>();
+            Player* const theirPlayer   = getPlayer<them>();
             const Defaults* const x = getDefaults<us>();
             currentPlayerAlliance = us;
             board[origin] = activeType;
@@ -592,17 +639,15 @@ namespace Charon {
         { return currentState->epSquare; }
 
         constexpr void applyMove(const Move& m, State& s) {
-            if(currentPlayerAlliance == White)
-                applyMove<White>(m, s);
-            else
-                applyMove<Black>(m, s);
+            return currentPlayerAlliance == White?
+                   applyMove<White>(m, s) :
+                   applyMove<Black>(m, s);
         }
 
         constexpr void undoMove(const Move& m) {
-            if(currentPlayerAlliance == White)
-                undoMove<Black>(m);
-            else
-                undoMove<White>(m);
+            return currentPlayerAlliance == White?
+                   undoMove<Black>(m) :
+                   undoMove<White>(m);
         }
     };
 

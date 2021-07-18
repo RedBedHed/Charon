@@ -73,7 +73,7 @@ namespace Charon {
 
         /**
          * @private
-         * A read only list to hold all attackBoards
+         * A pointer to a list to hold all attackBoards
          * for this FancyMagic.
          */
         const uint64_t* const attackBoards;
@@ -106,10 +106,17 @@ namespace Charon {
          * @static
          * A method to calculate the hash key for
          * the given bit board.
+         * @copydoc FancyMagic::hash()
+         * @param bb the bit board
+         * @param m the blocker mask
+         * @param mn the magic number
+         * @param sa the shift amount
+         * @return a hashkey
          */
-        static int hash(
-                uint64_t, uint64_t, uint64_t, unsigned int
-        );
+        static constexpr int
+        hash(const uint64_t bb, const uint64_t m,
+             const uint64_t mn, const unsigned int sa)
+        { return (int) (((bb & m) * mn) >> sa); }
     public:
 
         /**
@@ -135,8 +142,20 @@ namespace Charon {
         /**
          * A method to lookup the attack board
          * associated with the given game board.
+         * @copydoc FancyMagic::getAttacks()
+         * @param blockerBoard the blocker board for
+         * which to retrieve the attack board
+         * @return the attack board corresponding to
+         * the given blocker board
          */
-        uint64_t getAttacks(uint64_t);
+        [[nodiscard]]
+        constexpr uint64_t
+        getAttacks(const uint64_t blockerBoard) const {
+            return attackBoards[hash(
+                   blockerBoard, mask,
+                            magicNumber, shiftAmount
+            )];
+        }
 
         /**
          * <summary>

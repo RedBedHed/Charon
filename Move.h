@@ -41,7 +41,7 @@ namespace Charon {
     { "FreeForm", "EnPassant", "Castling", "PawnJump" };
 
     constexpr const char* PieceTypeToString[] =
-    { "NullPT", "Pawn", "Rook", "Knight", "Bishop", "Queen", "King" };
+    { "Pawn", "Rook", "Knight", "Bishop", "Queen", "King", "NullPT" };
 
     class Move final {
     private:

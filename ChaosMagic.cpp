@@ -156,15 +156,13 @@ namespace Charon {
              *   chessprogramming.org
              *  </a>
              */
-            List<FancyMagic*>*
-            initFancyMagics(uint64_t* const attackTable,
+            void
+            initFancyMagics(FancyMagic** incantations,
+                            uint64_t* const attackTable,
                             const Direction *const directions,
                             const uint64_t *const blockerMask,
                             const uint64_t *const magicNumbers,
                             const short *const sizes) {
-
-                auto* incantations =
-                        new UniqueList<FancyMagic*>(BoardLength);
 
                 // Start the attack pointer at the base of the
                 // attack table.
@@ -253,11 +251,8 @@ namespace Charon {
 
                     // Instantiate the immutable magic and add
                     // it to the spell book.
-                    incantations->add(magicBuilder.build());
+                    *incantations++ = magicBuilder.build();
                 }
-
-                return
-                    Lists<FancyMagic*>::uniqueReadOnly(incantations);
             }
 
             /**
@@ -269,7 +264,7 @@ namespace Charon {
              *  </p>
              *
              *  <p>
-             * The magic that this pointer references will
+             * The magic that this array references will
              * be injected at runtime with a call to
              * Witchcraft::init() and de-allocated with
              * a call to Witchcraft::destroy()
@@ -279,7 +274,7 @@ namespace Charon {
              * @see Witchcraft::init()
              * @see Witchcraft::destroy()
              */
-            List<FancyMagic*>* RookAttackWitchcraft = nullptr;
+            FancyMagic* RookAttackWitchcraft[BoardLength];
 
             /**
              * <summary>
@@ -290,7 +285,7 @@ namespace Charon {
              *  </p>
              *
              *  <p>
-             * The magic that this pointer references will
+             * The magic that this array references will
              * be injected at runtime with a call to
              * Witchcraft::init() and de-allocated with
              * a call to Witchcraft::destroy()
@@ -300,7 +295,7 @@ namespace Charon {
              * @see Witchcraft::init()
              * @see Witchcraft::destroy()
              */
-            List<FancyMagic*>* BishopAttackWitchcraft = nullptr;
+            FancyMagic* BishopAttackWitchcraft[BoardLength];
 
             namespace InitControl {
 
@@ -332,13 +327,13 @@ namespace Charon {
             using namespace InitControl;
             const lock_guard<mutex> lock(m);
             assert(!initialized);
-            RookAttackWitchcraft = initFancyMagics(
-                    RookAttacks,
+            initFancyMagics(
+                    RookAttackWitchcraft, RookAttacks,
                     RookDirections, SquareToRookBlockerMask,
                     RookMagicNumbers, FancyRookSizes
             );
-            BishopAttackWitchcraft = initFancyMagics(
-                    BishopAttacks,
+            initFancyMagics(
+                    BishopAttackWitchcraft, BishopAttacks,
                     BishopDirections, SquareToBishopBlockerMask,
                     BishopMagicNumbers, FancyBishopSizes
             );
@@ -350,8 +345,10 @@ namespace Charon {
             using namespace InitControl;
             const lock_guard<mutex> lock(m);
             assert(initialized);
-            delete RookAttackWitchcraft;
-            delete BishopAttackWitchcraft;
+            for(FancyMagic* fm: RookAttackWitchcraft)
+                delete fm;
+            for(FancyMagic* fm: BishopAttackWitchcraft)
+                delete fm;
             initialized = false;
         }
 
@@ -361,7 +358,7 @@ namespace Charon {
 
         template <> uint64_t
         attackBoard<Rook>(const uint64_t board, const int sq)
-        { return (*RookAttackWitchcraft)[sq]->getAttacks(board); }
+        { return RookAttackWitchcraft[sq]->getAttacks(board); }
 
         template <> uint64_t
         attackBoard<Knight>(const uint64_t board, const int sq)
@@ -373,12 +370,12 @@ namespace Charon {
 
         template <> uint64_t
         attackBoard<Bishop>(const uint64_t board, const int sq)
-        { return (*BishopAttackWitchcraft)[sq]->getAttacks(board); }
+        { return BishopAttackWitchcraft[sq]->getAttacks(board); }
 
         template <> uint64_t
         attackBoard<Queen>(const uint64_t board, const int sq)
-        { return (*RookAttackWitchcraft)[sq]->getAttacks(board) |
-                 (*BishopAttackWitchcraft)[sq]->getAttacks(board); }
+        { return RookAttackWitchcraft[sq]->getAttacks(board) |
+                 BishopAttackWitchcraft[sq]->getAttacks(board); }
 
         template <> uint64_t
         attackBoard<King>(const uint64_t board, const int sq)
@@ -427,35 +424,6 @@ namespace Charon {
             magicNumber(b.magicNumber),
             mask(b.mask)
     {  }
-
-    /**
-     * @copydoc FancyMagic::getAttacks()
-     * @param blockerBoard the blocker board for
-     * which to retrieve the attack board
-     * @return the attack board corresponding to
-     * the given blocker board
-     */
-    inline uint64_t FancyMagic::
-    getAttacks(const uint64_t blockerBoard) {
-        return
-            attackBoards[hash(
-                blockerBoard, mask,
-                magicNumber, shiftAmount
-            )];
-    }
-
-    /**
-     * @copydoc FancyMagic::hash()
-     * @param bb the bit board
-     * @param m the blocker mask
-     * @param mn the magic number
-     * @param sa the shift amount
-     * @return a hashkey
-     */
-    inline int FancyMagic::
-    hash(const uint64_t bb, const uint64_t m,
-         const uint64_t mn, const unsigned int sa)
-    { return (int) (((bb & m) * mn) >> sa); }
 
     /**
      * @copydoc FancyMagic::Builder::Builder()
