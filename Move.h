@@ -111,9 +111,11 @@ namespace Charon {
             if(m.isPromotion())
                 out <<"Promotion - "
                     << PieceTypeToString[m.promotionPiece()];
-            else out << MoveTypeToString[m.moveType()];
-                return out << " - From: "
-                       << m.origin() << " To: " << m.destination();
+            else
+                out << MoveTypeToString[m.moveType()];
+            return out << " - From: "
+                       << m.origin() << " To: "
+                       << m.destination();
         }
 
     };
