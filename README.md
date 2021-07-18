@@ -25,10 +25,12 @@ My crude List data structure that I opted not to use.
 #### (Charon's node counts do not match those of popular engines that generate pseudo-legal moves.)
 
 <code>
+ <pre>
         (1) 1.31e-05 seconds - 20 nodes visited.
         (2) 2.61e-05 seconds - 400 nodes visited.
         (3) 0.0003254 seconds - 8782 nodes visited.
         (4) 0.0060803 seconds - 194832 nodes visited.
         (5) 0.140856 seconds - 4747280 nodes visited.
         (6) 3.48833 seconds - 116358564 nodes visited.
+ </pre>       
 </code>
