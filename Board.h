@@ -368,19 +368,20 @@ namespace Charon {
             inline Builder& setEnPassantSquare(const Square square)
             { state->epSquare = square; return *this; }
 
-            template <Alliance A, CastleType CT>
-            inline Builder& setCastlingRights(const bool canCastle) {
+            template <Alliance A, CastleType CT, bool B>
+            inline Builder& setCastlingRights() {
                 static_assert(A == White || A == Black);
                 static_assert(CT == KingSide || CT == QueenSide);
                 if(A == White)
-                    state->whiteCastlingRights.set<CT>(canCastle);
+                    state->whiteCastlingRights.set<CT>(B);
                 else
-                    state->blackCastlingRights.set<CT>(canCastle);
+                    state->blackCastlingRights.set<CT>(B);
                 return *this;
             }
 
-            inline Builder& setCurrentPlayer(const Alliance alliance)
-            { currentPlayerAlliance = alliance; return *this; }
+            template <Alliance A>
+            inline Builder& setCurrentPlayer()
+            { currentPlayerAlliance = A; return *this; }
 
             [[nodiscard]]
             constexpr Board build() const { return Board(*this); }
