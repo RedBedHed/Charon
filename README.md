@@ -8,7 +8,7 @@
   <li>
    <p>
 board.cpp is still in the works... And I could really use advice on how to improve it.
-The applyMove and undoMove algorithms are unfinished. I wrote them in one-shot and I 
+The applyMove and undoMove algorithms are unfinished. I wrote them in one shot and I 
 haven't had time to look at them again.
    </p> 
   <li>
