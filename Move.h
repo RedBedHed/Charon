@@ -24,15 +24,8 @@ namespace Charon {
     enum PieceType : uint8_t
     { Pawn, Rook, Knight, Bishop, Queen, King, NullPT };
 
-    enum MoveType : uint8_t {
-        FreeForm,
-        EnPassant,
-        Castling,
-        PawnJump,
-    };
-
-    enum PromoStatus : uint8_t
-    { Promotion, NonPromotion };
+    enum MoveType : uint8_t
+    { FreeForm, EnPassant, Castling, PawnJump };
 
     enum FilterType : uint8_t
     { Aggressive, Defend, Passive, All };
