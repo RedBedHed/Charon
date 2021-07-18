@@ -485,7 +485,7 @@ namespace Charon {
     FancyMagic::Builder::
     placeAttacks(uint64_t blockerBoard,
                  uint64_t attackBoard) {
-        attacks[hash(
+        attacks[HASH(
                 blockerBoard, mask,
                 magicNumber, shiftAmount
         )] = attackBoard;

@@ -5,6 +5,7 @@
 #pragma once
 #ifndef CHARON_CHAOSMAGIC_H
 #define CHARON_CHAOSMAGIC_H
+#define HASH(bb, m, mn, sa) (int) (((bb & m) * mn) >> sa)
 #include <iostream>
 #include <memory>
 #include <cassert>
@@ -151,7 +152,7 @@ namespace Charon {
         [[nodiscard]]
         constexpr uint64_t
         getAttacks(const uint64_t blockerBoard) const {
-            return attackBoards[hash(
+            return attackBoards[HASH(
                    blockerBoard, mask,
                             magicNumber, shiftAmount
             )];

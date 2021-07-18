@@ -92,16 +92,16 @@ namespace Charon {
 
     struct State final {
     public:
+        uint8_t castlingRights;
         Square epSquare;
         State* prevState{};
         PieceType capturedPiece;
-        uint8_t castlingRights;
 
         constexpr State() :
+        castlingRights(0x0FU),
         epSquare(NullSQ),
         prevState(nullptr),
-        capturedPiece(NullPT),
-        castlingRights(0x0FU)
+        capturedPiece(NullPT)
         {  }
 
         template <Alliance A, CastleType CT>
