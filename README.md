@@ -14,7 +14,7 @@ haven't had time to look at them again.
   <li>
    <p>
 There are multiple files that need to be deleted. Among these are empty cpp files and 
-My crude List data structure that I opted not to use.
+my crude List that I opted not to use.
    </p>
   </li> 
  </ol> 
