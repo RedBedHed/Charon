@@ -27,16 +27,8 @@ uint64_t perft(Board* b, int depth) {
         //cout << depth  << '\n';
         //if(depth == 2) cout << "before: \n" << *b << "\n\n";
             b->applyMove(n->move, x);
-        //if(depth == 2) cout << "after: \n" << *b << "\n\n";
             i += perft(b, depth - 1);
             b->undoMove(n->move);
-/*#ifdef _WIN32
-            sleep(100000);
-#else
-            usleep(100000);
-#endif
-            cout << "\033[H" << "\033[2J" << std::flush;*/
-
     }
     return i;
 }
@@ -49,7 +41,7 @@ int main(int argc, char** argv) {
     cout << "\n\t<<*. Performance Test .*>>" << '\n';
     cout << "\n\tStarting Position:\n" << b << '\n';
     int n = argv[1][0] - 48;
-    for (int i = 1; i <= n; ++i) {
+    for (int i = 0; i <= n; ++i) {
         auto start = steady_clock::now();
         uint64_t j = perft(&b, i);
         auto stop = steady_clock::now();

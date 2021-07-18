@@ -300,8 +300,10 @@ namespace Charon {
             if(!(shift<x->down>(eppsq) & checkMask)) return moves;
 
             // Check for passing pawns
-            const uint64_t rightPass = shift<x->right>(eppsq) & freePawns,
-                           leftPass  = shift<x->left>(eppsq)  & freePawns;
+            const uint64_t rightPass =
+                    shift<x->right>(eppsq & x->notRightCol) & freePawns,
+                           leftPass  =
+                    shift<x->left>(eppsq & x->notLeftCol) & freePawns;
 
             // If there is a passing pawn, generate legal
             // en passant moves.

@@ -92,26 +92,27 @@ namespace Charon {
 
     struct CastlingRights final {
     public:
-        uint8_t kingSide;
-        uint8_t queenSide;
-
-        constexpr CastlingRights() :
-        kingSide(true), queenSide(true)
-        { }
+        uint8_t rights;
 
         template <CastleType CT>
-        constexpr bool get()
-        { return CT == KingSide ? kingSide : queenSide; }
+        constexpr bool get() {
+            return CT == KingSide ?
+            (rights >> 1U) & 1U : rights & 1U;
+        }
 
         template <CastleType CT, bool R>
-        constexpr void set()
-        { if(CT == KingSide) kingSide = R;
-          else queenSide = R; }
+        constexpr void set() {
+            if(CT == KingSide)
+                rights = (R << 1U) + (rights & 1U);
+            else rights = R + (rights & 2U);
+        }
 
         template <CastleType CT>
-        constexpr void set(const bool r)
-        { if(CT == KingSide) kingSide = r;
-          else queenSide = r; }
+        constexpr void set(const bool r) {
+            if(CT == KingSide)
+                rights = (r << 1U) + (rights & 1U);
+            else rights = r + (rights & 2U);
+        }
     };
 
     struct State final {
@@ -489,17 +490,9 @@ namespace Charon {
                 if(activeType == Rook) {
                     if(x->kingSideRookOrigin == originBoard) {
                         setCastlingRights<us, KingSide, false>();
-                        setCastlingRights<us, QueenSide>(
-                                currentState->prevState->
-                                        getCastlingRights<us, QueenSide>()
-                        );
                     }
                     else if(x->queenSideRookOrigin == originBoard) {
                         setCastlingRights<us, KingSide, false>();
-                        setCastlingRights<us, KingSide>(
-                                currentState->prevState->
-                                        getCastlingRights<us, KingSide>()
-                        );
                     }
                 } else if(activeType == King) {
                     setCastlingRights<us, KingSide, false>();
