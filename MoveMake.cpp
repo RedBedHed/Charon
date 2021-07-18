@@ -14,7 +14,7 @@ namespace Charon {
          * @tparam A    the alliance of the piece
          *              on the square under attack
          * @tparam PT   the piece type
-         * @param board the current game board
+         * @param board the current game mailbox
          * @param sq    the square under attack
          */
         template<Alliance A, PieceType PT> [[nodiscard]]
@@ -33,10 +33,10 @@ namespace Charon {
                            target      = ourPlayer->getPieces<PT>(),
             // Board minus king
                            allPieces   = board->getAllPieces() & ~target;
-            // Get the attack board for horizontal and vertical attacks
+            // Get the attack mailbox for horizontal and vertical attacks
             // on the given square.
             const uint64_t onAxisAttackMask   = attackBoard<Rook>(allPieces, sq);
-            // Get the attack board for diagonal attacks on the given
+            // Get the attack mailbox for diagonal attacks on the given
             // square.
             const uint64_t diagonalAttackMask = attackBoard<Bishop>(allPieces, sq);
 
@@ -63,7 +63,7 @@ namespace Charon {
          * by high bits in the given bitboard are safe to travel to.
          *
          * @tparam A    the alliance to consider
-         * @param board the current game board
+         * @param board the current game mailbox
          * @param d     the bitboard to check for safe squares
          * @return      whether or not all squares represented
          *              by high bits in the given bitboard are
@@ -86,7 +86,7 @@ namespace Charon {
          *
          * @tparam A        the alliance
          * @tparam FT       the filter type
-         * @param board     the board to use
+         * @param board     the mailbox to use
          * @param checkMask the check mask to use in the
          *                  case of check or double check
          * @param kingGuard a bitboard representing the
@@ -325,7 +325,7 @@ namespace Charon {
                 // (and attacking pawn) are between any of
                 // the snipers and the king square.
                 // If so, there is an en passant discovered
-                // check on the board, and an en passant move
+                // check on the mailbox, and an en passant move
                 // cannot be generated.
                 for (uint64_t s = snipers; s; s &= s - 1)
                     if (eppsq & pathBoard(bitScanFwd(s), ksq))
@@ -359,7 +359,7 @@ namespace Charon {
          *
          * @tparam A        the alliance to consider
          * @tparam PT       the piece type to consider
-         * @param board     the current game board
+         * @param board     the current game mailbox
          * @param kingGuard the king guard for the given
          *                  alliance
          * @param filter    the filter mask to use
@@ -388,19 +388,19 @@ namespace Charon {
                            allPieces  = board->getAllPieces();
 
             // Calculate moves for free pieces.
-            // Traverse the free piece bit board.
+            // Traverse the free piece bit mailbox.
             for (uint64_t n = freePieces; n; n &= n - 1) {
 
                 // Find an origin square.
                 const int origin = bitScanFwd(n);
 
-                // Look up the attack board using the origin
+                // Look up the attack mailbox using the origin
                 // square and intersect with the filter.
                 uint64_t ab = attackBoard<PT>(allPieces, origin)
                     & filter;
 
                 // Traverse through the legal
-                // move board and add all legal moves.
+                // move mailbox and add all legal moves.
                 for (; ab; ab &= ab - 1)
                     *moves++ = Move::make(
                             origin, bitScanFwd(ab)
@@ -430,14 +430,14 @@ namespace Charon {
                     // Find an origin square.
                     const int origin = bitScanFwd(n);
 
-                    // Lookup the attack board and intersect with
+                    // Lookup the attack mailbox and intersect with
                     // the filter and the pinning ray.
                     uint64_t ab =
                         attackBoard<PT>(allPieces, origin)
                             & filter & rayBoard(ksq, origin);
 
                     // Traverse through the legal
-                    // move board and add all legal moves.
+                    // move mailbox and add all legal moves.
                     for (; ab; ab &= ab - 1)
                         *moves++ = Move::make(origin, bitScanFwd(ab));
 
@@ -454,7 +454,7 @@ namespace Charon {
          *
          * @tparam A     the alliance to consider
          * @tparam FT    the filter type
-         * @param board  the current game board
+         * @param board  the current game mailbox
          * @param ct     the check type
          * @param filter
          * @param moves
@@ -474,7 +474,7 @@ namespace Charon {
             const uint64_t king = ourPlayer->getPieces<King>();
             // Find our king's square.
             const int ksq = bitScanFwd(king);
-            // Get the board defaults for our alliance.
+            // Get the mailbox defaults for our alliance.
             constexpr const Defaults* const x = getDefaults<us>();
 
             { // Generate normal king moves.
@@ -517,7 +517,7 @@ namespace Charon {
          *
          * @tparam A    the alliance to consider
          * @tparam FT   the filter type
-         * @param board the current game board
+         * @param board the current game mailbox
          * @param moves a pointer to the list to populate
          */
         template <Alliance A, FilterType FT>
@@ -532,7 +532,7 @@ namespace Charon {
             // get our player and their player.
             Player* const ourPlayer   = board->getPlayer<us>();
             Player* const theirPlayer = board->getPlayer<them>();
-            // get all pieces on the board.
+            // get all pieces on the mailbox.
             const uint64_t allPieces   = board->getAllPieces(),
                            ourPieces   = ourPlayer->getAllPieces(),
                            theirPieces = theirPlayer->getAllPieces(),
@@ -540,7 +540,7 @@ namespace Charon {
             partialFilter = FT == All?     ~ourPieces :
                             FT == Passive? ~allPieces :
                             theirPieces,
-            // Get our king board.
+            // Get our king mailbox.
             king       = ourPlayer->getPieces<King>(),
             // Find all attacks on our king.
             checkBoard = attacksOn<us, King>(board, bitScanFwd(king));
@@ -606,7 +606,7 @@ namespace Charon {
          * <summary>
          *  <p><br/>
          * A function to generate moves for the given
-         * board according to the given filter type,
+         * mailbox according to the given filter type,
          * by populating the given list of MoveWrap
          * structures.
          *  </p>
@@ -640,7 +640,7 @@ namespace Charon {
          * </summary>
          *
          * @tparam FT the filter type.
-         * @param board the current game board
+         * @param board the current game mailbox
          * @param moves an empty list of MoveWrap
          * structures to hold legal moves.
          */

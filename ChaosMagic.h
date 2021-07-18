@@ -19,7 +19,7 @@
 
 namespace Charon {
 
-    /** The board squares, enumerated */
+    /** The mailbox squares, enumerated */
     enum Square : uint8_t
     {
         H1, G1, F1, E1, D1, C1, B1, A1,
@@ -33,7 +33,7 @@ namespace Charon {
         NullSQ
     };
 
-    /** The board directions, enumerated. */
+    /** The mailbox directions, enumerated. */
     enum Direction : int8_t
     {
         North =  8,
@@ -89,15 +89,15 @@ namespace Charon {
         /**
          * @private
          * A magic number to map every possible
-         * occupancy to the correct attack board
+         * occupancy to the correct attack mailbox
          * in the attackBoards database.
          */
         const uint64_t magicNumber;
 
         /**
          * @private
-         * A mask to derive a blocker board from
-         * the current game board.
+         * A mask to derive a blocker mailbox from
+         * the current game mailbox.
          */
         const uint64_t mask;
 
@@ -105,9 +105,9 @@ namespace Charon {
          * @private
          * @static
          * A method to calculate the hash key for
-         * the given bit board.
+         * the given bit mailbox.
          * @copydoc FancyMagic::hash()
-         * @param bb the bit board
+         * @param bb the bit mailbox
          * @param m the blocker mask
          * @param mn the magic number
          * @param sa the shift amount
@@ -140,13 +140,13 @@ namespace Charon {
         ~FancyMagic() = default;
 
         /**
-         * A method to lookup the attack board
-         * associated with the given game board.
+         * A method to lookup the attack mailbox
+         * associated with the given game mailbox.
          * @copydoc FancyMagic::getAttacks()
-         * @param blockerBoard the blocker board for
-         * which to retrieve the attack board
-         * @return the attack board corresponding to
-         * the given blocker board
+         * @param blockerBoard the blocker mailbox for
+         * which to retrieve the attack mailbox
+         * @return the attack mailbox corresponding to
+         * the given blocker mailbox
          */
         [[nodiscard]]
         constexpr uint64_t
@@ -385,7 +385,7 @@ namespace Charon {
         { North, West, South, East };
 
         /**
-         * The eight files of the board.
+         * The eight files of the mailbox.
          */
         constexpr uint64_t Files[] = {
                 0x0101010101010101L, 0x0202020202020202L,
@@ -395,7 +395,7 @@ namespace Charon {
         };
 
         /**
-         * The eight ranks of the board.
+         * The eight ranks of the mailbox.
          */
         constexpr uint64_t Ranks[] = {
                 0x00000000000000FFL, 0x000000000000FF00L,
@@ -501,7 +501,7 @@ namespace Charon {
         void destroy();
 
         /**
-         * A method to print a bit board to the console, for
+         * A method to print a bit mailbox to the console, for
          * debugging purposes.
          */
         void bb(uint64_t);
@@ -512,7 +512,7 @@ namespace Charon {
          * according to the layout of the given bitboard.
          *
          * @param board the bitboard representing all
-         * pieces on the current game board
+         * pieces on the current game mailbox
          * @param sq the square of the rook to move
          * @return an attack bitboard for the given square
          * and piece type according to the layout of the
@@ -527,7 +527,7 @@ namespace Charon {
          * right by the absolute value of the direction,
          * according to its sign.
          *
-         * @param b The board to shift
+         * @param b The mailbox to shift
          * @tparam D The direction and amount to shift with
          */
         template<Direction D>
@@ -563,12 +563,12 @@ namespace Charon {
 
         /**
          * A method to check if a king move in the given
-         * direction is within the boundaries of the board.
+         * direction is within the boundaries of the mailbox.
          *
          * @param origin the origin of the move
          * @param direction the direction in which to move
          * @return whether or not a move in the specified
-         * direction will be within the bounds of the board.
+         * direction will be within the bounds of the mailbox.
          */
         constexpr bool withinBounds(const int origin,
                                     const int direction) {
@@ -718,7 +718,7 @@ namespace Charon {
 
         /**
          * An immutable map from integer position to a
-         * knight move board with high bits representing
+         * knight move mailbox with high bits representing
          * destinations.
          */
         constexpr uint64_t SquareToKnightAttacks[] = {
@@ -758,7 +758,7 @@ namespace Charon {
 
         /**
          * An immutable map from integer square to a king
-         * move board with high bits representing destinations.
+         * move mailbox with high bits representing destinations.
          */
         constexpr uint64_t SquareToKingAttacks[] = {
                 0x0000000000000302L, 0x0000000000000705L,
@@ -874,7 +874,7 @@ namespace Charon {
         };
 
         /**
-         * A method to return a board containing all squares
+         * A method to return a mailbox containing all squares
          * on the diagonal, horizontal, or vertical path that
          * bridges the given squares. If the two squares cannot
          * be bridged, this method will return 0.
@@ -891,7 +891,7 @@ namespace Charon {
         { return Paths[from][to]; }
 
         /**
-         * A method to return a board containing all squares
+         * A method to return a mailbox containing all squares
          * on the diagonal, horizontal, or vertical path that
          * intersect the given squares. If the two squares
          * are non-linear, this method will return 0.

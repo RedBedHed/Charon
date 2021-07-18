@@ -197,7 +197,7 @@ namespace Charon {
         Player blackPlayer;
         uint64_t allPieces;
         Alliance currentPlayerAlliance;
-        PieceType board[BoardLength]{
+        PieceType mailbox[BoardLength]{
                 NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT,
                 NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT,
                 NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT,
@@ -277,7 +277,7 @@ namespace Charon {
 
             /*for(int i = 0,k = 0; i < 8; i++) {
                 for(int j = 0; j < 8; j++) {
-                    sb.append(PieceTypeToString[board[k++]]);
+                    sb.append(PieceTypeToString[mailbox[k++]]);
                     sb.push_back(' ');
                 }
                 sb.push_back('\n');
@@ -410,9 +410,9 @@ namespace Charon {
                   const uint64_t* const blackPieces) {
             for (int j = Pawn; j < NullPT; ++j) {
                 for (uint64_t x = whitePieces[j]; x; x &= x - 1)
-                    board[bitScanFwd(x)] = (PieceType) j;
+                    mailbox[bitScanFwd(x)] = (PieceType) j;
                 for (uint64_t x = blackPieces[j]; x; x &= x - 1)
-                    board[bitScanFwd(x)] = (PieceType) j;
+                    mailbox[bitScanFwd(x)] = (PieceType) j;
             }
         }
 
@@ -461,8 +461,8 @@ namespace Charon {
             const int origin      = m.origin(),
                       destination = m.destination(),
                       isPromotion = m.isPromotion();
-            PieceType captureType = board[destination],
-                      activeType  = board[origin];
+            PieceType captureType = mailbox[destination],
+                      activeType  = mailbox[origin];
             currentState->capturedPiece = captureType;
             if(captureType == King) return;
             constexpr const Alliance us = A, them = ~us;
@@ -472,7 +472,7 @@ namespace Charon {
             Player* const ourPlayer   = getPlayer<us>();
             Player* const theirPlayer = getPlayer<them>();
             const Defaults* const x = getDefaults<us>();
-            board[origin] = NullPT;
+            mailbox[origin] = NullPT;
             setCastlingRights<us, KingSide>(
                     currentState->prevState->
                             getCastlingRights<us, KingSide>()
@@ -488,10 +488,10 @@ namespace Charon {
                 theirPlayer->pieces[captureType] ^= destinationBoard;
                 theirPlayer->allPieces           ^= destinationBoard;
                 allPieces = whitePlayer.allPieces | blackPlayer.allPieces;
-                board[destination] = PieceType(m.promotionPiece());
+                mailbox[destination] = PieceType(m.promotionPiece());
                 return;
             }
-            board[destination] = activeType;
+            mailbox[destination] = activeType;
             const int moveType = m.moveType();
             if(moveType == FreeForm || moveType == PawnJump) {
                 ourPlayer->pieces[activeType]    ^= moveBB;
@@ -522,14 +522,14 @@ namespace Charon {
                     rookMoveBB =
                             SquareToBitBoard[x->kingSideRookDestination] |
                             SquareToBitBoard[x->kingSideRookOrigin];
-                    board[x->kingSideRookOrigin] = NullPT;
-                    board[x->kingSideRookDestination] = Rook;
+                    mailbox[x->kingSideRookOrigin] = NullPT;
+                    mailbox[x->kingSideRookDestination] = Rook;
                 } else {
                     rookMoveBB =
                             SquareToBitBoard[x->queenSideRookDestination] |
                             SquareToBitBoard[x->queenSideRookOrigin];
-                    board[x->queenSideRookOrigin] = NullPT;
-                    board[x->queenSideRookDestination] = Rook;
+                    mailbox[x->queenSideRookOrigin] = NullPT;
+                    mailbox[x->queenSideRookDestination] = Rook;
                 }
                 const uint64_t fullBB = moveBB | rookMoveBB;
                 ourPlayer->pieces[Rook]       ^= rookMoveBB;
@@ -547,7 +547,7 @@ namespace Charon {
                 theirPlayer->pieces[Pawn] ^= captureBB;
                 theirPlayer->allPieces ^= captureBB;
                 allPieces = whitePlayer.allPieces | blackPlayer.allPieces;
-                board[epSquare] = NullPT;
+                mailbox[epSquare] = NullPT;
             }
             currentState->epSquare = NullSQ;
         }
@@ -560,7 +560,7 @@ namespace Charon {
                       destination = m.destination(),
                       isPromotion = m.isPromotion();
             PieceType captureType = currentState->capturedPiece,
-                      activeType  = board[destination];
+                      activeType  = mailbox[destination];
             if(captureType == King) {
                 currentState = currentState->prevState;
                 return;
@@ -572,8 +572,8 @@ namespace Charon {
             Player* const theirPlayer   = getPlayer<them>();
             const Defaults* const x = getDefaults<us>();
             currentPlayerAlliance = us;
-            board[origin] = activeType;
-            board[destination] = captureType;
+            mailbox[origin] = activeType;
+            mailbox[destination] = captureType;
             if(isPromotion) {
                 ourPlayer->pieces[activeType]    ^= moveBB;
                 ourPlayer->allPieces             ^= moveBB;
@@ -598,14 +598,14 @@ namespace Charon {
                     rookMoveBB =
                             SquareToBitBoard[x->kingSideRookDestination] |
                             SquareToBitBoard[x->kingSideRookOrigin];
-                    board[x->kingSideRookOrigin] = Rook;
-                    board[x->kingSideRookDestination] = NullPT;
+                    mailbox[x->kingSideRookOrigin] = Rook;
+                    mailbox[x->kingSideRookDestination] = NullPT;
                 } else {
                     rookMoveBB =
                             SquareToBitBoard[x->queenSideRookDestination] |
                             SquareToBitBoard[x->queenSideRookOrigin];
-                    board[x->queenSideRookOrigin] = Rook;
-                    board[x->queenSideRookDestination] = NullPT;
+                    mailbox[x->queenSideRookOrigin] = Rook;
+                    mailbox[x->queenSideRookDestination] = NullPT;
                 }
                 const uint64_t fullBB = moveBB | rookMoveBB;
                 ourPlayer->pieces[Rook]       ^= rookMoveBB;
@@ -621,7 +621,7 @@ namespace Charon {
                 theirPlayer->pieces[Pawn] ^= captureBB;
                 theirPlayer->allPieces    ^= captureBB;
                 allPieces = whitePlayer.allPieces | blackPlayer.allPieces;
-                board[epSquare] = Pawn;
+                mailbox[epSquare] = Pawn;
             }
             currentState = currentState->prevState;
         }

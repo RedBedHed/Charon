@@ -12,17 +12,17 @@ namespace Charon {
 
     /*class Position final {
 
-        Board* const board;
+        Board* const mailbox;
         Alliance currentPlayer;
     public:
 
         explicit constexpr Position(Board* const b) :
-        board(b), currentPlayer(b->currentPlayerAlliance)
+        mailbox(b), currentPlayer(b->currentPlayerAlliance)
         {  }
 
         [[nodiscard]]
         const Board* getBoard() const
-        { return board; }
+        { return mailbox; }
 
 
 

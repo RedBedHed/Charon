@@ -22,10 +22,10 @@ namespace Charon {
             /**
              * A list of empirically determined magic numbers
              * which can be used to hash game boards and look up
-             * rook attackBoards for each square on the board.
+             * rook attackBoards for each square on the mailbox.
              * The hash keys generated using these numbers map
-             * each blocker board to its corresponding move
-             * board with only constructive collisions.
+             * each blocker mailbox to its corresponding move
+             * mailbox with only constructive collisions.
              */
             constexpr uint64_t RookMagicNumbers[] = {
                     0x0A80004000801220L, 0x4140200040001002L,
@@ -65,10 +65,10 @@ namespace Charon {
             /**
              * A list of empirically determined magic numbers
              * which can be used to hash game boards and look up
-             * bishop attackBoards for each square on the board.
+             * bishop attackBoards for each square on the mailbox.
              * The hash keys generated using these numbers map
-             * each blocker board to its corresponding move
-             * board with only constructive collisions.
+             * each blocker mailbox to its corresponding move
+             * mailbox with only constructive collisions.
              */
             constexpr uint64_t BishopMagicNumbers[] = {
                     0x40106000A1160020L, 0x01280101021A0802L,
@@ -128,8 +128,8 @@ namespace Charon {
              * that is, each element in the co-domain has at
              * least one corresponding element in the domain.
              * Different blocker boards may map to the same move
-             * board. Every move board has at least one blocker
-             * board associated with it.
+             * mailbox. Every move mailbox has at least one blocker
+             * mailbox associated with it.
              *  </p>
              *
              *  <p>
@@ -198,12 +198,12 @@ namespace Charon {
                     uint64_t blockerBoard = 0;
                     do {
                         /*
-                         * Build an attack board, iterating
+                         * Build an attack mailbox, iterating
                          * through all four directions and
                          * trying out each move in the current
                          * direction until a blocker is reached.
                          * Add the blocker square to the attack
-                         * board. The blocker may be friendly.
+                         * mailbox. The blocker may be friendly.
                          * The blocker may be hostile. The Player
                          * generating moves from these attack
                          * boards must take care to remove target
@@ -220,7 +220,7 @@ namespace Charon {
                             } while ((x & blockerBoard) == 0);
                         }
 
-                        // Place the attack board within the
+                        // Place the attack mailbox within the
                         // magic builder at an index calculated
                         // from the current blockerBoard.
                         magicBuilder.placeAttacks(
@@ -230,7 +230,7 @@ namespace Charon {
                         /*
                          * Find the next permutation.
                          * Take the union of the current
-                         * blocker board with the complement
+                         * blocker mailbox with the complement
                          * of the current blocker mask.
                          * Increment the resulting number
                          * causing the bits to "ripple"
@@ -240,7 +240,7 @@ namespace Charon {
                          * mask.
                          *
                          * Un-simplified expression :
-                         * board = ((board | ~mask) + 1) & mask;
+                         * mailbox = ((mailbox | ~mask) + 1) & mask;
                          */
                         blockerBoard = (blockerBoard - mask) & mask;
                     } while (blockerBoard > 0);
@@ -477,8 +477,8 @@ namespace Charon {
      * @copydoc
      * FancyMagic::Builder::placeAttacks()
      * @param blockerBoard the bitboard to hash
-     * @param attackBoard the attack board
-     * to associate with the given bit board
+     * @param attackBoard the attack mailbox
+     * to associate with the given bit mailbox
      * @return the instance, by reference
      */
     inline FancyMagic::Builder&
