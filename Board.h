@@ -90,56 +90,51 @@ namespace Charon {
     constexpr const Defaults* getDefaults()
     { return A == White ? &WhiteDefaults : &BlackDefaults; }
 
-    struct CastlingRights final {
-    public:
-
-        uint8_t rights;
-
-        constexpr CastlingRights() : rights(0)
-        {  }
-
-        template <CastleType CT>
-        constexpr bool get() {
-            return CT == KingSide ?
-            (rights >> 1U) & 1U : rights & 1U;
-        }
-
-        template <CastleType CT, bool R>
-        constexpr void set() {
-            rights = CT == KingSide?
-                (R << 1U) + (rights & 1U) :
-                    R + (rights & 2U);
-        }
-
-        template <CastleType CT>
-        constexpr void set(const bool r) {
-            rights = CT == KingSide?
-                (r << 1U) + (rights & 1U) :
-                    r + (rights & 2U);
-        }
-    };
-
     struct State final {
     public:
         Square epSquare;
         State* prevState{};
         PieceType capturedPiece;
-        CastlingRights whiteCastlingRights;
-        CastlingRights blackCastlingRights;
+        uint8_t castlingRights;
 
         constexpr State() :
         epSquare(NullSQ),
         prevState(nullptr),
         capturedPiece(NullPT),
-        whiteCastlingRights(CastlingRights()),
-        blackCastlingRights(CastlingRights())
+        castlingRights(0x0FU)
         {  }
 
         template <Alliance A, CastleType CT>
         constexpr bool getCastlingRights() {
             return A == White?
-                whiteCastlingRights.get<CT>() :
-                blackCastlingRights.get<CT>();
+                      CT == KingSide ?
+                         (castlingRights >> 1U) & 1U :
+                         castlingRights & 1U :
+                      CT == KingSide ?
+                         (castlingRights >> 3U) & 1U :
+                         (castlingRights >> 2U) & 1U ;
+        }
+
+        template <Alliance A, CastleType CT, bool B>
+        constexpr void setCastlingRights() {
+            castlingRights = A == White?
+                   CT == KingSide ?
+                   (B << 1U) | (castlingRights & 0x0DU) :
+                           B | (castlingRights & 0x0EU) :
+                   CT == KingSide ?
+                   (B << 3U) | (castlingRights & 0x07U) :
+                   (B << 2U) | (castlingRights & 0x0BU) ;
+        }
+
+        template <Alliance A, CastleType CT>
+        constexpr void setCastlingRights(const bool B) {
+            castlingRights = A == White?
+                   CT == KingSide ?
+                   (B << 1U) | (castlingRights & 0x0DU) :
+                           B | (castlingRights & 0x0EU) :
+                   CT == KingSide ?
+                   (B << 3U) | (castlingRights & 0x07U) :
+                   (B << 2U) | (castlingRights & 0x0BU) ;
         }
     };
 
@@ -232,9 +227,7 @@ namespace Charon {
         constexpr bool hasCastlingRights() const {
             static_assert(A == White || A == Black);
             static_assert(CT == KingSide || CT == QueenSide);
-            return A == White?
-                   currentState->whiteCastlingRights.get<CT>() :
-                   currentState->blackCastlingRights.get<CT>() ;
+            return currentState->getCastlingRights<A, CT>();
         }
 
         [[nodiscard]]
@@ -373,10 +366,7 @@ namespace Charon {
             inline Builder& setCastlingRights() {
                 static_assert(A == White || A == Black);
                 static_assert(CT == KingSide || CT == QueenSide);
-                if(A == White)
-                    state->whiteCastlingRights.set<CT>(B);
-                else
-                    state->blackCastlingRights.set<CT>(B);
+                state->template setCastlingRights<A, CT, B>();
                 return *this;
             }
 
@@ -406,8 +396,8 @@ namespace Charon {
         }
 
         constexpr void
-        initBoard(const uint64_t* const whitePieces,
-                  const uint64_t* const blackPieces) {
+        initMailbox(const uint64_t* const whitePieces,
+                    const uint64_t* const blackPieces) {
             for (int j = Pawn; j < NullPT; ++j) {
                 for (uint64_t x = whitePieces[j]; x; x &= x - 1)
                     mailbox[bitScanFwd(x)] = (PieceType) j;
@@ -430,27 +420,7 @@ namespace Charon {
                 allPieces(whitePlayer.allPieces | blackPlayer.allPieces),
                 currentPlayerAlliance(b.currentPlayerAlliance),
                 currentState(b.state)
-        { initBoard(b.pieces[White], b.pieces[Black]); }
-
-        template <Alliance A, CastleType CT, bool R>
-        constexpr void setCastlingRights() {
-            static_assert(A == White || A == Black);
-            static_assert(CT == KingSide || CT == QueenSide);
-            if(A == White)
-                currentState->whiteCastlingRights.set<CT, R>();
-            else
-                currentState->blackCastlingRights.set<CT, R>();
-        }
-
-        template <Alliance A, CastleType CT>
-        constexpr void setCastlingRights(const bool right) {
-            static_assert(A == White || A == Black);
-            static_assert(CT == KingSide || CT == QueenSide);
-            if(A == White)
-                currentState->whiteCastlingRights.set<CT>(right);
-            else
-                currentState->blackCastlingRights.set<CT>(right);
-        }
+        { initMailbox(b.pieces[White], b.pieces[Black]); }
 
         // ASSUME THAT THE MOVE IS LEGAL ! ! !
         template<Alliance A>
@@ -473,11 +443,11 @@ namespace Charon {
             Player* const theirPlayer = getPlayer<them>();
             const Defaults* const x = getDefaults<us>();
             mailbox[origin] = NullPT;
-            setCastlingRights<us, KingSide>(
+            currentState->setCastlingRights<us, KingSide>(
                     currentState->prevState->
                             getCastlingRights<us, KingSide>()
             );
-            setCastlingRights<us, QueenSide>(
+            currentState->setCastlingRights<us, QueenSide>(
                     currentState->prevState->
                             getCastlingRights<us, QueenSide>()
             );
@@ -503,14 +473,14 @@ namespace Charon {
                 allPieces = whitePlayer.allPieces | blackPlayer.allPieces;
                 if(activeType == Rook) {
                     if(x->kingSideRookOrigin == originBoard) {
-                        setCastlingRights<us, KingSide, false>();
+                        currentState->setCastlingRights<us, KingSide, false>();
                     }
                     else if(x->queenSideRookOrigin == originBoard) {
-                        setCastlingRights<us, KingSide, false>();
+                        currentState->setCastlingRights<us, KingSide, false>();
                     }
                 } else if(activeType == King) {
-                    setCastlingRights<us, KingSide, false>();
-                    setCastlingRights<us, QueenSide, false>();
+                    currentState->setCastlingRights<us, KingSide, false>();
+                    currentState->setCastlingRights<us, QueenSide, false>();
                 }
                 currentState->epSquare =
                         moveType == PawnJump ? Square(destination) : NullSQ;
@@ -536,8 +506,8 @@ namespace Charon {
                 ourPlayer->pieces[activeType] ^= moveBB;
                 ourPlayer->allPieces          ^= fullBB;
                 allPieces                     ^= fullBB;
-                setCastlingRights<us, KingSide>(false);
-                setCastlingRights<us, QueenSide>(false);
+                currentState->setCastlingRights<us, KingSide, false>();
+                currentState->setCastlingRights<us, QueenSide, false>();
             }
             else {
                 const int epSquare = currentState->prevState->epSquare;

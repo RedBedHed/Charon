@@ -1,10 +1,5 @@
 #include "ChaosMagic.h"
 #include "MoveMake.h"
-#ifdef _WIN32
-#include <Windows.h>
-#else
-#include <unistd.h>
-#endif
 #include <chrono>
 #include <iostream>
 
@@ -16,7 +11,7 @@ using std::chrono::duration_cast;
 using std::cout;
 using namespace Charon;
 
-uint64_t perft(Board* b, int depth) {
+uint64_t perft(Board* const b, int depth) {
     MoveWrap m[256];
     uint64_t i = 0,
     j = MoveFactory::generateMoves<All>(b, m);

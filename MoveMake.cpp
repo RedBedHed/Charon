@@ -460,7 +460,7 @@ namespace Charon {
          * @param moves
          */
         template <Alliance A, FilterType FT>
-        void makeKingMoves(Board* const board,
+        MoveWrap* makeKingMoves(Board* const board,
                            const CheckType ct,
                            const uint64_t filter,
                            MoveWrap* moves) {
@@ -491,7 +491,7 @@ namespace Charon {
             // If the filter type is aggressive, then castling moves
             // are irrelevant. If we don't have castling rights or
             // if we are in check, then castling moves are illegal.
-            if (FT == Aggressive || ct != None) return;
+            if (FT == Aggressive || ct != None) return moves;
 
             if(board->hasCastlingRights<us, KingSide>()) {
                 // Generate king-side castle.
@@ -510,6 +510,8 @@ namespace Charon {
                             ksq, x->queenSideDestination
                     );
             }
+
+            return moves;
         }
 
         /**
@@ -595,7 +597,7 @@ namespace Charon {
                 moves = makeMoves<us,  Queen>(board, kingGuard, fullFilter, moves);
             }
             // make king moves.
-            makeKingMoves<us, FT>(board, checkType, partialFilter, moves);
+            moves = makeKingMoves<us, FT>(board, checkType, partialFilter, moves);
             return (moves - initialPtr);
         }
     } // namespace (anon)
