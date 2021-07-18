@@ -106,16 +106,16 @@ namespace Charon {
 
         template <CastleType CT, bool R>
         constexpr void set() {
-            if(CT == KingSide)
-                rights = (R << 1U) + (rights & 1U);
-            else rights = R + (rights & 2U);
+            rights = CT == KingSide?
+                (R << 1U) + (rights & 1U) :
+                    R + (rights & 2U);
         }
 
         template <CastleType CT>
         constexpr void set(const bool r) {
-            if(CT == KingSide)
-                rights = (r << 1U) + (rights & 1U);
-            else rights = r + (rights & 2U);
+            rights = CT == KingSide?
+                (r << 1U) + (rights & 1U) :
+                    r + (rights & 2U);
         }
     };
 
@@ -136,10 +136,11 @@ namespace Charon {
         {  }
 
         template <Alliance A, CastleType CT>
-        constexpr bool getCastlingRights()
-        { return A == White?
-          whiteCastlingRights.get<CT>() :
-          blackCastlingRights.get<CT>(); }
+        constexpr bool getCastlingRights() {
+            return A == White?
+                whiteCastlingRights.get<CT>() :
+                blackCastlingRights.get<CT>();
+        }
     };
 
     class Board;
@@ -537,19 +538,18 @@ namespace Charon {
                 allPieces                     ^= fullBB;
                 setCastlingRights<us, KingSide>(false);
                 setCastlingRights<us, QueenSide>(false);
-                currentState->epSquare = NullSQ;
-                return;
             }
-            const int epSquare = currentState->prevState->epSquare;
-            const uint64_t captureBB = SquareToBitBoard[epSquare];
-            ourPlayer->pieces[Pawn]   ^= moveBB;
-            ourPlayer->allPieces      ^= moveBB;
-            theirPlayer->pieces[Pawn] ^= captureBB;
-            theirPlayer->allPieces    ^= captureBB;
-            allPieces = whitePlayer.allPieces | blackPlayer.allPieces;
-            board[epSquare] = NullPT;
+            else {
+                const int epSquare = currentState->prevState->epSquare;
+                const uint64_t captureBB = SquareToBitBoard[epSquare];
+                ourPlayer->pieces[Pawn] ^= moveBB;
+                ourPlayer->allPieces ^= moveBB;
+                theirPlayer->pieces[Pawn] ^= captureBB;
+                theirPlayer->allPieces ^= captureBB;
+                allPieces = whitePlayer.allPieces | blackPlayer.allPieces;
+                board[epSquare] = NullPT;
+            }
             currentState->epSquare = NullSQ;
-
         }
 
         // ASSUME THAT THE MOVE IS LEGAL ! ! !
