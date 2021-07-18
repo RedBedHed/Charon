@@ -31,10 +31,10 @@ namespace Charon {
         PawnJump,
     };
 
-    enum PromoStatus : unsigned int
+    enum PromoStatus : uint8_t
     { Promotion, NonPromotion };
 
-    enum FilterType : unsigned int
+    enum FilterType : uint8_t
     { Aggressive, Defend, Passive, All };
 
     constexpr const char* MoveTypeToString[] =
