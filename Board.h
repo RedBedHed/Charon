@@ -30,6 +30,7 @@ namespace Charon {
         const uint64_t  notRightCol;
         const uint64_t  notLeftCol;
         const uint64_t  pawnStart;
+        const uint64_t  pawnJumpSquares;
         const uint64_t  kingSideMask;
         const uint64_t  queenSideMask;
         const uint64_t  kingSideDestination;
@@ -38,6 +39,8 @@ namespace Charon {
         const uint64_t  queenSideRookOrigin;
         const uint64_t  kingSideRookDestination;
         const uint64_t  queenSideRookDestination;
+        const uint64_t  kingSideRookMoveMask;
+        const uint64_t  queenSideRookMoveMask;
     };
 
     constexpr Defaults WhiteDefaults = {
@@ -53,14 +56,17 @@ namespace Charon {
             NotEastFile,
             NotWestFile,
             WhitePawnsStartPosition,
-            WhiteOoMask,
-            WhiteOooMask,
+            shift<North>(WhitePawnsStartPosition),
+            WhiteKingsideMask,
+            WhiteQueensideMask,
             WhiteKingsideKingDestination,
             WhiteQueensideKingDestination,
             WhiteKingsideRookOrigin,
             WhiteQueensideRookOrigin,
             WhiteKingsideRookDestination,
-            WhiteQueensideRookDestination
+            WhiteQueensideRookDestination,
+            WhiteKingsideRookMask,
+            WhiteQueensideRookMask,
     };
 
     constexpr Defaults BlackDefaults = {
@@ -76,6 +82,7 @@ namespace Charon {
             NotWestFile,
             NotEastFile,
             BlackPawnsStartPosition,
+            shift<South>(BlackPawnsStartPosition),
             BlackKingsideMask,
             BlackQueensideMask,
             BlackKingsideKingDestination,
@@ -83,7 +90,9 @@ namespace Charon {
             BlackKingsideRookOrigin,
             BlackQueensideRookOrigin,
             BlackKingsideRookDestination,
-            BlackQueensideRookDestination
+            BlackQueensideRookDestination,
+            BlackKingsideRookMask,
+            BlackQueensideRookMask,
     };
 
     template <Alliance A>
@@ -270,7 +279,7 @@ namespace Charon {
 
             /*for(int i = 0,k = 0; i < 8; i++) {
                 for(int j = 0; j < 8; j++) {
-                    sb.append(PieceTypeToString[mailbox[k++]]);
+                    sb.append(PieceTypeToString[board[k++]]);
                     sb.push_back(' ');
                 }
                 sb.push_back('\n');
@@ -470,34 +479,30 @@ namespace Charon {
                     theirPlayer->allPieces ^= destinationBoard;
                     theirPlayer->pieces[captureType] ^= destinationBoard;
                 }
-                allPieces = whitePlayer.allPieces | blackPlayer.allPieces;
-                if(activeType == Rook) {
-                    if(x->kingSideRookOrigin == originBoard) {
+                else {
+                    if(activeType == Rook) {
+                        if(x->kingSideRookOrigin == originBoard)
+                            currentState->setCastlingRights<us, KingSide, false>();
+                        else if(x->queenSideRookOrigin == originBoard)
+                            currentState->setCastlingRights<us, QueenSide, false>();
+                    } else if(activeType == King) {
                         currentState->setCastlingRights<us, KingSide, false>();
+                        currentState->setCastlingRights<us, QueenSide, false>();
                     }
-                    else if(x->queenSideRookOrigin == originBoard) {
-                        currentState->setCastlingRights<us, KingSide, false>();
-                    }
-                } else if(activeType == King) {
-                    currentState->setCastlingRights<us, KingSide, false>();
-                    currentState->setCastlingRights<us, QueenSide, false>();
                 }
+                allPieces = whitePlayer.allPieces | blackPlayer.allPieces;
                 currentState->epSquare =
-                        moveType == PawnJump ? Square(destination) : NullSQ;
+                        moveType == PawnJump ? (Square) destination : NullSQ;
                 return;
             }
             if(moveType == Castling) {
                 uint64_t rookMoveBB;
                 if(x->kingSideMask & destinationBoard) {
-                    rookMoveBB =
-                            SquareToBitBoard[x->kingSideRookDestination] |
-                            SquareToBitBoard[x->kingSideRookOrigin];
+                    rookMoveBB = x->kingSideRookMoveMask;
                     mailbox[x->kingSideRookOrigin] = NullPT;
                     mailbox[x->kingSideRookDestination] = Rook;
                 } else {
-                    rookMoveBB =
-                            SquareToBitBoard[x->queenSideRookDestination] |
-                            SquareToBitBoard[x->queenSideRookOrigin];
+                    rookMoveBB = x->queenSideRookMoveMask;
                     mailbox[x->queenSideRookOrigin] = NullPT;
                     mailbox[x->queenSideRookDestination] = Rook;
                 }
@@ -565,15 +570,11 @@ namespace Charon {
             else if(moveType == Castling) {
                 uint64_t rookMoveBB;
                 if(x->kingSideMask & destinationBoard) {
-                    rookMoveBB =
-                            SquareToBitBoard[x->kingSideRookDestination] |
-                            SquareToBitBoard[x->kingSideRookOrigin];
+                    rookMoveBB = x->kingSideRookMoveMask;
                     mailbox[x->kingSideRookOrigin] = Rook;
                     mailbox[x->kingSideRookDestination] = NullPT;
                 } else {
-                    rookMoveBB =
-                            SquareToBitBoard[x->queenSideRookDestination] |
-                            SquareToBitBoard[x->queenSideRookOrigin];
+                    rookMoveBB = x->queenSideRookMoveMask;
                     mailbox[x->queenSideRookOrigin] = Rook;
                     mailbox[x->queenSideRookDestination] = NullPT;
                 }
@@ -613,6 +614,10 @@ namespace Charon {
         [[nodiscard]]
         constexpr int getEpSquare() const
         { return currentState->epSquare; }
+
+        [[nodiscard]]
+        constexpr PieceType getPiece(const int square) const
+        { return mailbox[square]; }
 
         constexpr void applyMove(const Move& m, State& s) {
             return currentPlayerAlliance == White?
