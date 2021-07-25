@@ -35,3 +35,5 @@ my crude List that I opted not to use.
         (6) 3.27246 seconds - 119470463 nodes visited.
  </code>
 </pre> 
+
+###### *Warning: Somehow CLion changed the word "board" to "mailbox" in all the documentation... Currently fixing it.*
