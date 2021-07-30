@@ -53,15 +53,12 @@ namespace Charon {
 
         // Determine alliances.
         constexpr const Alliance us = A, them = ~us;
-        // Define players.
-        const Player* const ourPlayer   = board->getPlayer<us>();
-        const Player* const theirPlayer = board->getPlayer<them>();
         // Get their queen.
 
-        const uint64_t theirQueens = theirPlayer->getPieces<Queen>(),
-                target      = ourPlayer->getPieces<PT>(),
+        const uint64_t theirQueens = board->getPieces<them, Queen>(),
+                       target      = board->getPieces<us, PT>(),
         // Board minus king
-        allPieces   = board->getAllPieces() & ~target;
+                       allPieces   = board->getAllPieces() & ~target;
         // Get the attack board for horizontal and vertical attacks
         // on the given square.
         const uint64_t onAxisAttackMask   = attackBoard<Rook>(allPieces, sq);
@@ -72,24 +69,24 @@ namespace Charon {
         // Calculate and return a bitboard representing all attackers.
         return PT == King ?
                (onAxisAttackMask &
-                (theirPlayer->getPieces<Rook>()   | theirQueens)) |
+                (board->getPieces<them, Rook>()   | theirQueens)) |
                (diagonalAttackMask &
-                (theirPlayer->getPieces<Bishop>() | theirQueens)) |
-               (attackBoard<Knight>(sq) & theirPlayer->getPieces<Knight>()) |
-               (attackBoard<us, Pawn>(sq) & theirPlayer->getPieces<Pawn>())
+                (board->getPieces<them, Bishop>() | theirQueens)) |
+               (attackBoard<Knight>(sq) & board->getPieces<them, Knight>()) |
+               (attackBoard<us, Pawn>(sq) & board->getPieces<them, Pawn>())
                           :
                (onAxisAttackMask &
-                (theirPlayer->getPieces<Rook>()   | theirQueens)) |
+                (board->getPieces<them, Rook>()   | theirQueens)) |
                (diagonalAttackMask &
-                (theirPlayer->getPieces<Bishop>() | theirQueens)) |
-               (attackBoard<Knight>(sq) & theirPlayer->getPieces<Knight>()) |
-               (attackBoard<us, Pawn>(sq) & theirPlayer->getPieces<Pawn>()) |
-               (attackBoard<King>(sq) & theirPlayer->getPieces<King>());
+                (board->getPieces<them, Bishop>() | theirQueens)) |
+               (attackBoard<Knight>(sq) & board->getPieces<them, Knight>()) |
+               (attackBoard<us, Pawn>(sq) & board->getPieces<them, Pawn>()) |
+               (attackBoard<King>(sq) & board->getPieces<them, King>());
     }
 
     namespace MoveFactory {
         template<FilterType FT>
-        int generateMoves(Board *, MoveWrap *);
+        int generateMoves(Board*, Move*);
     }
 }
 

@@ -11,14 +11,33 @@
 #include <cassert>
 #include <string>
 #include <mutex>
-#include "Move.h"
-#include "List.h"
-#include "UniqueList.h"
 #include "Paths.h"
 #include "Rays.h"
 #include "Utility.h"
 
 namespace Charon {
+
+    /** The alliances, enumerated. */
+    enum Alliance : uint8_t
+    { White, Black };
+
+    constexpr Alliance operator~(const Alliance& a)
+    { return a == White? Black : White; }
+
+    enum PieceType : uint8_t
+    { Pawn, Rook, Knight, Bishop, Queen, King, NullPT };
+
+    enum MoveType : uint8_t
+    { FreeForm, EnPassant, Castling, PawnJump };
+
+    enum FilterType : uint8_t
+    { Aggressive, Defend, Passive, All };
+
+    constexpr const char* MoveTypeToString[] =
+    { "FreeForm", "EnPassant", "Castling", "PawnJump" };
+
+    constexpr const char* PieceTypeToString[] =
+    { "Pawn", "Rook", "Knight", "Bishop", "Queen", "King", "NullPT" };
 
     /** The board squares, enumerated */
     enum Square : uint8_t
@@ -885,7 +904,7 @@ namespace Charon {
 
         /**
          * A method to return a board containing all squares
-         * on the diagonal, horizontal, or vertical path that
+         * on the diagonal, horizontal, or vertical ray that
          * intersect the given squares. If the two squares
          * are non-linear, this method will return 0.
          *
@@ -893,7 +912,7 @@ namespace Charon {
          * @param from the origin of the path
          * @param to the destination of the path
          * @return a bitboard containing all squares on the
-         * path that intersects the given squares, or zero if
+         * ray that intersects the given squares, or zero if
          * nonesuch
          */
         inline uint64_t

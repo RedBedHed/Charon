@@ -11,30 +11,11 @@
 #include <iostream>
 #include <ostream>
 #include <string>
+#include "ChaosMagic.h"
 
 namespace Charon {
 
-    /** The alliances, enumerated. */
-    enum Alliance : uint8_t
-    { White, Black };
-
-    constexpr Alliance operator~(const Alliance& a)
-    { return a == White? Black : White; }
-
-    enum PieceType : uint8_t
-    { Pawn, Rook, Knight, Bishop, Queen, King, NullPT };
-
-    enum MoveType : uint8_t
-    { FreeForm, EnPassant, Castling, PawnJump };
-
-    enum FilterType : uint8_t
-    { Aggressive, Defend, Passive, All };
-
-    constexpr const char* MoveTypeToString[] =
-    { "FreeForm", "EnPassant", "Castling", "PawnJump" };
-
-    constexpr const char* PieceTypeToString[] =
-    { "Pawn", "Rook", "Knight", "Bishop", "Queen", "King", "NullPT" };
+    using namespace Witchcraft;
 
     class Move final {
     private:
@@ -76,7 +57,7 @@ namespace Charon {
         template<PieceType PT>
         static constexpr Move
         makePromotion(const unsigned int from, const unsigned int to)
-        { return Move((Promotion << 15U) + (PT << 12U) + ((from << 6U) + to)); }
+        { return Move(Promotion + (PT << 12U) + ((from << 6U) + to)); }
 
         [[nodiscard]]
         constexpr int destination() const

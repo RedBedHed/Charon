@@ -7,6 +7,7 @@
 #endif
 #include <chrono>
 #include <iostream>
+#include <fstream>
 
 using std::chrono::steady_clock;
 using std::chrono::nanoseconds;
@@ -57,54 +58,19 @@ struct MoveDetails final {
 }*/
 
 uint64_t perft(Board* const b, int depth) {
-    MoveWrap m[256];
+    Move m[256];
     uint64_t i = 0, j;
     j = MoveFactory::generateMoves<All>(b, m);
     if(depth <= 1) {
-        /*for(MoveWrap* n = m; n->move.getManifest() != 0; ++n) {
-
-                State x;
-
-                bool isB = b->currentPlayer() == Black;
-
-                uint64_t cb = 0;
-            if((isB && (cb = attacksOn<Black, King>(b, bitScanFwd(b->getPlayer<Black>()->getPieces<King>())))) ||
-               (!isB && (cb = attacksOn<White, King>(b, bitScanFwd(b->getPlayer<White>()->getPieces<King>()))))) {
-
-                if(b->getPiece(n->move.origin()) == Pawn) {
-                    // Calculate the check type for our king.
-                    sleep(1);
-                    cout << "before\n" << *b << "\033[H" << std::flush;
-                    b->applyMove(n->move, x);
-                    sleep(1);
-                    cout << "after\n" << *b << "\033[H" << std::flush;
-                    b->undoMove(n->move);
-                }
-            }
-        }*/
-        /*for(MoveWrap* n = m; n->move.getManifest() != 0; ++n) {
-
-            State x;
-                if(b->getPiece(n->move.origin()) == Pawn) {
-                    sleep(1);
-                    // Calculate the check type for our king.
-                    cout << "before\n" << *b << "\033[H" << std::flush;
-                    sleep(1);
-                    b->applyMove(n->move, x);
-                    sleep(1);
-                    cout << "after\n" << *b << "\033[H" << std::flush;
-                    b->undoMove(n->move);
-                }
-        }*/
+        //for(Move* n = m; n->getManifest() != 0; ++n)
+        //    if(n->moveType() == Castling) i++;
         return j;
     }
-    for(MoveWrap* n = m; n->move.getManifest() != 0; ++n) {
-
-        //std::cout << MoveTypeToString[n->move.moveType()] << '\n';
+    for(Move* n = m; n->getManifest() != 0; ++n) {
         State x;
-        b->applyMove(n->move, x);
+        b->applyMove(*n, x);
         i += perft(b, depth - 1);
-        b->undoMove(n->move);
+        b->undoMove(*n);
     }
     return i;
 
@@ -112,22 +78,12 @@ uint64_t perft(Board* const b, int depth) {
 
 int main(int argc, char** argv) {
     Witchcraft::init();
-
     State x;
-    MoveDetails md;
     Board b = Board::Builder(x).build();
-
-    /*for(int i = 0; i < 64; i++) {
-        for(int j = 0; j < 64; j++) {
-            bb(Rays[i][j]);
-            cout << '\n';
-        }
-    }*/
     cout << "\n\t<<*. Performance Test .*>>" << '\n';
     cout << "\n\tStarting Position:\n" << b << '\n';
     int n = argv[1][0] - 48;
-    for (int i = 1; i <= n; ++i) {
-        MoveWrap mw;
+    for (int i = 6; i <= n; ++i) {
         auto start = steady_clock::now();
         uint64_t j = perft(&b, i);
         auto stop = steady_clock::now();
