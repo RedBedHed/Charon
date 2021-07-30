@@ -26,13 +26,11 @@ my crude List that I opted not to use.
 
  <pre>
   <code>
-        (1) 1.32e-05 seconds - 20 nodes visited.
-        (2) 2.71e-05 seconds - 400 nodes visited.
-        (3) 0.0002933 seconds - 8902 nodes visited.
-        (4) 0.0059451 seconds - 197277 nodes visited.
-        (5) 0.138123 seconds - 4865308 nodes visited.
-        (6) 3.30326 seconds - 119038876 nodes visited.
+        (1) 1.37e-05 seconds - 20 nodes visited.
+        (2) 1.93e-05 seconds - 400 nodes visited.
+        (3) 0.0002876 seconds - 8902 nodes visited.
+        (4) 0.0051037 seconds - 197281 nodes visited.
+        (5) 0.12002 seconds - 4865609 nodes visited.
+        (6) 2.88552 seconds - 119060324 nodes visited.
  </code>
 </pre> 
-
-###### *Warning: There is a bug in MoveMake... Several moves are not being generated from depth 4 onward.*
