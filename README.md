@@ -24,7 +24,7 @@ my crude List that I opted not to use.
 ###### (single-threaded, i5, strictly-legal moves only.)
  <pre>
   <code>
-<<*. Performance Test .*>>
+        *.<<]|=|[>>.* Charon Perft *.<<]|=|[>>.*
 
         Starting Position:
 
@@ -49,12 +49,12 @@ my crude List that I opted not to use.
             H   G   F   E   D   C   B   A
 
 
-        (1)  0.000 seconds - 20 nodes visited.
-        (2)  0.000 seconds - 400 nodes visited.
-        (3)  0.000 seconds - 8902 nodes visited.
-        (4)  0.000 seconds - 197281 nodes visited.
-        (5)  0.125 seconds - 4865609 nodes visited.
-        (6)  2.672 seconds - 119060324 nodes visited.
+        perft(1) -  0.000 seconds -         20 nodes visited.
+        perft(2) -  0.000 seconds -        400 nodes visited.
+        perft(3) -  0.000 seconds -       8902 nodes visited.
+        perft(4) -  0.000 seconds -     197281 nodes visited.
+        perft(5) -  0.125 seconds -    4865609 nodes visited.
+        perft(6) -  2.688 seconds -  119060324 nodes visited.
 
         Ending Position:
 
