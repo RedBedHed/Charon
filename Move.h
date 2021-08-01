@@ -253,7 +253,6 @@ namespace Charon {
                        << m.origin() << " To: "
                        << m.destination();
         }
-
     };
 
     /** A null move. */
