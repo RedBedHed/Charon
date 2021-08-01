@@ -14,16 +14,16 @@
 namespace Charon {
 
     /**
-* TODO: MOVE BACK TO ANON NAMESPACE IN CPP !!!
-*
-* A function to calculate attacks on the fly.
-*
-* @tparam A    the alliance of the piece
-*              on the square under attack
-* @tparam PT   the piece type
-* @param board the current game board
-* @param sq    the square under attack
-*/
+     * TODO: MOVE BACK TO ANON NAMESPACE IN CPP !!!
+     *
+     * A function to calculate attacks on the fly.
+     *
+     * @tparam A    the alliance of the piece
+     *              on the square under attack
+     * @tparam PT   the piece type
+     * @param board the current game board
+     * @param sq    the square under attack
+     */
     template<Alliance A, PieceType PT> [[nodiscard]]
     constexpr uint64_t attacksOn(Board* const board, const int sq) {
         static_assert(A == White || A == Black);
@@ -33,8 +33,8 @@ namespace Charon {
 
         // Initialize constants.
         const uint64_t theirQueens = board->getPieces<them, Queen>(),
-                target      = board->getPieces<us, PT>(),
-                allPieces   = board->getAllPieces() & ~target;
+                       target      = board->getPieces<us, PT>(),
+                       allPieces   = board->getAllPieces() & ~target;
 
         // Calculate and return a bitboard representing all attackers.
         return PT == King ?

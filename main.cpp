@@ -22,16 +22,19 @@ uint64_t perft(Board* const b, int depth) {
 int main(int argc, const char** argv) {
     Witchcraft::init();
     State x; Board b = Board::Builder(x).build();
-    cout << "\n\t<<*. Performance Test .*>>" << '\n';
+    cout << "\n\t.~* Charon Perft *~." << '\n';
+    cout << "\n\t*. by Ellie Moore .*        " << '\n';
     cout << "\n\tStarting Position:\n" << b << '\n';
     int n = atoi(argv[1]);
     for (int i = 1; i <= n; ++i) {
         double start = clock();
         uint64_t j = perft(&b, i);
         double stop = clock() - start;
-        cout << "\n\t(" << i << ") ";
+        cout << "\n\tperft(" << i << ") - ";
         printf("%6.3f", (double) stop / (double) CLOCKS_PER_SEC);
-        cout << " seconds - " << j << " nodes visited.";
+        cout << " seconds - ";
+        printf("%10lu", j);
+        cout << " nodes visited.";
     }
     cout << "\n\n\tEnding Position:\n" << b << '\n';
     Witchcraft::destroy();

@@ -415,8 +415,7 @@ namespace Charon {
                 // using these paths as an x-ray to find the blockers.
                 for (uint64_t s = snipers; s; s &= s - 1) {
                     const int      ssq     = bitScanFwd(s);
-                    const uint64_t blocker = pathBoard(ssq, ksq) &
-                            allPieces & ~(s & -s) & ~king;
+                    const uint64_t blocker = pathBoard(ssq, ksq) & allPieces;
                     if(blocker && !(blocker & (blocker - 1))) blockers |= blocker;
                 }
 
