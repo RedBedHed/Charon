@@ -297,7 +297,7 @@ namespace Charon {
              */
             FancyMagic* BishopAttackWitchcraft[BoardLength];
 
-            namespace InitControl {
+            namespace Cauldron {
 
                 /**
                  * A table of rook attacks.
@@ -319,12 +319,12 @@ namespace Charon {
                  * A mutex to be used in synchronization.
                  */
                 mutex m;
-            } // namespace InitControl
+            } // namespace Cauldron
         } // namespace (anon)
 
         /** @copydoc Witchcraft::init() */
         void init() {
-            using namespace InitControl;
+            using namespace Cauldron;
             const lock_guard<mutex> lock(m);
             assert(!initialized);
             initFancyMagics(
@@ -342,7 +342,7 @@ namespace Charon {
 
         /** @copydoc Witchcraft::destroy() */
         void destroy() {
-            using namespace InitControl;
+            using namespace Cauldron;
             const lock_guard<mutex> lock(m);
             assert(initialized);
             for(FancyMagic* fm: RookAttackWitchcraft)

@@ -21,7 +21,7 @@ uint64_t perft(Board* const b, int depth) {
     Move m[256];
     uint64_t i = 0, j;
 
-    if(board->getPieces(board->getCurrentPlayer(), King) == 0) return 0;
+    //if(b->getPieces(board->getCurrentPlayer(), King) == 0) return 0;
     if(depth <= 1) {
         j = MoveFactory::generateMoves<All>(b, m);
         //for(Move* n = m; n->getManifest() != 0; ++n)
@@ -33,7 +33,7 @@ uint64_t perft(Board* const b, int depth) {
         State x;
         b->applyMove(*n, x);
         i += perft(b, depth - 1);
-        b->undoMove(*n);
+        b->retractMove(*n);
     }
     return i;
 

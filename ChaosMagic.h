@@ -21,21 +21,45 @@ namespace Charon {
     enum Alliance : uint8_t
     { White, Black };
 
-    constexpr Alliance operator~(const Alliance& a)
-    { return a == White? Black : White; }
+    /** The castle types, enumerated. */
+    enum CastleType : uint8_t
+    { KingSide, QueenSide };
 
+    /** The check types, enumerated. */
+    enum CheckType : uint8_t {
+        None,
+        Check,
+        DoubleCheck
+    };
+
+    /**
+     * An operator overload to apply the not operator
+     * to an Alliance.
+     *
+     * @param a the alliance to negate
+     * @return the complement of the given alliance,
+     * if { White, Black } is the universal set
+     */
+    constexpr Alliance operator~(const Alliance& a)
+    { return a == White ? Black : White; }
+
+    /** The piece types, enumerated. */
     enum PieceType : uint8_t
     { Pawn, Rook, Knight, Bishop, Queen, King, NullPT };
 
+    /** The move types, enumerated. */
     enum MoveType : uint8_t
     { FreeForm, EnPassant, Castling, PawnJump };
 
+    /** The filter types, enumerated. */
     enum FilterType : uint8_t
     { Aggressive, Defend, Passive, All };
 
+    /** A table to convert a move type to a string. */
     constexpr const char* MoveTypeToString[] =
     { "FreeForm", "EnPassant", "Castling", "PawnJump" };
 
+    /** A table to convert a piece type to a string. */
     constexpr const char* PieceTypeToString[] =
     { "Pawn", "Rook", "Knight", "Bishop", "Queen", "King", "NullPT" };
 
@@ -271,9 +295,7 @@ namespace Charon {
 
     namespace Witchcraft {
 
-        /**
-         * Castling destination squares, as shorts.
-         */
+        /** Castling destination squares, as shorts. */
         constexpr short WhiteKingsideRookOrigin       = H1;
         constexpr short WhiteKingsideRookDestination  = F1;
         constexpr short WhiteKingsideKingDestination  = G1;
@@ -314,6 +336,10 @@ namespace Charon {
                 = 0x0000000000000010L;
         constexpr uint64_t WhiteKingStartPosition
                 = 0x0000000000000008L;
+        constexpr uint64_t BlackPawnJumpSquares
+                = 0x0000FF0000000000L;
+        constexpr uint64_t WhitePawnJumpSquares
+                = 0x0000000000FF0000L;
         constexpr uint64_t NotEastFile
                 = 0x7F7F7F7F7F7F7F7FL;
         constexpr uint64_t NotWestFile
@@ -347,6 +373,7 @@ namespace Charon {
         constexpr uint64_t WhiteEnPassantRank
                 = 0x000000FF00000000L;
 
+        /** A map from squares to bit boards. */
         constexpr uint64_t SquareToBitBoard[] = {
                 0x0000000000000001L, 0x0000000000000002L,
                 0x0000000000000004L, 0x0000000000000008L,
