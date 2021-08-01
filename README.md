@@ -17,6 +17,11 @@ There are multiple files that need to be deleted. Among these are empty cpp file
 my crude List that I opted not to use.
    </p>
   </li> 
+  <li>
+   <p>
+Charon does not use hashing, however, it does bulk-count its leaf-nodes.
+   </p>
+  </li> 
  </ol> 
 </p>
 
