@@ -7,7 +7,7 @@
  <ol>
   <li>
    <p>
-Board.cpp is still in the works... And I could really use advice on how to improve it.
+Board.h is still in the works... And I could really use advice on how to improve it.
 The applyMove and retractMove algorithms are unfinished. I wrote them in one shot and I 
 haven't had time to look at them again.
    </p> 
