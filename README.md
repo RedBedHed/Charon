@@ -17,15 +17,22 @@ There are multiple files that need to be deleted. Among these are empty cpp file
 my crude List that I opted not to use.
    </p>
   </li> 
+  <li>
+   <p>
+Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation.
+   </p>
+  </li> 
  </ol> 
 </p>
 
 ### These are Charon's perft scores !!!
-###### (single-threaded, i5, strictly-legal moves only.)
+###### *(single-threaded, i5, strictly-legal moves only.)*
  <pre>
   <code>
-<<*. Performance Test .*>>
+        .~* Charon Perft *~.
 
+        *. by Ellie Moore .*
+        
         Starting Position:
 
             H   G   F   E   D   C   B   A
@@ -49,38 +56,16 @@ my crude List that I opted not to use.
             H   G   F   E   D   C   B   A
 
 
-        (1)  0.000 seconds - 20 nodes visited.
-        (2)  0.000 seconds - 400 nodes visited.
-        (3)  0.000 seconds - 8902 nodes visited.
-        (4)  0.000 seconds - 197281 nodes visited.
-        (5)  0.125 seconds - 4865609 nodes visited.
-        (6)  2.672 seconds - 119060324 nodes visited.
-
-        Ending Position:
-
-            H   G   F   E   D   C   B   A
-          +---+---+---+---+---+---+---+---+
-        1 | R | N | B | K | Q | B | N | R | 1
-          +---+---+---+---+---+---+---+---+
-        2 | P | P | P | P | P | P | P | P | 2
-          +---+---+---+---+---+---+---+---+
-        3 |   |   |   |   |   |   |   |   | 3
-          +---+---+---+---+---+---+---+---+
-        4 |   |   |   |   |   |   |   |   | 4
-          +---+---+---+---+---+---+---+---+
-        5 |   |   |   |   |   |   |   |   | 5
-          +---+---+---+---+---+---+---+---+
-        6 |   |   |   |   |   |   |   |   | 6
-          +---+---+---+---+---+---+---+---+
-        7 | p | p | p | p | p | p | p | p | 7
-          +---+---+---+---+---+---+---+---+
-        8 | r | n | b | k | q | b | n | r | 8
-          +---+---+---+---+---+---+---+---+
-            H   G   F   E   D   C   B   A
+        perft(1) -  0.000 seconds -         20 nodes visited.
+        perft(2) -  0.000 seconds -        400 nodes visited.
+        perft(3) -  0.000 seconds -       8902 nodes visited.
+        perft(4) -  0.000 seconds -     197281 nodes visited.
+        perft(5) -  0.125 seconds -    4865609 nodes visited.
+        perft(6) -  2.688 seconds -  119060324 nodes visited.
  </code>
 </pre> 
 ### For comparison, QPerft by H.G. Muller does *this* on my computer:
-###### (single-threaded, i5, strictly-legal moves only.)
+###### *(single-threaded, i5, strictly-legal moves only.)*
 <pre>
  <code>
         - - - - - - - - - - - -
