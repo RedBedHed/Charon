@@ -125,13 +125,12 @@ namespace Charon {
      * @struct State
      */
     struct State final {
-    private:
+    public:
 
         /**
          * The castling rights for this State.
          */
         uint8_t castlingRights;
-    public:
 
         /**
          * The en passant square for this State.
@@ -518,17 +517,10 @@ namespace Charon {
             Player* const theirPlayer = getPlayer<them>();
             const Defaults* const x = getDefaults<us>();
             mailbox[origin] = NullPT;
-
+            currentState->castlingRights =
+                    currentState->prevState-> castlingRights;
             currentPlayerAlliance = them;
             if(isPromotion) {
-                currentState->setCastlingRights<us, KingSide>(
-                        currentState->prevState->
-                                getCastlingRights<us, KingSide>()
-                );
-                currentState->setCastlingRights<us, QueenSide>(
-                        currentState->prevState->
-                                getCastlingRights<us, QueenSide>()
-                );
                 ourPlayer->pieces[activeType]    ^= moveBB;
                 ourPlayer->allPieces             ^= moveBB;
                 theirPlayer->allPieces &= ~destinationBoard;
@@ -542,21 +534,11 @@ namespace Charon {
             if(moveType == FreeForm || moveType == PawnJump) {
                 if(activeType == Rook) {
                     if(x->kingSideRookOrigin == originBoard)
-                        currentState->setCastlingRights<us, KingSide, false>();
+                        currentState->castlingRights &= us == White? 0xDU: 0x7U;
                     else if(x->queenSideRookOrigin == originBoard)
-                        currentState->setCastlingRights<us, QueenSide, false>();
+                        currentState->castlingRights &= us == White? 0xEU: 0xBU;
                 } else if(activeType == King) {
-                    currentState->setCastlingRights<us, KingSide, false>();
-                    currentState->setCastlingRights<us, QueenSide, false>();
-                } else {
-                    currentState->setCastlingRights<us, KingSide>(
-                            currentState->prevState->
-                                    getCastlingRights<us, KingSide>()
-                    );
-                    currentState->setCastlingRights<us, QueenSide>(
-                            currentState->prevState->
-                                    getCastlingRights<us, QueenSide>()
-                    );
+                    currentState->castlingRights &= us == White? 0xCU: 0x3U;
                 }
                 ourPlayer->pieces[activeType]    ^= moveBB;
                 ourPlayer->allPieces             ^= moveBB;
@@ -570,8 +552,7 @@ namespace Charon {
                 return;
             }
             if(moveType == Castling) {
-                currentState->setCastlingRights<us, KingSide, false>();
-                currentState->setCastlingRights<us, QueenSide, false>();
+                currentState->castlingRights &= us == White? 0xCU: 0x3U;
                 uint64_t rookMoveBB;
                 if(x->kingSideMask & destinationBoard) {
                     rookMoveBB = x->kingSideRookMoveMask;
@@ -589,14 +570,6 @@ namespace Charon {
                 allPieces                     ^= fullBB;
                 return;
             }
-            currentState->setCastlingRights<us, KingSide>(
-                    currentState->prevState->
-                            getCastlingRights<us, KingSide>()
-            );
-            currentState->setCastlingRights<us, QueenSide>(
-                    currentState->prevState->
-                            getCastlingRights<us, QueenSide>()
-            );
             const int epSquare = currentState->prevState->epSquare;
             const uint64_t captureBB = SquareToBitBoard[epSquare];
             ourPlayer->pieces[Pawn] ^= moveBB;
