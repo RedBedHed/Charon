@@ -24,10 +24,10 @@ my crude List that I opted not to use.
 ###### *(single-threaded, i5, strictly-legal moves only.)*
  <pre>
   <code>
-                _.-.* Charon Perft *.-._
+        .~* Charon Perft *~.
 
-                ^*~. by Ellie Moore .~*^
-
+        *. by Ellie Moore .*
+        
         Starting Position:
 
             H   G   F   E   D   C   B   A
