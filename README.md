@@ -57,28 +57,6 @@ my crude List that I opted not to use.
         perft(4) -  0.000 seconds -     197281 nodes visited.
         perft(5) -  0.125 seconds -    4865609 nodes visited.
         perft(6) -  2.688 seconds -  119060324 nodes visited.
-
-        Ending Position:
-
-            H   G   F   E   D   C   B   A
-          +---+---+---+---+---+---+---+---+
-        1 | R | N | B | K | Q | B | N | R | 1
-          +---+---+---+---+---+---+---+---+
-        2 | P | P | P | P | P | P | P | P | 2
-          +---+---+---+---+---+---+---+---+
-        3 |   |   |   |   |   |   |   |   | 3
-          +---+---+---+---+---+---+---+---+
-        4 |   |   |   |   |   |   |   |   | 4
-          +---+---+---+---+---+---+---+---+
-        5 |   |   |   |   |   |   |   |   | 5
-          +---+---+---+---+---+---+---+---+
-        6 |   |   |   |   |   |   |   |   | 6
-          +---+---+---+---+---+---+---+---+
-        7 | p | p | p | p | p | p | p | p | 7
-          +---+---+---+---+---+---+---+---+
-        8 | r | n | b | k | q | b | n | r | 8
-          +---+---+---+---+---+---+---+---+
-            H   G   F   E   D   C   B   A
  </code>
 </pre> 
 ### For comparison, QPerft by H.G. Muller does *this* on my computer:
