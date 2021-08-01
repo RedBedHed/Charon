@@ -1,13 +1,7 @@
 #include "ChaosMagic.h"
 #include "MoveMake.h"
-#include <chrono>
 #include <time.h>
 #include <iostream>
-using std::chrono::steady_clock;
-using std::chrono::nanoseconds;
-using std::chrono::microseconds;
-using std::chrono::milliseconds;
-using std::chrono::duration_cast;
 using std::cout;
 using namespace Charon;
 
