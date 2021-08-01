@@ -19,7 +19,7 @@ my crude List that I opted not to use.
   </li> 
   <li>
    <p>
-Charon does not use hashing, however, it does bulk-count its leaf-nodes.
+Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation.
    </p>
   </li> 
  </ol> 
