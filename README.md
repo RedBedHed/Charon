@@ -1,4 +1,4 @@
-# Charon
+# Charon Perft
 # Hi! And welcome to the glorious mess that is Charon!
 
 ### Few things worth mentioning:
