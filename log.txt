@@ -1,0 +1,2 @@
+perft 6 -0
+perft 6 -0

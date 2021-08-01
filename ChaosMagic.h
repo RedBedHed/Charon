@@ -53,7 +53,7 @@ namespace Charon {
 
     /** The filter types, enumerated. */
     enum FilterType : uint8_t
-    { Aggressive, Defend, Passive, All };
+    { Aggressive, Passive, All, Legal };
 
     /** A table to convert a move type to a string. */
     constexpr const char* MoveTypeToString[] =

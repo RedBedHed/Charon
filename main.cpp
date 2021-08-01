@@ -1,6 +1,7 @@
 #include "ChaosMagic.h"
 #include "MoveMake.h"
 #include <chrono>
+#include <time.h>
 #include <iostream>
 using std::chrono::steady_clock;
 using std::chrono::nanoseconds;
@@ -13,7 +14,6 @@ using namespace Charon;
 uint64_t perft(Board* const b, int depth) {
     Move m[256];
     uint64_t i = 0, j;
-
     j = MoveFactory::generateMoves<All>(b, m);
     if(depth <= 1) return j;
     for(Move* n = m; n->getManifest() != 0; ++n) {
@@ -32,13 +32,12 @@ int main(int argc, const char** argv) {
     cout << "\n\tStarting Position:\n" << b << '\n';
     int n = atoi(argv[1]);
     for (int i = 1; i <= n; ++i) {
-        auto start = steady_clock::now();
+        double start = clock();
         uint64_t j = perft(&b, i);
-        auto stop = steady_clock::now();
-        auto duration = duration_cast<nanoseconds>(stop - start);
-        cout << "\n\t(" << i << ") "
-             << (double) duration.count() / 1000000000.0
-             << " seconds - " << j << " nodes visited.";
+        double stop = clock() - start;
+        cout << "\n\t(" << i << ") ";
+        printf("%6.3f", (double) stop / (double) CLOCKS_PER_SEC);
+        cout << " seconds - " << j << " nodes visited.";
     }
     cout << "\n\n\tEnding Position:\n" << b << '\n';
     Witchcraft::destroy();
