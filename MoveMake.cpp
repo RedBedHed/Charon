@@ -69,7 +69,8 @@ namespace Charon {
                            pinnedPawns  = pawns & kingGuard;
 
             // Determine defaults.
-            constexpr const Defaults* const x = getDefaults<us>();
+            constexpr const Defaults* const x =
+                    us == White? &WhiteDefaults: &BlackDefaults;
 
             // If generating passive moves or all moves.
             if (FT != Aggressive) {
@@ -384,7 +385,8 @@ namespace Charon {
                            king          = board->getPieces<us, King>();
 
             // Get the board defaults for our alliance.
-            constexpr const Defaults* const x = getDefaults<us>();
+            constexpr const Defaults* const x =
+                    us == White? &WhiteDefaults: &BlackDefaults;
 
             // Find the king square.
             const int ksq = bitScanFwd(king);
@@ -414,7 +416,7 @@ namespace Charon {
                 for (uint64_t s = snipers; s; s &= s - 1) {
                     const int      ssq     = bitScanFwd(s);
                     const uint64_t blocker = pathBoard(ssq, ksq) &
-                            allPieces & ~SquareToBitBoard[ssq] & ~king;
+                            allPieces & ~(s & -s) & ~king;
                     if(blocker && !(blocker & (blocker - 1))) blockers |= blocker;
                 }
 

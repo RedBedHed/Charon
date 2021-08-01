@@ -106,17 +106,6 @@ namespace Charon {
     };
 
     /**
-     * A function to get the defaults for a given Alliance.
-     *
-     * @tparam A the Alliance to get the defaults for
-     * @return a pointer to the defaults for the given
-     * Alliance
-     */
-    template <Alliance A>
-    constexpr const Defaults* getDefaults()
-    { return A == White ? &WhiteDefaults : &BlackDefaults; }
-
-    /**
      * <summary>
      * A struct to keep track of the board state, for use in
      * applying and retracting moves.
@@ -124,8 +113,8 @@ namespace Charon {
      *
      * @struct State
      */
-    struct State final {
-    public:
+    class State final {
+    friend class Board;
 
         /**
          * The castling rights for this State.
@@ -147,76 +136,17 @@ namespace Charon {
          */
         PieceType capturedPiece;
 
+    public:
         /**
          * A default constructor for this State.
          */
         constexpr State() :
-        castlingRights(0x0FU),
+        castlingRights(0xFU),
         epSquare(NullSQ),
         prevState(nullptr),
         capturedPiece(NullPT)
         {  }
 
-        /**
-         * A method to get the castling rights for a
-         * given alliance and piece type.
-         *
-         * @tparam A the alliance to consider
-         * @tparam CT the castling type to consider
-         * @return whether or not the given alliance
-         * iis allowed to castle on the side specified
-         * by the castling type
-         */
-        template <Alliance A, CastleType CT>
-        constexpr bool getCastlingRights() {
-            return A == White ?
-                      CT == KingSide ?
-                         (castlingRights >> 1U) & 1U :
-                          castlingRights        & 1U :
-                      CT == KingSide ?
-                         (castlingRights >> 3U) & 1U :
-                         (castlingRights >> 2U) & 1U ;
-        }
-
-        /**
-         * A method to set the castling rights for a
-         * given alliance and piece type, with the
-         * flag specified at compile time.
-         *
-         * @tparam A the alliance to set rights for
-         * @tparam CT the castling type to set rights for
-         * @tparam B the flag to use
-         */
-        template <Alliance A, CastleType CT, bool B>
-        constexpr void setCastlingRights() {
-            castlingRights = A == White ?
-                   CT == KingSide ?
-                   (B << 1U) | (castlingRights & 0x0DU) :
-                           B | (castlingRights & 0x0EU) :
-                   CT == KingSide ?
-                   (B << 3U) | (castlingRights & 0x07U) :
-                   (B << 2U) | (castlingRights & 0x0BU) ;
-        }
-
-        /**
-         * A method to set the castling rights for a
-         * given alliance and piece type, with the
-         * flag specified at run time.
-         *
-         * @tparam A the alliance to set rights for
-         * @tparam CT the castling type to set rights for
-         * @tparam B the flag to use
-         */
-        template <Alliance A, CastleType CT>
-        constexpr void setCastlingRights(const bool B) {
-            castlingRights = A == White ?
-                   CT == KingSide ?
-                   (B << 1U) | (castlingRights & 0x0DU) :
-                           B | (castlingRights & 0x0EU) :
-                   CT == KingSide ?
-                   (B << 3U) | (castlingRights & 0x07U) :
-                   (B << 2U) | (castlingRights & 0x0BU) ;
-        }
     };
 
     class Board;
@@ -311,7 +241,13 @@ namespace Charon {
         constexpr bool hasCastlingRights() const {
             static_assert(A == White || A == Black);
             static_assert(CT == KingSide || CT == QueenSide);
-            return currentState->getCastlingRights<A, CT>();
+            return A == White ?
+                   CT == KingSide ?
+                   (currentState->castlingRights >> 1U) & 1U :
+                    currentState->castlingRights        & 1U :
+                   CT == KingSide ?
+                   (currentState->castlingRights >> 3U) & 1U :
+                   (currentState->castlingRights >> 2U) & 1U ;
         }
 
         [[nodiscard]]
@@ -443,7 +379,13 @@ namespace Charon {
             inline Builder& setCastlingRights() {
                 static_assert(A == White || A == Black);
                 static_assert(CT == KingSide || CT == QueenSide);
-                state->setCastlingRights<A, CT, B>();
+                A == White?
+                CT == KingSide ?
+                (B << 1U) | (state->castlingRights & 0x0DU) :
+                        B | (state->castlingRights & 0x0EU) :
+                CT == KingSide ?
+                (B << 3U) | (state->castlingRights & 0x07U) :
+                (B << 2U) | (state->castlingRights & 0x0BU) ;
                 return *this;
             }
 
@@ -513,9 +455,10 @@ namespace Charon {
             const uint64_t originBoard      = SquareToBitBoard[origin],
                     destinationBoard = SquareToBitBoard[destination],
                     moveBB           = originBoard | destinationBoard;
-            Player* const ourPlayer   = getPlayer<us>();
-            Player* const theirPlayer = getPlayer<them>();
-            const Defaults* const x = getDefaults<us>();
+            Player* const ourPlayer   = us == White? &whitePlayer : &blackPlayer;
+            Player* const theirPlayer = us == White? &blackPlayer : &whitePlayer;
+            constexpr const Defaults* const x = us == White?
+                                      &WhiteDefaults: &BlackDefaults;
             mailbox[origin] = NullPT;
             currentState->castlingRights =
                     currentState->prevState-> castlingRights;
@@ -583,7 +526,7 @@ namespace Charon {
         // ASSUME THAT THE MOVE IS LEGAL ! ! !
         template<Alliance A>
         constexpr void retractMove(const Move& m) {
-            constexpr const Alliance us = A, them = ~us;
+            constexpr const Alliance us = A;
             const int origin      = m.origin(),
                       destination = m.destination(),
                       isPromotion = m.isPromotion();
@@ -592,9 +535,10 @@ namespace Charon {
             const uint64_t originBoard      = SquareToBitBoard[origin],
                            destinationBoard = SquareToBitBoard[destination],
                            moveBB           = originBoard | destinationBoard;
-            Player* const ourPlayer     = getPlayer<us>();
-            Player* const theirPlayer   = getPlayer<them>();
-            const Defaults* const x = getDefaults<us>();
+            Player* const ourPlayer   = us == White? &whitePlayer : &blackPlayer;
+            Player* const theirPlayer = us == White? &blackPlayer : &whitePlayer;
+            constexpr const Defaults* const x = us == White?
+                    &WhiteDefaults: &BlackDefaults;
             currentPlayerAlliance = us;
             mailbox[origin] = activeType;
             mailbox[destination] = captureType;
