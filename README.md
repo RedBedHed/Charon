@@ -24,7 +24,7 @@ my crude List that I opted not to use.
 ###### *(single-threaded, i5, strictly-legal moves only.)*
  <pre>
   <code>
-        *.<<]|=|[>>.* Charon Perft *.<<]|=|[>>.*
+                _.-.* Charon Perft *.-._
 
                 ^*~. by Ellie Moore .~*^
 
