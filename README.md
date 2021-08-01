@@ -26,11 +26,11 @@ my crude List that I opted not to use.
 
  <pre>
   <code>
-        (1) 1.37e-05 seconds - 20 nodes visited.
-        (2) 1.93e-05 seconds - 400 nodes visited.
-        (3) 0.0002876 seconds - 8902 nodes visited.
-        (4) 0.0051037 seconds - 197281 nodes visited.
-        (5) 0.12002 seconds - 4865609 nodes visited.
-        (6) 2.88552 seconds - 119060324 nodes visited.
+        (1) 1.7e-05 seconds - 20 nodes visited.
+        (2) 1.85e-05 seconds - 400 nodes visited.
+        (3) 0.0002391 seconds - 8902 nodes visited.
+        (4) 0.0049592 seconds - 197281 nodes visited.
+        (5) 0.115141 seconds - 4865609 nodes visited.
+        (6) 2.7789 seconds - 119060324 nodes visited.
  </code>
 </pre> 
