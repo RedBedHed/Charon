@@ -21,7 +21,7 @@ my crude List that I opted not to use.
 </p>
 
 ### These are Charon's perft scores !!!
-###### *(single-threaded, i5, strictly-legal moves only.)
+###### *(single-threaded, i5, strictly-legal moves only.)*
  <pre>
   <code>
         *.<<]|=|[>>.* Charon Perft *.<<]|=|[>>.*
@@ -80,7 +80,7 @@ my crude List that I opted not to use.
  </code>
 </pre> 
 ### For comparison, QPerft by H.G. Muller does *this* on my computer:
-###### *(single-threaded, i5, strictly-legal moves only.)
+###### *(single-threaded, i5, strictly-legal moves only.)*
 <pre>
  <code>
         - - - - - - - - - - - -
