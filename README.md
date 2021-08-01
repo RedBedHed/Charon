@@ -21,7 +21,7 @@ my crude List that I opted not to use.
 </p>
 
 ### These are Charon's perft scores !!!
-###### (Keep in mind that Charon is currently single-threaded and generates strictly-legal moves only.)
+###### (single-threaded, i5, strictly-legal moves only.)
 
 
  <pre>
