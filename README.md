@@ -25,6 +25,8 @@ my crude List that I opted not to use.
  <pre>
   <code>
         *.<<]|=|[>>.* Charon Perft *.<<]|=|[>>.*
+        
+        by Ellie Moore
 
         Starting Position:
 
