@@ -19,7 +19,7 @@ namespace Charon {
     /**
      * <summary>
      * A struct to hold all directions and masks
-     * for an alliance.
+     * for an Alliance.
      * </summary>
      *
      * @struct Defaults

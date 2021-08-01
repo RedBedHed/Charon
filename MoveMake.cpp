@@ -30,29 +30,23 @@ namespace Charon {
             const uint64_t theirQueens = board->getPieces<them, Queen>(),
                            target      = board->getPieces<us, PT>(),
                            allPieces   = board->getAllPieces() & ~target;
-            // Get the attack board for horizontal and vertical attacks
-            // on the given square.
-            const uint64_t onAxisAttackMask   = attackBoard<Rook>(allPieces, sq);
-            // Get the attack board for diagonal attacks on the given
-            // square.
-            const uint64_t diagonalAttackMask = attackBoard<Bishop>(allPieces, sq);
 
             // Calculate and return a bitboard representing all attackers.
             return PT == King ?
-                   (onAxisAttackMask &
+                   (attackBoard<Rook>(allPieces, sq)   &
                    (board->getPieces<them, Rook>()   | theirQueens)) |
-                   (diagonalAttackMask &
+                   (attackBoard<Bishop>(allPieces, sq) &
                    (board->getPieces<them, Bishop>() | theirQueens)) |
-                   (attackBoard<Knight>(sq) & board->getPieces<them, Knight>()) |
-                   (attackBoard<us, Pawn>(sq) & board->getPieces<them, Pawn>())
+                   (SquareToKnightAttacks[sq]   & board->getPieces<them, Knight>()) |
+                   (SquareToPawnAttacks[us][sq] & board->getPieces<them, Pawn>())
                               :
-                   (onAxisAttackMask &
+                   (attackBoard<Rook>(allPieces, sq)   &
                    (board->getPieces<them, Rook>()   | theirQueens)) |
-                   (diagonalAttackMask &
+                   (attackBoard<Bishop>(allPieces, sq) &
                    (board->getPieces<them, Bishop>() | theirQueens)) |
-                   (attackBoard<Knight>(sq) & board->getPieces<them, Knight>()) |
-                   (attackBoard<us, Pawn>(sq) & board->getPieces<them, Pawn>()) |
-                   (attackBoard<King>(sq) & board->getPieces<them, King>());
+                   (SquareToKnightAttacks[sq]   & board->getPieces<them, Knight>()) |
+                   (SquareToPawnAttacks[us][sq] & board->getPieces<them, Pawn>())   |
+                   (SquareToKingAttacks[sq]     & board->getPieces<them, King>());
         }
 
         /**
@@ -108,12 +102,12 @@ namespace Charon {
             constexpr const Alliance us = A, them = ~us;
 
             // Initialize constants.
-            const uint64_t enemies         = board->getPieces<them>() & checkMask,
-                           emptySquares    = ~board->getAllPieces(),
-                           pawns           = board->getPieces<us, Pawn>(),
-                           king            = board->getPieces<us, King>(),
-                           freePawns       = pawns & ~kingGuard,
-                           pinnedPawns     = pawns & kingGuard;
+            const uint64_t enemies      = board->getPieces<them>() & checkMask,
+                           emptySquares = ~board->getAllPieces(),
+                           pawns        = board->getPieces<us, Pawn>(),
+                           king         = board->getPieces<us, King>(),
+                           freePawns    = pawns & ~kingGuard,
+                           pinnedPawns  = pawns & kingGuard;
 
             // Determine defaults.
             constexpr const Defaults* const x = getDefaults<us>();
@@ -126,7 +120,7 @@ namespace Charon {
 
                 // All legal, passive targets two squares ahead.
                 uint64_t p2 = shift<x->up>(p1 & x->pawnJumpSquares)
-                              & emptySquares;
+                    & emptySquares;
 
                 // Intersect the pushes with the current checkMask.
                 p1 &= checkMask;
@@ -141,9 +135,8 @@ namespace Charon {
                 // Make moves from passive two-square targets.
                 for (int d; p2; p2 &= p2 - 1) {
                     d = bitScanFwd(p2);
-                    *moves++ = Move::make<PawnJump>(
-                            (d + x->down + x->down), d
-                    );
+                    *moves++ =
+                        Move::make<PawnJump>((d + x->down + x->down), d);
                 }
             }
 
@@ -154,12 +147,12 @@ namespace Charon {
                 // All legal aggressive targets one square ahead and
                 // to the right.
                 uint64_t ar =
-                        shift<x->upRight>(freePawns & x->notRightCol)
+                    shift<x->upRight>(freePawns & x->notRightCol)
                         & enemies;
                 // All legal aggressive targets one square ahead and
                 // to the left.
                 uint64_t al =
-                        shift<x->upLeft>(freePawns & x->notLeftCol)
+                    shift<x->upLeft>(freePawns & x->notLeftCol)
                         & enemies;
 
                 // Make moves from aggressive right targets.
@@ -201,9 +194,7 @@ namespace Charon {
                         o = d + x->down;
                         if (rayBoard(kingSquare, o) & p1 &
                             (uint64_t) -(int64_t) p1)
-                            *moves++ = Move::make(
-                                    o, d
-                            );
+                            *moves++ = Move::make(o, d);
                     }
 
                     // Make legal moves from passive two-square
@@ -256,6 +247,7 @@ namespace Charon {
                 }
             }
 
+            // If the filter type is not passive, continue.
             if(FT == Passive) return moves;
 
             // Find the en passant square, if any.
@@ -264,18 +256,18 @@ namespace Charon {
             // If the en passant square is set, continue.
             if (enPassantSquare == NullSQ) return moves;
 
-            // The en passant pawn square.
-            const uint64_t eppsq = SquareToBitBoard[enPassantSquare];
+            // The en passant pawn square board.
+            const uint64_t eppBoard = SquareToBitBoard[enPassantSquare];
 
             // If we are in single check and the destination square
             // doesn't block... Don't generate an en passant move.
-            if (!(shift<x->up>(eppsq) & checkMask)) return moves;
+            if (!((eppBoard + x->up) & checkMask)) return moves;
 
             // Check for passing pawns.
             const uint64_t rightPass =
-                    shift<x->right>(eppsq & x->notRightCol) & freePawns,
+                    shift<x->right>(eppBoard & x->notRightCol) & freePawns,
                            leftPass  =
-                    shift<x->left >(eppsq &  x->notLeftCol) & freePawns;
+                    shift<x->left >(eppBoard & x->notLeftCol ) & freePawns;
 
             // If there is a passing pawn, generate legal
             // en passant moves.
@@ -284,7 +276,6 @@ namespace Charon {
             // If the king is on the en passant rank then
             // an en passant discovered check is possible.
             if (king & x->enPassantRank) {
-
                 // Find the snipers on the en passant rank.
                 const uint64_t snipers =
                         (board->getPieces<them, Queen>() |
@@ -298,26 +289,24 @@ namespace Charon {
                 // check on the board, and an en passant move
                 // cannot be generated.
                 for (uint64_t s = snipers; s; s &= s - 1)
-                    if (eppsq & pathBoard(bitScanFwd(s), kingSquare))
+                    if (eppBoard & pathBoard(bitScanFwd(s), kingSquare))
                         return moves;
             }
 
             // If the right pass square holds a pawn, add an en
             // passant move for that pawn.
             if (rightPass) {
-                const uint64_t origin = bitScanFwd(rightPass);
-                *moves++ = Move::make<EnPassant>(
-                        origin, (origin + x->upLeft)
-                );
+                const uint64_t o = bitScanFwd(rightPass);
+                *moves++ =
+                    Move::make<EnPassant>(o, (o + x->upLeft));
             }
 
             // If the left pass square holds a pawn, add an en
             // passant move for that pawn.
             if (leftPass) {
-                const uint64_t origin = bitScanFwd(leftPass);
-                *moves++ = Move::make<EnPassant>(
-                        origin, (origin + x->upRight)
-                );
+                const uint64_t o = bitScanFwd(leftPass);
+                *moves++ =
+                    Move::make<EnPassant>(o, (o + x->upRight));
             }
 
             return moves;
@@ -370,9 +359,7 @@ namespace Charon {
                 // Traverse through the legal
                 // move board and add all legal moves.
                 for (; ab; ab &= ab - 1)
-                    *moves++ = Move::make(
-                            origin, bitScanFwd(ab)
-                    );
+                    *moves++ = Move::make(origin, bitScanFwd(ab));
             }
 
             // Knight pinned pieces are trapped. They
@@ -386,7 +373,6 @@ namespace Charon {
             // If there are pinned pieces, generate their legal
             // moves.
             if (pinnedPieces) {
-
                 // Calculate moves for pinned pieces.
                 // Traverse the pinned piece bitboard.
                 uint64_t n = pinnedPieces;
@@ -408,71 +394,6 @@ namespace Charon {
 
                     n &= n - 1;
                 } while (n);
-            }
-
-            return moves;
-        }
-
-        /**
-         * A function to generate all king moves, including
-         * castling moves.
-         *
-         * @tparam A     the alliance to consider
-         * @tparam FT    the filter type
-         * @param board  the current game board
-         * @param checkType     the check type
-         * @param filter
-         * @param moves
-         */
-        template <Alliance A, FilterType FT>
-        Move* makeKingMoves(Board* const board,
-                           const CheckType checkType,
-                           const uint64_t filter,
-                           const int kingSquare,
-                           Move* moves) {
-            static_assert(A == White || A == Black);
-            static_assert(FT >= Aggressive && FT <= All);
-
-            constexpr const Alliance us = A;
-
-            // Get all pieces
-            const uint64_t allPieces = board->getAllPieces();
-
-            // Get the board defaults for our alliance.
-            constexpr const Defaults* const x = getDefaults<us>();
-
-            { // Generate normal king moves.
-                uint64_t d = SquareToKingAttacks[kingSquare];
-                for (d &= filter; d; d &= d - 1) {
-                    const int dest = bitScanFwd(d);
-                    if (!attacksOn<us, King>(board, dest))
-                        *moves++ = Move::make(
-                                kingSquare, dest
-                        );
-                }
-            }
-
-            // If the filter type is aggressive, then castling moves
-            // are irrelevant. If we don't have castling rights or
-            // if we are in check, then castling moves are illegal.
-            if (FT == Aggressive || checkType != None) return moves;
-
-            if (board->hasCastlingRights<us, KingSide>()) {
-                // Generate king-side castle.
-                uint64_t d = x->kingSideMask & allPieces;
-                if(!d && safeSquares<us>(board, x->kingSideMask))
-                    *moves++ = Move::make<Castling>(
-                            kingSquare, x->kingSideDestination
-                    );
-            }
-
-            if (board->hasCastlingRights<us, QueenSide>()) {
-                // Generate queen-side castle.
-                uint64_t d = x->queenSideMask & allPieces;
-                if(!d && safeSquares<us>(board, x->queenSideMask))
-                    *moves++ = Move::make<Castling>(
-                            kingSquare, x->queenSideDestination
-                    );
             }
 
             return moves;
@@ -503,6 +424,9 @@ namespace Charon {
                                                           theirPieces,
                            king          = board->getPieces<us, King>();
 
+            // Get the board defaults for our alliance.
+            constexpr const Defaults* const x = getDefaults<us>();
+
             // Find the king square.
             const int ksq = bitScanFwd(king);
 
@@ -515,17 +439,16 @@ namespace Charon {
             // If our king is in double check, then only king moves
             // should be considered.
             if (checkType != DoubleCheck) {
-
                 uint64_t blockers = 0;
+                const uint64_t theirQueens =
+                        board->getPieces<them, Queen>();
 
                 // Find the sniper pieces.
                 const uint64_t snipers =
                         (attackBoard<Rook>(0, ksq)          &
-                         (board->getPieces<them, Rook>()    |
-                          board->getPieces<them, Queen>())) |
+                        (board->getPieces<them, Rook>()   | theirQueens)) |
                         (attackBoard<Bishop>(0, ksq)        &
-                         (board->getPieces<them, Bishop>()  |
-                          board->getPieces<them, Queen>()));
+                        (board->getPieces<them, Bishop>() | theirQueens));
 
                 // Iterate through the snipers and draw paths to the king,
                 // using these paths as an x-ray to find the blockers.
@@ -558,8 +481,39 @@ namespace Charon {
                 moves = makeMoves<us,   Rook>(board, kingGuard, fullFilter, ksq, moves);
                 moves = makeMoves<us,  Queen>(board, kingGuard, fullFilter, ksq, moves);
             }
-            // make king moves.
-            moves = makeKingMoves<us,  FT>(board, checkType, partialFilter, ksq, moves);
+
+            // Generate normal king moves.
+            uint64_t d = SquareToKingAttacks[ksq];
+            for (d &= partialFilter; d; d &= d - 1) {
+                const int dest = bitScanFwd(d);
+                if (!attacksOn<us, King>(board, dest))
+                    *moves++ = Move::make(
+                            ksq, dest
+                    );
+            }
+
+            // If the filter type is aggressive, then castling moves
+            // are irrelevant. If we don't have castling rights or
+            // if we are in check, then castling moves are illegal.
+            if (FT == Aggressive || checkType != None)
+                return (moves - initialMove);
+
+            // Generate king-side castle.
+            if(!(x->kingSideMask & allPieces)
+               && board->hasCastlingRights<us, KingSide>()
+               && safeSquares<us>(board, x->kingSideMask))
+                *moves++ = Move::make<Castling>(
+                        ksq, x->kingSideDestination
+                );
+
+            // Generate queen-side castle.
+            if(!(x->queenSideMask & allPieces)
+               && board->hasCastlingRights<us, QueenSide>()
+               && safeSquares<us>(board, x->queenSideMask))
+                *moves++ = Move::make<Castling>(
+                        ksq, x->queenSideDestination
+                );
+
             return (moves - initialMove);
         }
     } // namespace (anon)
