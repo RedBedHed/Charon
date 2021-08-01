@@ -24,7 +24,7 @@ my crude List that I opted not to use.
 ###### (single-threaded, i5, strictly-legal moves only.)
  <pre>
   <code>
-        <<*. Performance Test .*>>
+ <<*. Performance Test .*>>
 
         Starting Position:
 
@@ -54,7 +54,7 @@ my crude List that I opted not to use.
         (3)  0.000 seconds - 8902 nodes visited.
         (4)  0.016 seconds - 197281 nodes visited.
         (5)  0.109 seconds - 4865609 nodes visited.
-        (6)  2.781 seconds - 119060324 nodes visited.
+        (6)  2.734 seconds - 119060324 nodes visited.
 
         Ending Position:
 
@@ -82,27 +82,27 @@ my crude List that I opted not to use.
 ### For comparison, QPerft by H.G. Muller does *this* on my computer:
 <pre>
  <code>
-  - - - - - - - - - - - -
- - - - - - - - - - - - -
- - - r n b q k b n r - -
- - - p p p p p p p p - -
- - - . . . . . . . . - -
- - - . . . . . . . . - -
- - - . . . . . . . . - -
- - - . . . . . . . . - -
- - - P P P P P P P P - -
- - - R N B Q K B N R - -
- - - - - - - - - - - - -
- - - - - - - - - - - - -
+      - - - - - - - - - - - -
+      - - - - - - - - - - - -
+      - - r n b q k b n r - -
+      - - p p p p p p p p - -
+      - - . . . . . . . . - -
+      - - . . . . . . . . - -
+      - - . . . . . . . . - -
+      - - . . . . . . . . - -
+      - - P P P P P P P P - -
+      - - R N B Q K B N R - -
+      - - - - - - - - - - - -
+      - - - - - - - - - - - -
 
-Quick Perft by H.G. Muller
-Perft mode: No hashing, bulk counting in horizon nodes
+     Quick Perft by H.G. Muller
+     Perft mode: No hashing, bulk counting in horizon nodes
 
-perft( 1)=           20 ( 0.000 sec)
-perft( 2)=          400 ( 0.000 sec)
-perft( 3)=         8902 ( 0.000 sec)
-perft( 4)=       197281 ( 0.016 sec)
-perft( 5)=      4865609 ( 0.062 sec)
-perft( 6)=    119060324 ( 1.578 sec)
+     perft( 1)=           20 ( 0.000 sec)
+     perft( 2)=          400 ( 0.000 sec)
+     perft( 3)=         8902 ( 0.000 sec)
+     perft( 4)=       197281 ( 0.016 sec)
+     perft( 5)=      4865609 ( 0.062 sec)
+     perft( 6)=    119060324 ( 1.578 sec)
  </code>
 </pre>
