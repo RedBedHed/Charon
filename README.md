@@ -32,7 +32,7 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
         .~* Charon Perft *~.
 
         *. by Ellie Moore .*
-        
+
         Starting Position:
 
             H   G   F   E   D   C   B   A
@@ -60,35 +60,35 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
         perft(2) -  0.000 seconds -        400 nodes visited.
         perft(3) -  0.000 seconds -       8902 nodes visited.
         perft(4) -  0.000 seconds -     197281 nodes visited.
-        perft(5) -  0.125 seconds -    4865609 nodes visited.
-        perft(6) -  2.688 seconds -  119060324 nodes visited.
+        perft(5) -  0.031 seconds -    4865609 nodes visited.
+        perft(6) -  0.656 seconds -  119060324 nodes visited.
  </code>
 </pre> 
 ### For comparison, QPerft by H.G. Muller does *this* on my computer:
 ###### *(single-threaded, i5, strictly-legal moves only.)*
 <pre>
  <code>
-        - - - - - - - - - - - -
-        - - - - - - - - - - - -
-        - - r n b q k b n r - -
-        - - p p p p p p p p - -
-        - - . . . . . . . . - -
-        - - . . . . . . . . - -
-        - - . . . . . . . . - -
-        - - . . . . . . . . - -
-        - - P P P P P P P P - -
-        - - R N B Q K B N R - -
-        - - - - - - - - - - - -
-        - - - - - - - - - - - -
+         - - - - - - - - - - - -
+         - - - - - - - - - - - -
+         - - r n b q k b n r - -
+         - - p p p p p p p p - -
+         - - . . . . . . . . - -
+         - - . . . . . . . . - -
+         - - . . . . . . . . - -
+         - - . . . . . . . . - -
+         - - P P P P P P P P - -
+         - - R N B Q K B N R - -
+         - - - - - - - - - - - -
+         - - - - - - - - - - - -
 
-       Quick Perft by H.G. Muller
-       Perft mode: No hashing, bulk counting in horizon nodes
+        Quick Perft by H.G. Muller
+        Perft mode: No hashing, bulk counting in horizon nodes
 
-       perft( 1)=           20 ( 0.000 sec)
-       perft( 2)=          400 ( 0.000 sec)
-       perft( 3)=         8902 ( 0.000 sec)
-       perft( 4)=       197281 ( 0.016 sec)
-       perft( 5)=      4865609 ( 0.062 sec)
-       perft( 6)=    119060324 ( 1.578 sec)
+        perft( 1)=           20 ( 0.000 sec)
+        perft( 2)=          400 ( 0.000 sec)
+        perft( 3)=         8902 ( 0.000 sec)
+        perft( 4)=       197281 ( 0.000 sec)
+        perft( 5)=      4865609 ( 0.031 sec)
+        perft( 6)=    119060324 ( 0.844 sec)
  </code>
 </pre>
