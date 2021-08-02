@@ -1,11 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/Charon.dir/Board.cpp.obj"
   "CMakeFiles/Charon.dir/ChaosMagic.cpp.obj"
-  "CMakeFiles/Charon.dir/List.cpp.obj"
-  "CMakeFiles/Charon.dir/Move.cpp.obj"
   "CMakeFiles/Charon.dir/MoveMake.cpp.obj"
-  "CMakeFiles/Charon.dir/Position.cpp.obj"
-  "CMakeFiles/Charon.dir/UniqueList.cpp.obj"
   "CMakeFiles/Charon.dir/main.cpp.obj"
   "Charon.exe"
   "Charon.exe.manifest"

@@ -4,13 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "C:/Users/evcmo/CLionProjects/Charon/Board.cpp" "C:/Users/evcmo/CLionProjects/Charon/cmake-build-debug/CMakeFiles/Charon.dir/Board.cpp.obj"
   "C:/Users/evcmo/CLionProjects/Charon/ChaosMagic.cpp" "C:/Users/evcmo/CLionProjects/Charon/cmake-build-debug/CMakeFiles/Charon.dir/ChaosMagic.cpp.obj"
-  "C:/Users/evcmo/CLionProjects/Charon/List.cpp" "C:/Users/evcmo/CLionProjects/Charon/cmake-build-debug/CMakeFiles/Charon.dir/List.cpp.obj"
-  "C:/Users/evcmo/CLionProjects/Charon/Move.cpp" "C:/Users/evcmo/CLionProjects/Charon/cmake-build-debug/CMakeFiles/Charon.dir/Move.cpp.obj"
   "C:/Users/evcmo/CLionProjects/Charon/MoveMake.cpp" "C:/Users/evcmo/CLionProjects/Charon/cmake-build-debug/CMakeFiles/Charon.dir/MoveMake.cpp.obj"
-  "C:/Users/evcmo/CLionProjects/Charon/Position.cpp" "C:/Users/evcmo/CLionProjects/Charon/cmake-build-debug/CMakeFiles/Charon.dir/Position.cpp.obj"
-  "C:/Users/evcmo/CLionProjects/Charon/UniqueList.cpp" "C:/Users/evcmo/CLionProjects/Charon/cmake-build-debug/CMakeFiles/Charon.dir/UniqueList.cpp.obj"
   "C:/Users/evcmo/CLionProjects/Charon/main.cpp" "C:/Users/evcmo/CLionProjects/Charon/cmake-build-debug/CMakeFiles/Charon.dir/main.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "MSVC")

@@ -126,33 +126,6 @@ Charon\fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Charon.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Charon.dir\build
 .PHONY : Charon\fast
 
-Board.obj: Board.cpp.obj
-
-.PHONY : Board.obj
-
-# target to build an object file
-Board.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Charon.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Charon.dir\Board.cpp.obj
-.PHONY : Board.cpp.obj
-
-Board.i: Board.cpp.i
-
-.PHONY : Board.i
-
-# target to preprocess a source file
-Board.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Charon.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Charon.dir\Board.cpp.i
-.PHONY : Board.cpp.i
-
-Board.s: Board.cpp.s
-
-.PHONY : Board.s
-
-# target to generate assembly for a file
-Board.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Charon.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Charon.dir\Board.cpp.s
-.PHONY : Board.cpp.s
-
 ChaosMagic.obj: ChaosMagic.cpp.obj
 
 .PHONY : ChaosMagic.obj
@@ -180,60 +153,6 @@ ChaosMagic.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Charon.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Charon.dir\ChaosMagic.cpp.s
 .PHONY : ChaosMagic.cpp.s
 
-List.obj: List.cpp.obj
-
-.PHONY : List.obj
-
-# target to build an object file
-List.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Charon.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Charon.dir\List.cpp.obj
-.PHONY : List.cpp.obj
-
-List.i: List.cpp.i
-
-.PHONY : List.i
-
-# target to preprocess a source file
-List.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Charon.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Charon.dir\List.cpp.i
-.PHONY : List.cpp.i
-
-List.s: List.cpp.s
-
-.PHONY : List.s
-
-# target to generate assembly for a file
-List.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Charon.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Charon.dir\List.cpp.s
-.PHONY : List.cpp.s
-
-Move.obj: Move.cpp.obj
-
-.PHONY : Move.obj
-
-# target to build an object file
-Move.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Charon.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Charon.dir\Move.cpp.obj
-.PHONY : Move.cpp.obj
-
-Move.i: Move.cpp.i
-
-.PHONY : Move.i
-
-# target to preprocess a source file
-Move.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Charon.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Charon.dir\Move.cpp.i
-.PHONY : Move.cpp.i
-
-Move.s: Move.cpp.s
-
-.PHONY : Move.s
-
-# target to generate assembly for a file
-Move.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Charon.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Charon.dir\Move.cpp.s
-.PHONY : Move.cpp.s
-
 MoveMake.obj: MoveMake.cpp.obj
 
 .PHONY : MoveMake.obj
@@ -260,60 +179,6 @@ MoveMake.s: MoveMake.cpp.s
 MoveMake.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Charon.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Charon.dir\MoveMake.cpp.s
 .PHONY : MoveMake.cpp.s
-
-Position.obj: Position.cpp.obj
-
-.PHONY : Position.obj
-
-# target to build an object file
-Position.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Charon.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Charon.dir\Position.cpp.obj
-.PHONY : Position.cpp.obj
-
-Position.i: Position.cpp.i
-
-.PHONY : Position.i
-
-# target to preprocess a source file
-Position.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Charon.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Charon.dir\Position.cpp.i
-.PHONY : Position.cpp.i
-
-Position.s: Position.cpp.s
-
-.PHONY : Position.s
-
-# target to generate assembly for a file
-Position.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Charon.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Charon.dir\Position.cpp.s
-.PHONY : Position.cpp.s
-
-UniqueList.obj: UniqueList.cpp.obj
-
-.PHONY : UniqueList.obj
-
-# target to build an object file
-UniqueList.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Charon.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Charon.dir\UniqueList.cpp.obj
-.PHONY : UniqueList.cpp.obj
-
-UniqueList.i: UniqueList.cpp.i
-
-.PHONY : UniqueList.i
-
-# target to preprocess a source file
-UniqueList.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Charon.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Charon.dir\UniqueList.cpp.i
-.PHONY : UniqueList.cpp.i
-
-UniqueList.s: UniqueList.cpp.s
-
-.PHONY : UniqueList.s
-
-# target to generate assembly for a file
-UniqueList.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Charon.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Charon.dir\UniqueList.cpp.s
-.PHONY : UniqueList.cpp.s
 
 main.obj: main.cpp.obj
 
@@ -351,27 +216,12 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... Charon
-	@echo ... Board.obj
-	@echo ... Board.i
-	@echo ... Board.s
 	@echo ... ChaosMagic.obj
 	@echo ... ChaosMagic.i
 	@echo ... ChaosMagic.s
-	@echo ... List.obj
-	@echo ... List.i
-	@echo ... List.s
-	@echo ... Move.obj
-	@echo ... Move.i
-	@echo ... Move.s
 	@echo ... MoveMake.obj
 	@echo ... MoveMake.i
 	@echo ... MoveMake.s
-	@echo ... Position.obj
-	@echo ... Position.i
-	@echo ... Position.s
-	@echo ... UniqueList.obj
-	@echo ... UniqueList.i
-	@echo ... UniqueList.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s

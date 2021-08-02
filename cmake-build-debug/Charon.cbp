@@ -86,9 +86,6 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="C:/Users/evcmo/CLionProjects/Charon/Board.cpp">
-			<Option target="Charon"/>
-		</Unit>
 		<Unit filename="C:/Users/evcmo/CLionProjects/Charon/Board.h">
 			<Option target="Charon"/>
 		</Unit>
@@ -96,15 +93,6 @@
 			<Option target="Charon"/>
 		</Unit>
 		<Unit filename="C:/Users/evcmo/CLionProjects/Charon/ChaosMagic.h">
-			<Option target="Charon"/>
-		</Unit>
-		<Unit filename="C:/Users/evcmo/CLionProjects/Charon/List.cpp">
-			<Option target="Charon"/>
-		</Unit>
-		<Unit filename="C:/Users/evcmo/CLionProjects/Charon/List.h">
-			<Option target="Charon"/>
-		</Unit>
-		<Unit filename="C:/Users/evcmo/CLionProjects/Charon/Move.cpp">
 			<Option target="Charon"/>
 		</Unit>
 		<Unit filename="C:/Users/evcmo/CLionProjects/Charon/Move.h">
@@ -119,19 +107,7 @@
 		<Unit filename="C:/Users/evcmo/CLionProjects/Charon/Paths.h">
 			<Option target="Charon"/>
 		</Unit>
-		<Unit filename="C:/Users/evcmo/CLionProjects/Charon/Position.cpp">
-			<Option target="Charon"/>
-		</Unit>
-		<Unit filename="C:/Users/evcmo/CLionProjects/Charon/Position.h">
-			<Option target="Charon"/>
-		</Unit>
 		<Unit filename="C:/Users/evcmo/CLionProjects/Charon/Rays.h">
-			<Option target="Charon"/>
-		</Unit>
-		<Unit filename="C:/Users/evcmo/CLionProjects/Charon/UniqueList.cpp">
-			<Option target="Charon"/>
-		</Unit>
-		<Unit filename="C:/Users/evcmo/CLionProjects/Charon/UniqueList.h">
 			<Option target="Charon"/>
 		</Unit>
 		<Unit filename="C:/Users/evcmo/CLionProjects/Charon/Utility.h">

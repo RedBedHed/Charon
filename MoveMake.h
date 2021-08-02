@@ -33,7 +33,7 @@ namespace Charon {
 
         // Initialize constants.
         const uint64_t theirQueens = board->getPieces<them, Queen>(),
-                       target      = board->getPieces<us, PT>(),
+                       target      = PT == NullPT? 0: board->getPieces<us, PT>(),
                        allPieces   = board->getAllPieces() & ~target;
 
         // Calculate and return a bitboard representing all attackers.

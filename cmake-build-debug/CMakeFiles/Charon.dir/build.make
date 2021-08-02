@@ -60,28 +60,9 @@ include CMakeFiles\Charon.dir\progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles\Charon.dir\flags.make
 
-CMakeFiles\Charon.dir\Board.cpp.obj: CMakeFiles\Charon.dir\flags.make
-CMakeFiles\Charon.dir\Board.cpp.obj: ..\Board.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\evcmo\CLionProjects\Charon\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Charon.dir/Board.cpp.obj"
-	C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1427~1.291\bin\Hostx86\x86\cl.exe @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\Charon.dir\Board.cpp.obj /FdCMakeFiles\Charon.dir\ /FS -c C:\Users\evcmo\CLionProjects\Charon\Board.cpp
-<<
-
-CMakeFiles\Charon.dir\Board.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Charon.dir/Board.cpp.i"
-	C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1427~1.291\bin\Hostx86\x86\cl.exe > CMakeFiles\Charon.dir\Board.cpp.i @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\evcmo\CLionProjects\Charon\Board.cpp
-<<
-
-CMakeFiles\Charon.dir\Board.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Charon.dir/Board.cpp.s"
-	C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1427~1.291\bin\Hostx86\x86\cl.exe @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\Charon.dir\Board.cpp.s /c C:\Users\evcmo\CLionProjects\Charon\Board.cpp
-<<
-
 CMakeFiles\Charon.dir\ChaosMagic.cpp.obj: CMakeFiles\Charon.dir\flags.make
 CMakeFiles\Charon.dir\ChaosMagic.cpp.obj: ..\ChaosMagic.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\evcmo\CLionProjects\Charon\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Charon.dir/ChaosMagic.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\evcmo\CLionProjects\Charon\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Charon.dir/ChaosMagic.cpp.obj"
 	C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1427~1.291\bin\Hostx86\x86\cl.exe @<<
  /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\Charon.dir\ChaosMagic.cpp.obj /FdCMakeFiles\Charon.dir\ /FS -c C:\Users\evcmo\CLionProjects\Charon\ChaosMagic.cpp
 <<
@@ -98,28 +79,9 @@ CMakeFiles\Charon.dir\ChaosMagic.cpp.s: cmake_force
  /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\Charon.dir\ChaosMagic.cpp.s /c C:\Users\evcmo\CLionProjects\Charon\ChaosMagic.cpp
 <<
 
-CMakeFiles\Charon.dir\List.cpp.obj: CMakeFiles\Charon.dir\flags.make
-CMakeFiles\Charon.dir\List.cpp.obj: ..\List.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\evcmo\CLionProjects\Charon\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Charon.dir/List.cpp.obj"
-	C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1427~1.291\bin\Hostx86\x86\cl.exe @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\Charon.dir\List.cpp.obj /FdCMakeFiles\Charon.dir\ /FS -c C:\Users\evcmo\CLionProjects\Charon\List.cpp
-<<
-
-CMakeFiles\Charon.dir\List.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Charon.dir/List.cpp.i"
-	C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1427~1.291\bin\Hostx86\x86\cl.exe > CMakeFiles\Charon.dir\List.cpp.i @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\evcmo\CLionProjects\Charon\List.cpp
-<<
-
-CMakeFiles\Charon.dir\List.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Charon.dir/List.cpp.s"
-	C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1427~1.291\bin\Hostx86\x86\cl.exe @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\Charon.dir\List.cpp.s /c C:\Users\evcmo\CLionProjects\Charon\List.cpp
-<<
-
 CMakeFiles\Charon.dir\main.cpp.obj: CMakeFiles\Charon.dir\flags.make
 CMakeFiles\Charon.dir\main.cpp.obj: ..\main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\evcmo\CLionProjects\Charon\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Charon.dir/main.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\evcmo\CLionProjects\Charon\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Charon.dir/main.cpp.obj"
 	C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1427~1.291\bin\Hostx86\x86\cl.exe @<<
  /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\Charon.dir\main.cpp.obj /FdCMakeFiles\Charon.dir\ /FS -c C:\Users\evcmo\CLionProjects\Charon\main.cpp
 <<
@@ -136,28 +98,9 @@ CMakeFiles\Charon.dir\main.cpp.s: cmake_force
  /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\Charon.dir\main.cpp.s /c C:\Users\evcmo\CLionProjects\Charon\main.cpp
 <<
 
-CMakeFiles\Charon.dir\Move.cpp.obj: CMakeFiles\Charon.dir\flags.make
-CMakeFiles\Charon.dir\Move.cpp.obj: ..\Move.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\evcmo\CLionProjects\Charon\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Charon.dir/Move.cpp.obj"
-	C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1427~1.291\bin\Hostx86\x86\cl.exe @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\Charon.dir\Move.cpp.obj /FdCMakeFiles\Charon.dir\ /FS -c C:\Users\evcmo\CLionProjects\Charon\Move.cpp
-<<
-
-CMakeFiles\Charon.dir\Move.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Charon.dir/Move.cpp.i"
-	C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1427~1.291\bin\Hostx86\x86\cl.exe > CMakeFiles\Charon.dir\Move.cpp.i @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\evcmo\CLionProjects\Charon\Move.cpp
-<<
-
-CMakeFiles\Charon.dir\Move.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Charon.dir/Move.cpp.s"
-	C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1427~1.291\bin\Hostx86\x86\cl.exe @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\Charon.dir\Move.cpp.s /c C:\Users\evcmo\CLionProjects\Charon\Move.cpp
-<<
-
 CMakeFiles\Charon.dir\MoveMake.cpp.obj: CMakeFiles\Charon.dir\flags.make
 CMakeFiles\Charon.dir\MoveMake.cpp.obj: ..\MoveMake.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\evcmo\CLionProjects\Charon\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Charon.dir/MoveMake.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\evcmo\CLionProjects\Charon\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Charon.dir/MoveMake.cpp.obj"
 	C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1427~1.291\bin\Hostx86\x86\cl.exe @<<
  /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\Charon.dir\MoveMake.cpp.obj /FdCMakeFiles\Charon.dir\ /FS -c C:\Users\evcmo\CLionProjects\Charon\MoveMake.cpp
 <<
@@ -174,69 +117,21 @@ CMakeFiles\Charon.dir\MoveMake.cpp.s: cmake_force
  /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\Charon.dir\MoveMake.cpp.s /c C:\Users\evcmo\CLionProjects\Charon\MoveMake.cpp
 <<
 
-CMakeFiles\Charon.dir\Position.cpp.obj: CMakeFiles\Charon.dir\flags.make
-CMakeFiles\Charon.dir\Position.cpp.obj: ..\Position.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\evcmo\CLionProjects\Charon\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Charon.dir/Position.cpp.obj"
-	C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1427~1.291\bin\Hostx86\x86\cl.exe @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\Charon.dir\Position.cpp.obj /FdCMakeFiles\Charon.dir\ /FS -c C:\Users\evcmo\CLionProjects\Charon\Position.cpp
-<<
-
-CMakeFiles\Charon.dir\Position.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Charon.dir/Position.cpp.i"
-	C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1427~1.291\bin\Hostx86\x86\cl.exe > CMakeFiles\Charon.dir\Position.cpp.i @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\evcmo\CLionProjects\Charon\Position.cpp
-<<
-
-CMakeFiles\Charon.dir\Position.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Charon.dir/Position.cpp.s"
-	C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1427~1.291\bin\Hostx86\x86\cl.exe @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\Charon.dir\Position.cpp.s /c C:\Users\evcmo\CLionProjects\Charon\Position.cpp
-<<
-
-CMakeFiles\Charon.dir\UniqueList.cpp.obj: CMakeFiles\Charon.dir\flags.make
-CMakeFiles\Charon.dir\UniqueList.cpp.obj: ..\UniqueList.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\evcmo\CLionProjects\Charon\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/Charon.dir/UniqueList.cpp.obj"
-	C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1427~1.291\bin\Hostx86\x86\cl.exe @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\Charon.dir\UniqueList.cpp.obj /FdCMakeFiles\Charon.dir\ /FS -c C:\Users\evcmo\CLionProjects\Charon\UniqueList.cpp
-<<
-
-CMakeFiles\Charon.dir\UniqueList.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Charon.dir/UniqueList.cpp.i"
-	C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1427~1.291\bin\Hostx86\x86\cl.exe > CMakeFiles\Charon.dir\UniqueList.cpp.i @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\evcmo\CLionProjects\Charon\UniqueList.cpp
-<<
-
-CMakeFiles\Charon.dir\UniqueList.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Charon.dir/UniqueList.cpp.s"
-	C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1427~1.291\bin\Hostx86\x86\cl.exe @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\Charon.dir\UniqueList.cpp.s /c C:\Users\evcmo\CLionProjects\Charon\UniqueList.cpp
-<<
-
 # Object files for target Charon
 Charon_OBJECTS = \
-"CMakeFiles\Charon.dir\Board.cpp.obj" \
 "CMakeFiles\Charon.dir\ChaosMagic.cpp.obj" \
-"CMakeFiles\Charon.dir\List.cpp.obj" \
 "CMakeFiles\Charon.dir\main.cpp.obj" \
-"CMakeFiles\Charon.dir\Move.cpp.obj" \
-"CMakeFiles\Charon.dir\MoveMake.cpp.obj" \
-"CMakeFiles\Charon.dir\Position.cpp.obj" \
-"CMakeFiles\Charon.dir\UniqueList.cpp.obj"
+"CMakeFiles\Charon.dir\MoveMake.cpp.obj"
 
 # External object files for target Charon
 Charon_EXTERNAL_OBJECTS =
 
-Charon.exe: CMakeFiles\Charon.dir\Board.cpp.obj
 Charon.exe: CMakeFiles\Charon.dir\ChaosMagic.cpp.obj
-Charon.exe: CMakeFiles\Charon.dir\List.cpp.obj
 Charon.exe: CMakeFiles\Charon.dir\main.cpp.obj
-Charon.exe: CMakeFiles\Charon.dir\Move.cpp.obj
 Charon.exe: CMakeFiles\Charon.dir\MoveMake.cpp.obj
-Charon.exe: CMakeFiles\Charon.dir\Position.cpp.obj
-Charon.exe: CMakeFiles\Charon.dir\UniqueList.cpp.obj
 Charon.exe: CMakeFiles\Charon.dir\build.make
 Charon.exe: CMakeFiles\Charon.dir\objects1.rsp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\evcmo\CLionProjects\Charon\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable Charon.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\evcmo\CLionProjects\Charon\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable Charon.exe"
 	"C:\Program Files\JetBrains\CLion 2020.2.3\bin\cmake\win\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\Charon.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x86\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x86\mt.exe --manifests -- C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1427~1.291\bin\Hostx86\x86\link.exe /nologo @CMakeFiles\Charon.dir\objects1.rsp @<<
  /out:Charon.exe /implib:Charon.lib /pdb:C:\Users\evcmo\CLionProjects\Charon\cmake-build-debug\Charon.pdb /version:0.0 /machine:X86 /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib 
 <<

@@ -6,10 +6,6 @@
 
 #IncludeRegexTransform: 
 
-C:/Users/evcmo/CLionProjects/Charon/Board.cpp
-Board.h
-C:/Users/evcmo/CLionProjects/Charon/Board.h
-
 C:/Users/evcmo/CLionProjects/Charon/Board.h
 iostream
 -
@@ -23,10 +19,6 @@ ChaosMagic.h
 C:/Users/evcmo/CLionProjects/Charon/ChaosMagic.h
 Move.h
 C:/Users/evcmo/CLionProjects/Charon/Move.h
-
-C:/Users/evcmo/CLionProjects/Charon/ChaosMagic.cpp
-ChaosMagic.h
-C:/Users/evcmo/CLionProjects/Charon/ChaosMagic.h
 
 C:/Users/evcmo/CLionProjects/Charon/ChaosMagic.h
 iostream
@@ -46,10 +38,6 @@ C:/Users/evcmo/CLionProjects/Charon/Rays.h
 Utility.h
 C:/Users/evcmo/CLionProjects/Charon/Utility.h
 
-C:/Users/evcmo/CLionProjects/Charon/Move.cpp
-Move.h
-C:/Users/evcmo/CLionProjects/Charon/Move.h
-
 C:/Users/evcmo/CLionProjects/Charon/Move.h
 cstdint
 -
@@ -63,10 +51,6 @@ string
 -
 ChaosMagic.h
 C:/Users/evcmo/CLionProjects/Charon/ChaosMagic.h
-
-C:/Users/evcmo/CLionProjects/Charon/MoveMake.cpp
-MoveMake.h
-C:/Users/evcmo/CLionProjects/Charon/MoveMake.h
 
 C:/Users/evcmo/CLionProjects/Charon/MoveMake.h
 ChaosMagic.h
@@ -84,16 +68,6 @@ cstdint
 Utility.h
 C:/Users/evcmo/CLionProjects/Charon/Utility.h
 
-C:/Users/evcmo/CLionProjects/Charon/Position.cpp
-Position.h
-C:/Users/evcmo/CLionProjects/Charon/Position.h
-
-C:/Users/evcmo/CLionProjects/Charon/Position.h
-Board.h
-C:/Users/evcmo/CLionProjects/Charon/Board.h
-Move.h
-C:/Users/evcmo/CLionProjects/Charon/Move.h
-
 C:/Users/evcmo/CLionProjects/Charon/Rays.h
 cstdint
 -
@@ -107,14 +81,8 @@ ChaosMagic.h
 C:/Users/evcmo/CLionProjects/Charon/ChaosMagic.h
 MoveMake.h
 C:/Users/evcmo/CLionProjects/Charon/MoveMake.h
-Windows.h
--
-unistd.h
--
-chrono
+time.h
 -
 iostream
--
-fstream
 -
 

@@ -114,28 +114,33 @@ namespace Charon {
      * @struct State
      */
     class State final {
-
+    private:
         /**
+         * @private
          * Board is State's best bud.
          */
         friend class Board;
 
         /**
+         * @private
          * The castling rights for this State.
          */
         uint8_t castlingRights;
 
         /**
+         * @private
          * The en passant square for this State.
          */
         Square epSquare;
 
         /**
+         * @private
          * The previous State.
          */
         State* prevState;
 
         /**
+         * @private
          * The captured piece for this State.
          */
         PieceType capturedPiece;
@@ -145,44 +150,116 @@ namespace Charon {
          * A default constructor for this State.
          */
         constexpr State() :
-        castlingRights(0xFU),
+        castlingRights(0x0FU),
         epSquare(NullSQ),
         prevState(nullptr),
         capturedPiece(NullPT)
         {  }
     };
 
+    /**
+     * <summary>
+     *  <p>
+     * A board is a mutable data structure that consists of
+     * layered piece bitboards and an added piece mailbox.
+     * The bitboards allow for speedy move generation, while
+     * the mailbox ensures fast Move application and retraction.
+     * Furthermore, the mailbox allows Move data to be condensed
+     * into just 16 bits, improving memory efficiency during
+     * deep searches.
+     *  </p>
+     * </summary>
+     *
+     * @class Board
+     * @author Ellie Moore
+     * @version 08.01.2021
+     */
     class Board final {
     private:
 
+        /**
+         * @private
+         * Bitboard layers for the various piece types.
+         */
         uint64_t pieces[2][7]{};
+
+        /**
+         * @private
+         * All piece bitboards sandwiched together.
+         */
         uint64_t allPieces;
+
+        /**
+         * @private
+         * The alliance of the current player.
+         */
         Alliance currentPlayerAlliance;
+
+        /**
+         * @private
+         * A mailbox representation of this board.
+         */
         PieceType mailbox[BoardLength]{
-                NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT,
-                NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT,
-                NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT,
-                NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT,
-                NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT,
-                NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT,
-                NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT,
-                NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT
+            NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT,
+            NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT,
+            NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT,
+            NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT,
+            NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT,
+            NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT,
+            NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT,
+            NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT, NullPT
         };
+
+        /**
+         * @private
+         * A pointer to an externally-allocated state
+         * object to optimize move retraction.
+         */
         State* currentState;
     public:
 
+        /**
+         * A method to expose the current player's alliance.
+         *
+         * @return the current player's alliance
+         */
         [[nodiscard]]
         constexpr Alliance currentPlayer() const
         { return currentPlayerAlliance; }
 
+        /**
+         * A method to expose each piece bitboard.
+         *
+         * @tparam A the alliance of the bitboard
+         * @tparam PT the piece type of the bitboard
+         * @return a piece bitboard
+         */
         template<Alliance A, PieceType PT>
         constexpr uint64_t getPieces()
         { return pieces[A][PT]; }
 
+        /**
+         * A method to expose a half-sandwich bitboard
+         * of all piece bitboards belonging to the given
+         * alliance.
+         *
+         * @tparam A the alliance of the bitboard
+         * @return a bitboard of all pieces belonging
+         * to the given alliance
+         */
         template<Alliance A>
         constexpr uint64_t getPieces()
         { return pieces[A][NullPT]; }
 
+        /**
+         * A method to expose the current State's castling
+         * rights.
+         *
+         * @tparam A the alliance
+         * @tparam CT the castle type
+         * @return the castling rights of the given type and
+         * alliance
+         */
         template <Alliance A, CastleType CT>
         [[nodiscard]]
         constexpr bool hasCastlingRights() const {
@@ -190,17 +267,31 @@ namespace Charon {
             static_assert(CT == KingSide || CT == QueenSide);
             return A == White ?
                    CT == KingSide ?
-                   (currentState->castlingRights >> 1U) & 1U :
-                    currentState->castlingRights        & 1U :
+                   currentState->castlingRights & 0x02U :
+                   currentState->castlingRights & 0x01U :
                    CT == KingSide ?
-                   (currentState->castlingRights >> 3U) & 1U :
-                   (currentState->castlingRights >> 2U) & 1U ;
+                   currentState->castlingRights & 0x08U :
+                   currentState->castlingRights & 0x04U ;
         }
 
+        /**
+         * A method to pop each bit off of the given bitboard,
+         * inserting the given character into the corresponding
+         * index of the given buffer.
+         *
+         * @param buffy the buffer to fill
+         * @param b the bitboard to pop
+         * @param c the character to use
+         */
         static constexpr void
-        popTo(char* const arr, uint64_t b, const char c)
-        { for (; b > 0; b &= b - 1) arr[bitScanFwd(b)] = c; }
+        popTo(char* const buffy, uint64_t b, const char c)
+        { for (; b > 0; b &= b - 1) buffy[bitScanFwd(b)] = c; }
 
+        /**
+         * A method to represent this board with a string.
+         *
+         * @return a string representing this board
+         */
         [[nodiscard]]
         inline std::string toString() const {
             char buffer[BoardLength]{};
@@ -241,18 +332,56 @@ namespace Charon {
             return sb;
         }
 
+        /**
+         * An overloaded insertion operator for use in printing
+         * a string representation of this board.
+         *
+         * @param out the output stream to use
+         * @param in the board to stringify and print
+         * @return a reference to the output stream, for chaining
+         * purposes
+         */
         friend ostream& operator<<(ostream& out, const Board& in) {
             return out << in.toString();
         }
 
+        /** Deleted copy constructor. */
         Board(const Board&) = delete;
+
+        /** Deleted move constructor. */
         Board(Board&&) = delete;
 
+        /**
+         * <summary>
+         *  <p><br/>
+         * A builder pattern for the Board class to allow
+         * the client flexibility and readability during
+         * the instantiation of a Board Object.
+         *  </p>
+         * </summary>
+         * @class Builder
+         * @author Ellie Moore
+         * @version 06.07.2021
+         */
         class Builder final {
         private:
 
+            /**
+             * @private
+             * Board is Builder's bestie.
+             */
             friend class Board;
+
+            /**
+             * @private
+             * The alliance of the player to start.
+             */
             Alliance currentPlayerAlliance;
+
+            /**
+             * @private
+             * An array to hold each piece bitboard.
+             */
             uint64_t pieces[2][6]{{
                 WhitePawnsStartPosition,
                 WhiteRooksStartPosition,
@@ -268,14 +397,34 @@ namespace Charon {
                 BlackQueenStartPosition,
                 BlackKingStartPosition
             }};
+
+            /**
+             * @private
+             * The initial state of the board under
+             * construction.
+             */
             State* state;
         public:
 
+            /**
+             * @public
+             * A public constructor for a Builder.
+             *
+             * @param s the initial state of the board
+             * under construction.
+             */
             explicit constexpr Builder(State& s) :
                     currentPlayerAlliance(White),
                     state(&s)
             {  }
 
+            /**
+             * @public
+             * A public constructor to copy a board into
+             * this Builder.
+             *
+             * @param board the board to copy
+             */
             explicit constexpr Builder(const Board& board) :
             currentPlayerAlliance(~board.currentPlayerAlliance),
             state(board.currentState) {
@@ -293,107 +442,149 @@ namespace Charon {
                 pieces[Black][King]    = board.pieces[Black][King];
             }
 
+            /**
+             * A method to set the entire bitboard for a given
+             * alliance and piece type.
+             *
+             * @tparam A the alliance of the bitboard to set
+             * @tparam PT the piece type of the bitboard to set
+             * @param p the piece bitboard to use
+             * @return a reference to the instance
+             */
             template <Alliance A, PieceType PT>
             inline Builder& setPieces(const uint64_t p)
             { pieces[A][PT] = p; return *this; }
 
+            /**
+             * A method to set a single piece onto the bitboard
+             * of the given alliance and piece type.
+             *
+             * @tparam A the alliance of the piece to set
+             * @tparam PT the type of the piece to set
+             * @param sq the square on which to set the piece
+             * @return a reference to the instance
+             */
             template <Alliance A, PieceType PT>
             inline Builder& setPiece(const int sq)
             { pieces[A][PT] |= SquareToBitBoard[sq]; return *this; }
 
-            template <Alliance A, PieceType PT>
-            inline Builder& xorPieces(const uint64_t p)
-            { pieces[A][PT] ^= p; return *this; }
-
-            template <Alliance A, PieceType PT>
-            inline Builder& andPieces(const uint64_t p)
-            { pieces[A][PT] &= p; return *this; }
-
-            template <Alliance A>
-            inline Builder& removeSquare(const int sq) {
-                const uint64_t p = ~SquareToBitBoard[sq];
-                pieces[A][Pawn] &= p;
-                pieces[A][Rook] &= p;
-                pieces[A][Knight] &= p;
-                pieces[A][Bishop] &= p;
-                pieces[A][Rook] &= p;
-                pieces[A][Queen] &= p;
-                pieces[A][King] &= p;
-                return *this;
-            }
-
+            /**
+             * A method to set the en passant square of the board
+             * under construction.
+             *
+             * @param square the integer index of the en passant
+             * square
+             * @return a reference to the instance
+             */
             inline Builder& setEnPassantSquare(const Square square)
             { state->epSquare = square; return *this; }
 
-            template <Alliance A, CastleType CT, bool B>
+            /**
+             * A method to set the castling rights of the initial
+             * state of the board under construction.
+             *
+             * @tparam A the alliance for which to set castling
+             * rights
+             * @tparam CT the castle type for which to set castling
+             * rights
+             * @tparam B the rights
+             * @return a reference to the instance
+             */
+            /*template <Alliance A, CastleType CT, bool B>
             inline Builder& setCastlingRights() {
                 static_assert(A == White || A == Black);
                 static_assert(CT == KingSide || CT == QueenSide);
-                A == White?
-                CT == KingSide ?
-                (B << 1U) | (state->castlingRights & 0x0DU) :
-                        B | (state->castlingRights & 0x0EU) :
-                CT == KingSide ?
-                (B << 3U) | (state->castlingRights & 0x07U) :
-                (B << 2U) | (state->castlingRights & 0x0BU) ;
+                !B ?
+                    state->castlingRights &= A == White?
+                        CT == KingSide ?
+                            0x0DU : 0x0EU :
+                        CT == KingSide ?
+                            0x07U : 0x0BU :
+                    state->castlingRights |= A == White?
+                        CT == KingSide ?
+                            0x02U : 0x01U :
+                        CT == KingSide ?
+                            0x08U : 0x04U ;
                 return *this;
-            }
+            }*/
 
+            /**
+             * A method to set the alliance of the initial
+             * current player for the board under construction.
+             *
+             * @tparam A the alliance of the initial current
+             * player
+             * @return a reference to the instance
+             */
             template <Alliance A>
             inline Builder& setCurrentPlayer()
             { currentPlayerAlliance = A; return *this; }
 
+            /**
+             * A method to instantiate a board from the data
+             * stored in this Builder.
+             *
+             * @return a reference to the instance
+             */
             [[nodiscard]]
             constexpr Board build() const { return Board(*this); }
 
+            /** A deleted copy constructor. */
             Builder(const Builder&) = delete;
+
+            /** A deleted move constructor. */
+            Builder(Builder&&) = delete;
         };
     private:
 
-        static constexpr uint64_t
-        calculateWhitePieces(const Builder& b) {
-            return b.pieces[White][Pawn]   | b.pieces[White][Rook]   |
-                   b.pieces[White][Knight] | b.pieces[White][Bishop] |
-                   b.pieces[White][Queen]  | b.pieces[White][King];
+        /**
+         * @private
+         * @static
+         * A method to sandwich piece bitboards into a single
+         * bitboard for the given alliance.
+         *
+         * @param b the Builder to use
+         * @return a sandwich of the given Alliance's piece
+         * boards.
+         */
+        template<Alliance A>
+        static constexpr uint64_t sandwich(const Builder& b) {
+            return b.pieces[A][Pawn]   | b.pieces[A][Rook]   |
+                   b.pieces[A][Knight] | b.pieces[A][Bishop] |
+                   b.pieces[A][Queen]  | b.pieces[A][King];
         }
 
-        static constexpr uint64_t
-        calculateBlackPieces(const Builder& b) {
-            return b.pieces[Black][Pawn]   | b.pieces[Black][Rook]   |
-                   b.pieces[Black][Knight] | b.pieces[Black][Bishop] |
-                   b.pieces[Black][Queen]  | b.pieces[Black][King];
-        }
-
-        constexpr void
-        initMailbox(const uint64_t* const whitePieces,
-                    const uint64_t* const blackPieces) {
-            for (int j = Pawn; j < NullPT; ++j) {
-                for (uint64_t x = whitePieces[j]; x; x &= x - 1)
-                    mailbox[bitScanFwd(x)] = (PieceType) j;
-                for (uint64_t x = blackPieces[j]; x; x &= x - 1)
-                    mailbox[bitScanFwd(x)] = (PieceType) j;
-            }
+        /**
+         * @private
+         * @static
+         * A method to initialize each piece bitboard for the
+         * given alliance.
+         *
+         * @param b the Builder to use
+         */
+        template<Alliance A> static constexpr void
+        initPieceBoards(uint64_t* const p, const Builder& b) {
+            p[Pawn]   = b.pieces[A][Pawn];
+            p[Rook]   = b.pieces[A][Rook];
+            p[Knight] = b.pieces[A][Knight];
+            p[Bishop] = b.pieces[A][Bishop];
+            p[Queen]  = b.pieces[A][Queen];
+            p[King]   = b.pieces[A][King];
+            p[NullPT] = sandwich<A>(b);
         }
 
         explicit constexpr Board(const Builder& b) :
         allPieces(0),
         currentPlayerAlliance(b.currentPlayerAlliance),
         currentState(b.state) {
-            pieces[White][Pawn]   = b.pieces[White][Pawn];
-            pieces[White][Rook]   = b.pieces[White][Rook];
-            pieces[White][Knight] = b.pieces[White][Knight];
-            pieces[White][Bishop] = b.pieces[White][Bishop];
-            pieces[White][Queen]  = b.pieces[White][Queen];
-            pieces[White][King]   = b.pieces[White][King];
-            pieces[White][NullPT] = calculateWhitePieces(b);
-            pieces[Black][Pawn]   = b.pieces[Black][Pawn];
-            pieces[Black][Rook]   = b.pieces[Black][Rook];
-            pieces[Black][Knight] = b.pieces[Black][Knight];
-            pieces[Black][Bishop] = b.pieces[Black][Bishop];
-            pieces[Black][Queen]  = b.pieces[Black][Queen];
-            pieces[Black][King]   = b.pieces[Black][King];
-            pieces[Black][NullPT] = calculateBlackPieces(b);
-            initMailbox(b.pieces[White], b.pieces[Black]);
+            initPieceBoards<White>(pieces[White], b);
+            initPieceBoards<Black>(pieces[Black], b);
+            for (int j = Pawn; j < NullPT; ++j) {
+                for (uint64_t x = b.pieces[White][j]; x; x &= x - 1)
+                    mailbox[bitScanFwd(x)] = (PieceType) j;
+                for (uint64_t x = b.pieces[Black][j]; x; x &= x - 1)
+                    mailbox[bitScanFwd(x)] = (PieceType) j;
+            }
             allPieces =
                 pieces[White][NullPT] | pieces[Black][NullPT];
         }
@@ -404,7 +595,7 @@ namespace Charon {
             assert(currentState != &state);
             state.prevState = currentState;
             currentState = &state;
-            const int origin      = m.origin(),
+            const int origin    = m.origin(),
                     destination = m.destination(),
                     isPromotion = m.isPromotion();
             PieceType captureType = mailbox[destination],
@@ -418,7 +609,7 @@ namespace Charon {
                                       &WhiteDefaults: &BlackDefaults;
             mailbox[origin] = NullPT;
             currentState->castlingRights =
-                    currentState->prevState-> castlingRights;
+                    currentState->prevState->castlingRights;
             currentPlayerAlliance = them;
             if(isPromotion) {
                 pieces[us][activeType]    ^= moveBB;
@@ -434,11 +625,11 @@ namespace Charon {
             if(moveType == FreeForm || moveType == PawnJump) {
                 if(activeType == Rook) {
                     if(x->kingSideRookOrigin == originBoard)
-                        currentState->castlingRights &= us == White? 0xDU: 0x7U;
+                        currentState->castlingRights &= us == White? 0x0EU : 0x0DU;
                     else if(x->queenSideRookOrigin == originBoard)
-                        currentState->castlingRights &= us == White? 0xEU: 0xBU;
+                        currentState->castlingRights &= us == White? 0x0BU : 0x07U;
                 } else if(activeType == King) {
-                    currentState->castlingRights &= us == White? 0xCU: 0x3U;
+                    currentState->castlingRights &= us == White? 0x0CU: 0x03U;
                 }
                 pieces[us][activeType] ^= moveBB;
                 pieces[us][NullPT]     ^= moveBB;
@@ -452,7 +643,7 @@ namespace Charon {
                 return;
             }
             if(moveType == Castling) {
-                currentState->castlingRights &= us == White? 0xCU: 0x3U;
+                currentState->castlingRights &= us == White? 0x0CU: 0x03U;
                 uint64_t rookMoveBB;
                 if(x->kingSideMask & destinationBoard) {
                     rookMoveBB = x->kingSideRookMoveMask;
@@ -505,6 +696,7 @@ namespace Charon {
                     pieces[them][captureType] |= destinationBoard;
                 }
                 allPieces = pieces[us][NullPT] | pieces[them][NullPT];
+                currentState = currentState->prevState;
                 return;
             }
             const int moveType = m.moveType();

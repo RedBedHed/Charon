@@ -60,7 +60,7 @@ namespace Charon {
     public:
 
         /**
-         * @private
+         * @public
          * A private constructor for a Move.
          *
          * @param manifest an integer containing all move data.
@@ -70,7 +70,7 @@ namespace Charon {
         { }
 
         /**
-         * @private
+         * @public
          * A private, default constructor for a Move.
          */
         constexpr Move() : manifest(0)
@@ -85,6 +85,7 @@ namespace Charon {
         Move(const Move& move) = default;
 
         /**
+         * @public
          * A public destructor for a Move.
          */
         ~Move() = default;
@@ -174,12 +175,24 @@ namespace Charon {
          * This can be accomplished with a call to isPromotion()
          *
          * @see Move::isPromotion()
-         *
          * @return the type of this move.
          */
         [[nodiscard]]
         constexpr int moveType() const
         { return (manifest & Type) >> 12U; }
+
+        /**
+         * A method to expose the promotion piece of this move.
+         * The client should determine whether or not the
+         * promotion flag is set before calling this method.
+         * This can be accomplished with a call to isPromotion()
+         *
+         * @see Move::isPromotion()
+         * @return the promotion piece of this move.
+         */
+        [[nodiscard]]
+        constexpr int promotionPiece() const
+        { return (manifest & PromoPiece) >> 12U; }
 
         /**
          * A method to indicate whether or not this move is a
@@ -190,20 +203,6 @@ namespace Charon {
         [[nodiscard]]
         constexpr int isPromotion() const
         { return (manifest & Promotion) >> 15U; }
-
-        /**
-         * A method to expose the promotion piece of this move.
-         * The client should determine whether or not the
-         * promotion flag is set before calling this method.
-         * This can be accomplished with a call to isPromotion()
-         *
-         * @see Move::isPromotion()
-         *
-         * @return the promotion piece of this move.
-         */
-        [[nodiscard]]
-        constexpr int promotionPiece() const
-        { return (manifest & PromoPiece) >> 12U; }
 
         /**
          * An operator overload for the equality operator.
@@ -242,16 +241,17 @@ namespace Charon {
          * @param m the Move to be represented in string format
          * @return a reference to the stream, for chaining purposes
          */
-        friend std::ostream& operator<<(std::ostream& out,
-                                         const Move& m) {
+        friend std::ostream&
+        operator<<(std::ostream& out, const Move& m) {
             if(m.isPromotion())
                 out <<"Promotion - "
                     << PieceTypeToString[m.promotionPiece()];
             else
                 out << MoveTypeToString[m.moveType()];
-            return out << " - From: "
-                       << m.origin() << " To: "
-                       << m.destination();
+            return
+                out << " - From: "
+                    << m.origin() << " To: "
+                    << m.destination();
         }
     };
 
