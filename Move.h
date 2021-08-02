@@ -240,7 +240,7 @@ namespace Charon {
          * @param out the ostream to hold the Move in string
          * format
          * @param m the Move to be represented in string format
-         * @return A reference to the stream, for chaining purposes
+         * @return a reference to the stream, for chaining purposes
          */
         friend std::ostream& operator<<(std::ostream& out,
                                          const Move& m) {
