@@ -32,7 +32,7 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
         .~* Charon Perft *~.
 
         *. by Ellie Moore .*
-        
+
         Starting Position:
 
             H   G   F   E   D   C   B   A
@@ -60,8 +60,8 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
         perft(2) -  0.000 seconds -        400 nodes visited.
         perft(3) -  0.000 seconds -       8902 nodes visited.
         perft(4) -  0.000 seconds -     197281 nodes visited.
-        perft(5) -  0.125 seconds -    4865609 nodes visited.
-        perft(6) -  2.688 seconds -  119060324 nodes visited.
+        perft(5) -  0.031 seconds -    4865609 nodes visited.
+        perft(6) -  0.656 seconds -  119060324 nodes visited.
  </code>
 </pre> 
 ### For comparison, QPerft by H.G. Muller does *this* on my computer:
