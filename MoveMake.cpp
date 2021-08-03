@@ -61,8 +61,7 @@ namespace Charon {
             constexpr const Alliance us = A, them = ~us;
 
             // Determine defaults.
-            constexpr const Defaults* const x =
-                    us == White? &WhiteDefaults: &BlackDefaults;
+            constexpr const Defaults* const x = defaults<us>();
 
             // Initialize constants.
             const uint64_t enemies         = board->getPieces<them>() & checkMask,
@@ -79,14 +78,15 @@ namespace Charon {
             // If generating passive moves or all moves.
             if (FT != Aggressive) {
                 // Generate single and double pushes for free pawns.
-                // All legal, passive targets one square ahead.
+                // All pseudo-legal, passive targets one square ahead.
                 uint64_t p1 = shift<x->up>(freeLowPawns) & emptySquares;
 
-                // All legal, passive targets two squares ahead.
+                // All pseudo-legal, passive targets two squares ahead.
                 uint64_t p2 = shift<x->up>(p1 & x->pawnJumpSquares)
                     & emptySquares;
 
-                // Intersect the pushes with the current checkMask.
+                // Intersect the pushes with the current checkMask. The
+                // push targets are now legal.
                 p1 &= checkMask;
                 p2 &= checkMask;
 
@@ -113,6 +113,7 @@ namespace Charon {
                 uint64_t ar =
                     shift<x->upRight>(freeLowPawns & x->notRightCol)
                         & enemies;
+
                 // All legal aggressive targets one square ahead and
                 // to the left.
                 uint64_t al =
@@ -151,7 +152,7 @@ namespace Charon {
 
                     // Make legal moves from passive one-square
                     // pseudo-legal targets.
-                    // These moves must have a destination on
+                    // These moves must have a destinationSquare on
                     // the pinning ray.
                     for (int d, o; p1; p1 &= p1 - 1) {
                         d = bitScanFwd(p1);
@@ -163,7 +164,7 @@ namespace Charon {
 
                     // Make legal moves from passive two-square
                     // pseudo-legal targets.
-                    // These moves must have a destination on
+                    // These moves must have a destinationSquare on
                     // the pinning ray.
                     for (int d, o; p2; p2 &= p2 - 1) {
                         d = bitScanFwd(p2);
@@ -213,8 +214,12 @@ namespace Charon {
 
             if (freeHighPawns) {
                 if (FT != Aggressive) {
+                    // Calculate single promotion push.
+                    // All legal promotion targets one square ahead.
                     uint64_t p1 = shift<x->up>(freeHighPawns) &
                                   emptySquares;
+
+                    // Make promotion moves from single push.
                     for(int o, d; p1; p1 &= p1 - 1){
                         o = bitScanFwd(p1);
                         d = o + x->up;
@@ -226,13 +231,19 @@ namespace Charon {
                 }
 
                 if (FT != Passive) {
+                    // All legal aggressive targets one square ahead
+                    // and to the right.
                     uint64_t ar =
                         shift<x->upRight>(freeHighPawns & x->notRightCol)
                             & enemies;
+
+                    // All legal aggressive targets one square ahead
+                    // and to the left.
                     uint64_t al =
                         shift<x->upLeft >(freeHighPawns & x->notLeftCol)
                             & enemies;
 
+                    // Make moves from aggressive right targets.
                     for (int o, d; ar; ar &= ar - 1) {
                         o = bitScanFwd(ar);
                         d = o + x->upRight;
@@ -242,6 +253,7 @@ namespace Charon {
                         *moves++ = Move::makePromotion<Queen >(o, d);
                     }
 
+                    // Make moves from aggressive left targets.
                     for (int o, d; al; al &= al - 1) {
                         o = bitScanFwd(al);
                         d = o + x->upRight;
@@ -255,8 +267,12 @@ namespace Charon {
 
             if (pinnedHighPawns) {
                 if (FT != Aggressive) {
+                    // Calculate single promotion push for pinned pawns.
+                    // All pseudo-legal promotion targets one square ahead.
                     uint64_t p1 =
                         shift<x->up>(pinnedHighPawns) & emptySquares;
+
+                    // Make legal promotion moves from pseudo-legal targets.
                     for (int o, d; p1; p1 &= p1 - 1){
                         o = bitScanFwd(p1);
                         d = o + x->up;
@@ -271,13 +287,19 @@ namespace Charon {
                 }
 
                 if (FT != Passive) {
+                    // All pseudo-legal aggressive targets one square ahead
+                    // and to the right.
                     uint64_t ar =
                         shift<x->upRight>(pinnedHighPawns & x->notRightCol)
                             & enemies;
+
+                    // All pseudo-legal aggressive targets one square ahead
+                    // and to the left.
                     uint64_t al =
                         shift<x->upLeft >(pinnedHighPawns & x->notLeftCol)
                             & enemies;
 
+                    // Make legal promotion moves from aggressive right targets.
                     for (int o, d; ar; ar &= ar - 1) {
                         o = bitScanFwd(ar);
                         d = o + x->upRight;
@@ -290,6 +312,7 @@ namespace Charon {
                         }
                     }
 
+                    // Make legal promotion moves from aggressive left targets.
                     for (int o, d; al; al &= al - 1) {
                         o = bitScanFwd(al);
                         d = o + x->upRight;
@@ -315,17 +338,21 @@ namespace Charon {
 
             // The en passant pawn square board.
             const uint64_t eppBoard  = SquareToBitBoard[enPassantSquare];
+
+            // The en passant destination board.
             const uint64_t destBoard = shift<x->up>(eppBoard);
 
-            // If we are in single check and the destination square
+            // If we are in single check and the destinationSquare square
             // doesn't block... Don't generate an en passant move.
             if (!(destBoard & checkMask)) return moves;
 
+            // Calculate free passing pawns.
             const uint64_t freePasses =
                     (shift<x->right>(eppBoard & x->notRightCol) |
                      shift<x->left >(eppBoard & x->notLeftCol )) &
                      freeLowPawns;
 
+            // Calculate pinned passing pawns.
             const uint64_t pinnedPasses =
                     (shift<x->right>(eppBoard & x->notRightCol) |
                      shift<x->left >(eppBoard & x->notLeftCol )) &
@@ -356,12 +383,13 @@ namespace Charon {
                         return moves;
             }
 
-            const int destination = enPassantSquare + x->up;
+            // Calculate the destinationSquare square
+            const int destinationSquare = enPassantSquare + x->up;
 
             // Add free pass en passant moves.
             for(uint64_t fp = freePasses; fp; fp &= fp - 1) {
                 const int o = bitScanFwd(fp);
-                *moves++ = Move::make<EnPassant>(o, destination);
+                *moves++ = Move::make<EnPassant>(o, destinationSquare);
             }
 
             // Add pinned pass en passant moves.
@@ -369,7 +397,7 @@ namespace Charon {
                 const int o = bitScanFwd(pp);
                 if(destBoard & rayBoard(kingSquare, o))
                     *moves++ =
-                        Move::make<EnPassant>(o, destination);
+                        Move::make<EnPassant>(o, destinationSquare);
             }
 
             return moves;
@@ -488,8 +516,7 @@ namespace Charon {
                            king          = board->getPieces<us, King>();
 
             // Get the board defaults for our alliance.
-            constexpr const Defaults* const x =
-                    us == White? &WhiteDefaults: &BlackDefaults;
+            constexpr const Defaults* const x = defaults<us>();
 
             // Find the king square.
             const int ksq = bitScanFwd(king);

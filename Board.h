@@ -108,6 +108,11 @@ namespace Charon {
             BlackPrePromotionMask
     };
 
+    template<Alliance A>
+    constexpr const Defaults* defaults() {
+        return A == White? &WhiteDefaults : &BlackDefaults;
+    }
+
     /**
      * <summary>
      * A struct to keep track of the board state, for use in
