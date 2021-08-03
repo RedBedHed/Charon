@@ -60,17 +60,17 @@ namespace Charon {
 
         /**
          * @public
-         * A private constructor for a Move.
+         * A public constructor for a Move.
          *
          * @param manifest an integer containing all move data.
          */
-        explicit constexpr Move(const unsigned int manifest) :
-            manifest(manifest)
+        explicit constexpr
+        Move(const unsigned int manifest) : manifest(manifest)
         { }
 
         /**
          * @public
-         * A private, default constructor for a Move.
+         * A public, default constructor for a Move.
          */
         constexpr Move() : manifest(0)
         { }

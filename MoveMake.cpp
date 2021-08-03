@@ -30,6 +30,22 @@ namespace Charon {
         }
 
         /**
+         * A function to make all promotion moves.
+         *
+         * @param moves a pointer to a list to populate
+         *              with moves
+         * @param o     the origin square
+         * @param d     the destination square
+         */
+        inline void
+        makePromotions(Move* moves, const int o, const int d) {
+            *moves++ = Move::makePromotion<Rook  >(o, d);
+            *moves++ = Move::makePromotion<Knight>(o, d);
+            *moves++ = Move::makePromotion<Bishop>(o, d);
+            *moves++ = Move::makePromotion<Queen >(o, d);
+        }
+
+        /**
          * A function to generate this Player's pawn moves.
          *
          * ToDo: add promotion capability.
@@ -220,13 +236,9 @@ namespace Charon {
                                   emptySquares;
 
                     // Make promotion moves from single push.
-                    for(int o, d; p1; p1 &= p1 - 1){
+                    for(int d; p1; p1 &= p1 - 1){
                         d = bitScanFwd(p1);
-                        o = d + x->down;
-                        *moves++ = Move::makePromotion<Rook  >(o, d);
-                        *moves++ = Move::makePromotion<Knight>(o, d);
-                        *moves++ = Move::makePromotion<Bishop>(o, d);
-                        *moves++ = Move::makePromotion<Queen >(o, d);
+                        makePromotions(moves, d + x->down, d);
                     }
                 }
 
@@ -244,23 +256,15 @@ namespace Charon {
                             & enemies;
 
                     // Make moves from aggressive right targets.
-                    for (int o, d; ar; ar &= ar - 1) {
+                    for (int d; ar; ar &= ar - 1) {
                         d = bitScanFwd(ar);
-                        o = d + x->downLeft;
-                        *moves++ = Move::makePromotion<Rook  >(o, d);
-                        *moves++ = Move::makePromotion<Knight>(o, d);
-                        *moves++ = Move::makePromotion<Bishop>(o, d);
-                        *moves++ = Move::makePromotion<Queen >(o, d);
+                        makePromotions(moves, d + x->downLeft, d);
                     }
 
                     // Make moves from aggressive left targets.
-                    for (int o, d; al; al &= al - 1) {
+                    for (int d; al; al &= al - 1) {
                         d = bitScanFwd(al);
-                        o = d + x->downRight;
-                        *moves++ = Move::makePromotion<Rook  >(o, d);
-                        *moves++ = Move::makePromotion<Knight>(o, d);
-                        *moves++ = Move::makePromotion<Bishop>(o, d);
-                        *moves++ = Move::makePromotion<Queen >(o, d);
+                        makePromotions(moves, d + x->downRight, d);
                     }
                 }
             }
@@ -277,12 +281,8 @@ namespace Charon {
                         d = bitScanFwd(p1);
                         o = d + x->down;
                         if (rayBoard(kingSquare, o) &
-                            p1 & (uint64_t) - (int64_t)p1) {
-                            *moves++ = Move::makePromotion<Rook>(o, d);
-                            *moves++ = Move::makePromotion<Knight>(o, d);
-                            *moves++ = Move::makePromotion<Bishop>(o, d);
-                            *moves++ = Move::makePromotion<Queen>(o, d);
-                        }
+                            p1 & (uint64_t) - (int64_t)p1)
+                            makePromotions(moves, o, d);
                     }
                 }
 
@@ -304,12 +304,8 @@ namespace Charon {
                         d = bitScanFwd(ar);
                         o = d + x->downLeft;
                         if (rayBoard(kingSquare, o) &
-                            ar & (uint64_t) - (int64_t)ar) {
-                            *moves++ = Move::makePromotion<Rook>(o, d);
-                            *moves++ = Move::makePromotion<Knight>(o, d);
-                            *moves++ = Move::makePromotion<Bishop>(o, d);
-                            *moves++ = Move::makePromotion<Queen>(o, d);
-                        }
+                            ar & (uint64_t) - (int64_t)ar)
+                            makePromotions(moves, o, d);
                     }
 
                     // Make legal promotion moves from aggressive left targets.
@@ -317,12 +313,8 @@ namespace Charon {
                         d = bitScanFwd(al);
                         o = d + x->downRight;
                         if (rayBoard(kingSquare, o) &
-                            al & (uint64_t) - (int64_t)al) {
-                            *moves++ = Move::makePromotion<Rook>(o, d);
-                            *moves++ = Move::makePromotion<Knight>(o, d);
-                            *moves++ = Move::makePromotion<Bishop>(o, d);
-                            *moves++ = Move::makePromotion<Queen>(o, d);
-                        }
+                            al & (uint64_t) - (int64_t)al)
+                            makePromotions(moves, o, d);
                     }
                 }
             }
@@ -566,9 +558,9 @@ namespace Charon {
 
                 // Make non-king moves.
                 moves = makePawnMoves<us, FT>(board, checkMask,  kingGuard, ksq, moves);
+                moves = makeMoves<us,   Rook>(board, kingGuard, fullFilter, ksq, moves);
                 moves = makeMoves<us, Knight>(board, kingGuard, fullFilter, ksq, moves);
                 moves = makeMoves<us, Bishop>(board, kingGuard, fullFilter, ksq, moves);
-                moves = makeMoves<us,   Rook>(board, kingGuard, fullFilter, ksq, moves);
                 moves = makeMoves<us,  Queen>(board, kingGuard, fullFilter, ksq, moves);
             }
 
