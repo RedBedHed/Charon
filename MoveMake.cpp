@@ -152,7 +152,7 @@ namespace Charon {
 
                     // Make legal moves from passive one-square
                     // pseudo-legal targets.
-                    // These moves must have a destinationSquare on
+                    // These moves must have a destination on
                     // the pinning ray.
                     for (int d, o; p1; p1 &= p1 - 1) {
                         d = bitScanFwd(p1);
@@ -164,7 +164,7 @@ namespace Charon {
 
                     // Make legal moves from passive two-square
                     // pseudo-legal targets.
-                    // These moves must have a destinationSquare on
+                    // These moves must have a destination on
                     // the pinning ray.
                     for (int d, o; p2; p2 &= p2 - 1) {
                         d = bitScanFwd(p2);
@@ -342,7 +342,7 @@ namespace Charon {
             // The en passant destination board.
             const uint64_t destBoard = shift<x->up>(eppBoard);
 
-            // If we are in single check and the destinationSquare square
+            // If we are in single check and the destination
             // doesn't block... Don't generate an en passant move.
             if (!(destBoard & checkMask)) return moves;
 
@@ -383,16 +383,16 @@ namespace Charon {
                         return moves;
             }
 
-            // Calculate the destinationSquare square
+            // Calculate the destination square
             const int destinationSquare = enPassantSquare + x->up;
 
-            // Add free pass en passant moves.
+            // Add free-pass en passant moves.
             for(uint64_t fp = freePasses; fp; fp &= fp - 1) {
                 const int o = bitScanFwd(fp);
                 *moves++ = Move::make<EnPassant>(o, destinationSquare);
             }
 
-            // Add pinned pass en passant moves.
+            // Add pinned-pass en passant moves.
             for(uint64_t pp = pinnedPasses; pp; pp &= pp - 1) {
                 const int o = bitScanFwd(pp);
                 if(destBoard & rayBoard(kingSquare, o))
