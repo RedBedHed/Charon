@@ -26,22 +26,8 @@ namespace Charon {
     { KingSide, QueenSide };
 
     /** The check types, enumerated. */
-    enum CheckType : uint8_t {
-        None,
-        Check,
-        DoubleCheck
-    };
-
-    /**
-     * An operator overload to apply the not operator
-     * to an Alliance.
-     *
-     * @param a the alliance to negate
-     * @return the complement of the given alliance,
-     * if { White, Black } is the universal set
-     */
-    constexpr Alliance operator~(const Alliance& a)
-    { return a == White ? Black : White; }
+    enum CheckType : uint8_t
+    { None, Check, DoubleCheck };
 
     /** The piece types, enumerated. */
     enum PieceType : uint8_t
@@ -62,6 +48,17 @@ namespace Charon {
     /** A table to convert a piece type to a string. */
     constexpr const char* PieceTypeToString[] =
     { "Pawn", "Rook", "Knight", "Bishop", "Queen", "King", "NullPT" };
+
+    /**
+     * An operator overload to apply the not operator
+     * to an Alliance.
+     *
+     * @param a the alliance to negate
+     * @return the complement of the given alliance,
+     * if { White, Black } is the universal set
+     */
+    constexpr Alliance operator~(const Alliance& a)
+    { return a == White ? Black : White; }
 
     /** The board squares, enumerated */
     enum Square : uint8_t
@@ -368,10 +365,14 @@ namespace Charon {
                 = 0x0000000000000005L;
         constexpr uint64_t BlackKingsideRookMask
                 = 0x0500000000000000L;
-        constexpr uint64_t BlackEnPassantRank
-                = 0x00000000FF000000L;
         constexpr uint64_t WhiteEnPassantRank
                 = 0x000000FF00000000L;
+        constexpr uint64_t BlackEnPassantRank
+                = 0x00000000FF000000L;
+        constexpr uint64_t WhitePrePromotionMask
+                = 0x00FF000000000000L;
+        constexpr uint64_t BlackPrePromotionMask
+                = 0x000000000000FF00L;
 
         /** A map from squares to bit boards. */
         constexpr uint64_t SquareToBitBoard[] = {

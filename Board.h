@@ -49,6 +49,7 @@ namespace Charon {
         const uint64_t  queenSideRookDestination;
         const uint64_t  kingSideRookMoveMask;
         const uint64_t  queenSideRookMoveMask;
+        const uint64_t  prePromotionMask;
     };
 
     /** Default directions and masks for White. */
@@ -76,6 +77,7 @@ namespace Charon {
             WhiteQueensideRookDestination,
             WhiteKingsideRookMask,
             WhiteQueensideRookMask,
+            WhitePrePromotionMask,
     };
 
     /** Default directions and masks for Black. */
@@ -103,6 +105,7 @@ namespace Charon {
             BlackQueensideRookDestination,
             BlackKingsideRookMask,
             BlackQueensideRookMask,
+            BlackPrePromotionMask
     };
 
     /**

@@ -23,7 +23,7 @@ int main(int argc, const char** argv) {
     Witchcraft::init();
     State x; Board b = Board::Builder(x).build();
     cout << "\n\t.~* Charon Perft *~." << '\n';
-    cout << "\n\t*. by Ellie Moore .*        " << '\n';
+    cout << "\n\t*. by Ellie Moore .*" << '\n';
     cout << "\n\tStarting Position:\n" << b << '\n';
     int n = atoi(argv[1]);
     for (int i = 1; i <= n; ++i) {

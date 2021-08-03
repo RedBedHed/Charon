@@ -60,23 +60,27 @@ namespace Charon {
 
             constexpr const Alliance us = A, them = ~us;
 
-            // Initialize constants.
-            const uint64_t enemies      = board->getPieces<them>() & checkMask,
-                           emptySquares = ~board->getAllPieces(),
-                           pawns        = board->getPieces<us, Pawn>(),
-                           king         = board->getPieces<us, King>(),
-                           freePawns    = pawns & ~kingGuard,
-                           pinnedPawns  = pawns & kingGuard;
-
             // Determine defaults.
             constexpr const Defaults* const x =
                     us == White? &WhiteDefaults: &BlackDefaults;
+
+            // Initialize constants.
+            const uint64_t enemies         = board->getPieces<them>() & checkMask,
+                           emptySquares    = ~board->getAllPieces(),
+                           pawns           = board->getPieces<us, Pawn>(),
+                           king            = board->getPieces<us, King>(),
+                           freePawns       = pawns & ~kingGuard,
+                           pinnedPawns     = pawns & kingGuard,
+                           freeLowPawns    = freePawns & ~x->prePromotionMask,
+                           freeHighPawns   = freePawns & x->prePromotionMask,
+                           pinnedLowPawns  = pinnedPawns & ~x->prePromotionMask,
+                           pinnedHighPawns = pinnedPawns & x->prePromotionMask;
 
             // If generating passive moves or all moves.
             if (FT != Aggressive) {
                 // Generate single and double pushes for free pawns.
                 // All legal, passive targets one square ahead.
-                uint64_t p1 = shift<x->up>(freePawns) & emptySquares;
+                uint64_t p1 = shift<x->up>(freeLowPawns) & emptySquares;
 
                 // All legal, passive targets two squares ahead.
                 uint64_t p2 = shift<x->up>(p1 & x->pawnJumpSquares)
@@ -107,12 +111,12 @@ namespace Charon {
                 // All legal aggressive targets one square ahead and
                 // to the right.
                 uint64_t ar =
-                    shift<x->upRight>(freePawns & x->notRightCol)
+                    shift<x->upRight>(freeLowPawns & x->notRightCol)
                         & enemies;
                 // All legal aggressive targets one square ahead and
                 // to the left.
                 uint64_t al =
-                    shift<x->upLeft>(freePawns & x->notLeftCol)
+                    shift<x->upLeft>(freeLowPawns & x->notLeftCol)
                         & enemies;
 
                 // Make moves from aggressive right targets.
@@ -132,10 +136,10 @@ namespace Charon {
             // if any.
             // Generate left and right attack moves for pinned pawns,
             // if any.
-            if (pinnedPawns) {
+            if (pinnedLowPawns) {
                 if(FT != Aggressive) {
                     // All pseudo-legal, passive targets one square ahead.
-                    uint64_t p1 = shift<x->up>(pinnedPawns) & emptySquares;
+                    uint64_t p1 = shift<x->up>(pinnedLowPawns) & emptySquares;
 
                     // All pseudo-legal, passive targets two squares ahead.
                     uint64_t p2 = shift<x->up>(p1 & x->pawnJumpSquares)
@@ -174,13 +178,13 @@ namespace Charon {
                     // All pseudo-legal aggressive targets one square ahead
                     // and to the right.
                     uint64_t ar =
-                        shift<x->upRight>(pinnedPawns & x->notRightCol)
+                        shift<x->upRight>(pinnedLowPawns & x->notRightCol)
                             & enemies;
 
                     // All pseudo-legal aggressive targets one square ahead
                     // and to the left.
                     uint64_t al =
-                        shift<x->upLeft>(pinnedPawns & x->notLeftCol)
+                        shift<x->upLeft>(pinnedLowPawns & x->notLeftCol)
                             & enemies;
 
                     // Make legal moves from pseudo-legal aggressive
@@ -207,6 +211,99 @@ namespace Charon {
                 }
             }
 
+            if (freeHighPawns) {
+                if (FT != Aggressive) {
+                    uint64_t p1 = shift<x->up>(freeHighPawns) &
+                                  emptySquares;
+                    for(int o, d; p1; p1 &= p1 - 1){
+                        o = bitScanFwd(p1);
+                        d = o + x->up;
+                        *moves++ = Move::makePromotion<Rook  >(o, d);
+                        *moves++ = Move::makePromotion<Knight>(o, d);
+                        *moves++ = Move::makePromotion<Bishop>(o, d);
+                        *moves++ = Move::makePromotion<Queen >(o, d);
+                    }
+                }
+
+                if (FT != Passive) {
+                    uint64_t ar =
+                        shift<x->upRight>(freeHighPawns & x->notRightCol)
+                            & enemies;
+                    uint64_t al =
+                        shift<x->upLeft >(freeHighPawns & x->notLeftCol)
+                            & enemies;
+
+                    for (int o, d; ar; ar &= ar - 1) {
+                        o = bitScanFwd(ar);
+                        d = o + x->upRight;
+                        *moves++ = Move::makePromotion<Rook  >(o, d);
+                        *moves++ = Move::makePromotion<Knight>(o, d);
+                        *moves++ = Move::makePromotion<Bishop>(o, d);
+                        *moves++ = Move::makePromotion<Queen >(o, d);
+                    }
+
+                    for (int o, d; al; al &= al - 1) {
+                        o = bitScanFwd(al);
+                        d = o + x->upRight;
+                        *moves++ = Move::makePromotion<Rook  >(o, d);
+                        *moves++ = Move::makePromotion<Knight>(o, d);
+                        *moves++ = Move::makePromotion<Bishop>(o, d);
+                        *moves++ = Move::makePromotion<Queen >(o, d);
+                    }
+                }
+            }
+
+            if (pinnedHighPawns) {
+                if (FT != Aggressive) {
+                    uint64_t p1 =
+                        shift<x->up>(pinnedHighPawns) & emptySquares;
+                    for (int o, d; p1; p1 &= p1 - 1){
+                        o = bitScanFwd(p1);
+                        d = o + x->up;
+                        if (rayBoard(kingSquare, o) &
+                            p1 & (uint64_t) - (int64_t)p1) {
+                            *moves++ = Move::makePromotion<Rook>(o, d);
+                            *moves++ = Move::makePromotion<Knight>(o, d);
+                            *moves++ = Move::makePromotion<Bishop>(o, d);
+                            *moves++ = Move::makePromotion<Queen>(o, d);
+                        }
+                    }
+                }
+
+                if (FT != Passive) {
+                    uint64_t ar =
+                        shift<x->upRight>(pinnedHighPawns & x->notRightCol)
+                            & enemies;
+                    uint64_t al =
+                        shift<x->upLeft >(pinnedHighPawns & x->notLeftCol)
+                            & enemies;
+
+                    for (int o, d; ar; ar &= ar - 1) {
+                        o = bitScanFwd(ar);
+                        d = o + x->upRight;
+                        if (rayBoard(kingSquare, o) &
+                            ar & (uint64_t) - (int64_t)ar) {
+                            *moves++ = Move::makePromotion<Rook>(o, d);
+                            *moves++ = Move::makePromotion<Knight>(o, d);
+                            *moves++ = Move::makePromotion<Bishop>(o, d);
+                            *moves++ = Move::makePromotion<Queen>(o, d);
+                        }
+                    }
+
+                    for (int o, d; al; al &= al - 1) {
+                        o = bitScanFwd(al);
+                        d = o + x->upRight;
+                        if (rayBoard(kingSquare, o) &
+                            al & (uint64_t) - (int64_t)al) {
+                            *moves++ = Move::makePromotion<Rook>(o, d);
+                            *moves++ = Move::makePromotion<Knight>(o, d);
+                            *moves++ = Move::makePromotion<Bishop>(o, d);
+                            *moves++ = Move::makePromotion<Queen>(o, d);
+                        }
+                    }
+                }
+            }
+
             // If the filter type is not passive, continue.
             if(FT == Passive) return moves;
 
@@ -217,21 +314,27 @@ namespace Charon {
             if (enPassantSquare == NullSQ) return moves;
 
             // The en passant pawn square board.
-            const uint64_t eppBoard = SquareToBitBoard[enPassantSquare];
+            const uint64_t eppBoard  = SquareToBitBoard[enPassantSquare];
+            const uint64_t destBoard = shift<x->up>(eppBoard);
 
             // If we are in single check and the destination square
             // doesn't block... Don't generate an en passant move.
-            if (!((eppBoard + x->up) & checkMask)) return moves;
+            if (!(destBoard & checkMask)) return moves;
 
-            // Check for passing pawns.
-            const uint64_t rightPass =
-                    shift<x->right>(eppBoard & x->notRightCol) & freePawns,
-                           leftPass  =
-                    shift<x->left >(eppBoard & x->notLeftCol ) & freePawns;
+            const uint64_t freePasses =
+                    (shift<x->right>(eppBoard & x->notRightCol) |
+                     shift<x->left >(eppBoard & x->notLeftCol )) &
+                     freeLowPawns;
+
+            const uint64_t pinnedPasses =
+                    (shift<x->right>(eppBoard & x->notRightCol) |
+                     shift<x->left >(eppBoard & x->notLeftCol )) &
+                     pinnedLowPawns;
 
             // If there is a passing pawn, generate legal
             // en passant moves.
-            if (!(rightPass | leftPass)) return moves;
+            if (!(freePasses || pinnedPasses))
+                return moves;
 
             // If the king is on the en passant rank then
             // an en passant discovered check is possible.
@@ -253,20 +356,20 @@ namespace Charon {
                         return moves;
             }
 
-            // If the right pass square holds a pawn, add an en
-            // passant move for that pawn.
-            if (rightPass) {
-                const uint64_t o = bitScanFwd(rightPass);
-                *moves++ =
-                    Move::make<EnPassant>(o, (o + x->upLeft));
+            const int destination = enPassantSquare + x->up;
+
+            // Add free pass en passant moves.
+            for(uint64_t fp = freePasses; fp; fp &= fp - 1) {
+                const int o = bitScanFwd(fp);
+                *moves++ = Move::make<EnPassant>(o, destination);
             }
 
-            // If the left pass square holds a pawn, add an en
-            // passant move for that pawn.
-            if (leftPass) {
-                const uint64_t o = bitScanFwd(leftPass);
-                *moves++ =
-                    Move::make<EnPassant>(o, (o + x->upRight));
+            // Add pinned pass en passant moves.
+            for(uint64_t pp = pinnedPasses; pp; pp &= pp - 1) {
+                const int o = bitScanFwd(pp);
+                if(destBoard & rayBoard(kingSquare, o))
+                    *moves++ =
+                        Move::make<EnPassant>(o, destination);
             }
 
             return moves;
