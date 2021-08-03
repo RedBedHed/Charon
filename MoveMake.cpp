@@ -221,8 +221,8 @@ namespace Charon {
 
                     // Make promotion moves from single push.
                     for(int o, d; p1; p1 &= p1 - 1){
-                        o = bitScanFwd(p1);
-                        d = o + x->up;
+                        d = bitScanFwd(p1);
+                        o = d + x->down;
                         *moves++ = Move::makePromotion<Rook  >(o, d);
                         *moves++ = Move::makePromotion<Knight>(o, d);
                         *moves++ = Move::makePromotion<Bishop>(o, d);
@@ -245,8 +245,8 @@ namespace Charon {
 
                     // Make moves from aggressive right targets.
                     for (int o, d; ar; ar &= ar - 1) {
-                        o = bitScanFwd(ar);
-                        d = o + x->upRight;
+                        d = bitScanFwd(ar);
+                        o = d + x->downLeft;
                         *moves++ = Move::makePromotion<Rook  >(o, d);
                         *moves++ = Move::makePromotion<Knight>(o, d);
                         *moves++ = Move::makePromotion<Bishop>(o, d);
@@ -255,8 +255,8 @@ namespace Charon {
 
                     // Make moves from aggressive left targets.
                     for (int o, d; al; al &= al - 1) {
-                        o = bitScanFwd(al);
-                        d = o + x->upRight;
+                        d = bitScanFwd(al);
+                        o = d + x->downRight;
                         *moves++ = Move::makePromotion<Rook  >(o, d);
                         *moves++ = Move::makePromotion<Knight>(o, d);
                         *moves++ = Move::makePromotion<Bishop>(o, d);
@@ -274,8 +274,8 @@ namespace Charon {
 
                     // Make legal promotion moves from pseudo-legal targets.
                     for (int o, d; p1; p1 &= p1 - 1){
-                        o = bitScanFwd(p1);
-                        d = o + x->up;
+                        d = bitScanFwd(p1);
+                        o = d + x->down;
                         if (rayBoard(kingSquare, o) &
                             p1 & (uint64_t) - (int64_t)p1) {
                             *moves++ = Move::makePromotion<Rook>(o, d);
@@ -301,8 +301,8 @@ namespace Charon {
 
                     // Make legal promotion moves from aggressive right targets.
                     for (int o, d; ar; ar &= ar - 1) {
-                        o = bitScanFwd(ar);
-                        d = o + x->upRight;
+                        d = bitScanFwd(ar);
+                        o = d + x->downLeft;
                         if (rayBoard(kingSquare, o) &
                             ar & (uint64_t) - (int64_t)ar) {
                             *moves++ = Move::makePromotion<Rook>(o, d);
@@ -314,8 +314,8 @@ namespace Charon {
 
                     // Make legal promotion moves from aggressive left targets.
                     for (int o, d; al; al &= al - 1) {
-                        o = bitScanFwd(al);
-                        d = o + x->upRight;
+                        d = bitScanFwd(al);
+                        o = d + x->downRight;
                         if (rayBoard(kingSquare, o) &
                             al & (uint64_t) - (int64_t)al) {
                             *moves++ = Move::makePromotion<Rook>(o, d);

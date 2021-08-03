@@ -45,7 +45,6 @@ namespace Charon {
     private:
 
         /** Useful masks. */
-
         static constexpr uint16_t To = 0x03FU;
         static constexpr uint16_t From = 0xFC0U;
         static constexpr uint16_t Type = 0x3000U;
