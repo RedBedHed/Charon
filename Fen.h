@@ -35,7 +35,7 @@ namespace Charon::FenUtility {
     parseBoard(const char *const fen, State *const x) {
         Board::Builder<Fen> b(*x);
         const char *c = fen;
-        for (int sq = 63; sq >= 0; ++c) {
+        for (int sq = A8; sq >= H1; ++c) {
             for (; *c != '/' && *c != ' '; ++c) {
                 if (*c > '0' && *c < '9')
                     sq -= (*c - '0');
