@@ -2,6 +2,7 @@
 // Created by evcmo on 6/8/2021.
 //
 
+#pragma once
 #ifndef CHARON_BOARD_H
 #define CHARON_BOARD_H
 #include <iostream>

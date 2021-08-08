@@ -2,6 +2,7 @@
 // Created by evcmo on 8/3/2021.
 //
 
+#pragma once
 #ifndef CHARON_FEN_H
 #define CHARON_FEN_H
 
