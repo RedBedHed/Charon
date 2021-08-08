@@ -8,7 +8,7 @@
   <li>
    <p>
 Board.h is still in the works... And I could really use advice on how to improve it.
-The applyMove and retractMove algorithms are unfinished.
+The applyMove and retractMove algorithms are completely unfinished.
    </p> 
   <li>
    <p>
