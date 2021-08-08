@@ -30,19 +30,20 @@ namespace Charon {
         }
 
         /**
-         * A function to make all promotion moves.
+         * A function to make promotions and under-promotions.
          *
          * @param moves a pointer to a list to populate
          *              with moves
          * @param o     the origin square
          * @param d     the destination square
          */
-        inline void
+        inline Move*
         makePromotions(Move* moves, const int o, const int d) {
             *moves++ = Move::makePromotion<Rook  >(o, d);
             *moves++ = Move::makePromotion<Knight>(o, d);
             *moves++ = Move::makePromotion<Bishop>(o, d);
             *moves++ = Move::makePromotion<Queen >(o, d);
+            return moves;
         }
 
         /**
@@ -93,7 +94,7 @@ namespace Charon {
 
             // If generating passive moves or all moves.
             if (FT != Aggressive) {
-                // Generate single and double pushes for free pawns.
+                // Generate single and double pushes for free low pawns.
                 // All pseudo-legal, passive targets one square ahead.
                 uint64_t p1 = shift<x->up>(freeLowPawns) & emptySquares;
 
@@ -123,7 +124,7 @@ namespace Charon {
             // If generating all moves or attack moves, continue,
             // otherwise return.
             if (FT != Passive) {
-                // Generate left and right attack moves for free pawns.
+                // Generate left and right attack moves for free low pawns.
                 // All legal aggressive targets one square ahead and
                 // to the right.
                 uint64_t ar =
@@ -149,9 +150,9 @@ namespace Charon {
                 }
             }
 
-            // Generate single and double pushes for pinned pawns,
+            // Generate single and double pushes for pinned low pawns,
             // if any.
-            // Generate left and right attack moves for pinned pawns,
+            // Generate left and right attack moves for pinned low pawns,
             // if any.
             if (pinnedLowPawns) {
                 if(FT != Aggressive) {
@@ -166,7 +167,7 @@ namespace Charon {
                     p1 &= checkMask;
                     p2 &= checkMask;
 
-                    // Make legal moves from passive one-square
+                    // Make legal count from passive one-square
                     // pseudo-legal targets.
                     // These moves must have a destination on
                     // the pinning ray.
@@ -178,7 +179,7 @@ namespace Charon {
                             *moves++ = Move::make(o, d);
                     }
 
-                    // Make legal moves from passive two-square
+                    // Make legal count from passive two-square
                     // pseudo-legal targets.
                     // These moves must have a destination on
                     // the pinning ray.
@@ -228,17 +229,18 @@ namespace Charon {
                 }
             }
 
+            // Generate promotion moves for free high pawns.
             if (freeHighPawns) {
                 if (FT != Aggressive) {
                     // Calculate single promotion push.
                     // All legal promotion targets one square ahead.
                     uint64_t p1 = shift<x->up>(freeHighPawns) &
-                                  emptySquares;
+                                  emptySquares & checkMask;
 
                     // Make promotion moves from single push.
                     for(int d; p1; p1 &= p1 - 1){
                         d = bitScanFwd(p1);
-                        makePromotions(moves, d + x->down, d);
+                        moves = makePromotions(moves, d + x->down, d);
                     }
                 }
 
@@ -258,23 +260,24 @@ namespace Charon {
                     // Make moves from aggressive right targets.
                     for (int d; ar; ar &= ar - 1) {
                         d = bitScanFwd(ar);
-                        makePromotions(moves, d + x->downLeft, d);
+                        moves = makePromotions(moves, d + x->downLeft, d);
                     }
 
                     // Make moves from aggressive left targets.
                     for (int d; al; al &= al - 1) {
                         d = bitScanFwd(al);
-                        makePromotions(moves, d + x->downRight, d);
+                        moves = makePromotions(moves, d + x->downRight, d);
                     }
                 }
             }
 
+            // Generate promotion moves for pinned high pawns.
             if (pinnedHighPawns) {
                 if (FT != Aggressive) {
                     // Calculate single promotion push for pinned pawns.
                     // All pseudo-legal promotion targets one square ahead.
                     uint64_t p1 =
-                        shift<x->up>(pinnedHighPawns) & emptySquares;
+                        shift<x->up>(pinnedHighPawns) & emptySquares & checkMask;
 
                     // Make legal promotion moves from pseudo-legal targets.
                     for (int o, d; p1; p1 &= p1 - 1){
@@ -282,7 +285,7 @@ namespace Charon {
                         o = d + x->down;
                         if (rayBoard(kingSquare, o) &
                             p1 & (uint64_t) - (int64_t)p1)
-                            makePromotions(moves, o, d);
+                            moves = makePromotions(moves, o, d);
                     }
                 }
 
@@ -305,7 +308,7 @@ namespace Charon {
                         o = d + x->downLeft;
                         if (rayBoard(kingSquare, o) &
                             ar & (uint64_t) - (int64_t)ar)
-                            makePromotions(moves, o, d);
+                            moves = makePromotions(moves, o, d);
                     }
 
                     // Make legal promotion moves from aggressive left targets.
@@ -314,7 +317,7 @@ namespace Charon {
                         o = d + x->downRight;
                         if (rayBoard(kingSquare, o) &
                             al & (uint64_t) - (int64_t)al)
-                            makePromotions(moves, o, d);
+                            moves = makePromotions(moves, o, d);
                     }
                 }
             }
@@ -335,20 +338,23 @@ namespace Charon {
             const uint64_t destBoard = shift<x->up>(eppBoard);
 
             // If we are in single check and the destination
-            // doesn't block... Don't generate an en passant move.
-            if (!(destBoard & checkMask)) return moves;
+            // doesn't block... and if the en passant pawn is
+            // not the king's attacker... Don't generate an en
+            // passant move.
+            if (!(destBoard & checkMask) &&
+                !(eppBoard  & SquareToPawnAttacks[us][kingSquare]))
+                    return moves;
+
+            // Calculate the pass mask.
+            const uint64_t passMask =
+                    shift<x->right>(eppBoard & x->notRightCol) |
+                    shift<x->left >(eppBoard & x->notLeftCol );
 
             // Calculate free passing pawns.
-            const uint64_t freePasses =
-                    (shift<x->right>(eppBoard & x->notRightCol) |
-                     shift<x->left >(eppBoard & x->notLeftCol )) &
-                     freeLowPawns;
+            const uint64_t freePasses   = passMask & freeLowPawns;
 
             // Calculate pinned passing pawns.
-            const uint64_t pinnedPasses =
-                    (shift<x->right>(eppBoard & x->notRightCol) |
-                     shift<x->left >(eppBoard & x->notLeftCol )) &
-                     pinnedLowPawns;
+            const uint64_t pinnedPasses = passMask & pinnedLowPawns;
 
             // If there is a passing pawn, generate legal
             // en passant moves.
@@ -366,16 +372,26 @@ namespace Charon {
 
                 // Check to see if the en passant pawn
                 // (and attacking pawn) are between any of
-                // the snipers and the king square.
-                // If so, there is an en passant discovered
-                // check on the board, and an en passant move
-                // cannot be generated.
-                for (uint64_t s = snipers; s; s &= s - 1)
-                    if (eppBoard & pathBoard(bitScanFwd(s), kingSquare))
-                        return moves;
+                // the snipers and the king square. If so,
+                // check to see if these two pawns are the
+                // ONLY blocking pieces between the sniper
+                // and the king square.
+                // If this is the case, then any en passant move
+                // will leave our king in check. We are done
+                // generating pawn moves.
+                for (uint64_t s = snipers; s; s &= s - 1) {
+                    const uint64_t path =
+                            pathBoard(bitScanFwd(s), kingSquare);
+                    if (eppBoard & path) {
+                        const uint64_t b = board->getAllPieces() &
+                            ~snipers & path, c = b & (b - 1);
+                        if (b && c && !(c & (c - 1)))
+                            return moves;
+                    }
+                }
             }
 
-            // Calculate the destination square
+            // Calculate the destination square.
             const int destinationSquare = enPassantSquare + x->up;
 
             // Add free-pass en passant moves.
@@ -456,6 +472,7 @@ namespace Charon {
             // If there are pinned pieces, generate their legal
             // moves.
             if (pinnedPieces) {
+
                 // Calculate moves for pinned pieces.
                 // Traverse the pinned piece bitboard.
                 uint64_t n = pinnedPieces;
@@ -523,8 +540,7 @@ namespace Charon {
             // should be considered.
             if (checkType != DoubleCheck) {
                 uint64_t blockers = 0;
-                const uint64_t theirQueens =
-                        board->getPieces<them, Queen>();
+                const uint64_t theirQueens = board->getPieces<them, Queen>();
 
                 // Find the sniper pieces.
                 const uint64_t snipers =
@@ -546,18 +562,18 @@ namespace Charon {
                 // If our king is in single check, determine the path between the
                 // king and his attacker.
                 const uint64_t kingGuard = ourPieces & blockers,
-                               checkMask = (checkType == Check ? (pathBoard(
+                               checkPath = (checkType == Check ? pathBoard(
                                       ksq, bitScanFwd(checkBoard)
-                               )) | checkBoard: FullBoard),
-                // A filter to limit all pieces to evasion
+                               ) | checkBoard : FullBoard),
+                // A filter to limit all pieces to blocking
                 // moves only in the event of single check
-                // while simultaneously allowing the client
-                // to limit generation to attack, passive,
-                // or all move types.
-                               fullFilter = partialFilter & checkMask;
+                // while simultaneously limiting generation
+                // to "aggressive", "passive", or "all" move
+                // types.
+                               fullFilter = partialFilter & checkPath;
 
                 // Make non-king moves.
-                moves = makePawnMoves<us, FT>(board, checkMask,  kingGuard, ksq, moves);
+                moves = makePawnMoves<us, FT>(board, checkPath, kingGuard,  ksq, moves);
                 moves = makeMoves<us,   Rook>(board, kingGuard, fullFilter, ksq, moves);
                 moves = makeMoves<us, Knight>(board, kingGuard, fullFilter, ksq, moves);
                 moves = makeMoves<us, Bishop>(board, kingGuard, fullFilter, ksq, moves);
@@ -565,7 +581,6 @@ namespace Charon {
             }
 
             // Generate normal king moves.
-
             uint64_t d = SquareToKingAttacks[ksq];
             for (d &= partialFilter; d; d &= d - 1) {
                 const int dest = bitScanFwd(d);
@@ -580,17 +595,17 @@ namespace Charon {
                 return (moves - initialMove);
 
             // Generate king-side castle.
-            if(!(x->kingSideMask & allPieces)
-               && board->hasCastlingRights<us, KingSide>()
-               && safeSquares<us>(board, x->kingSideMask))
+            if(!(x->kingSideMask & allPieces) &&
+                board->hasCastlingRights<us, KingSide>() &&
+                safeSquares<us>(board, x->kingSideCastlePath))
                 *moves++ = Move::make<Castling>(
                         ksq, x->kingSideDestination
                 );
 
             // Generate queen-side castle.
-            if(!(x->queenSideMask & allPieces)
-               && board->hasCastlingRights<us, QueenSide>()
-               && safeSquares<us>(board, x->queenSideMask))
+            if(!(x->queenSideMask & allPieces) &&
+                board->hasCastlingRights<us, QueenSide>() &&
+                safeSquares<us>(board, x->queenSideCastlePath))
                 *moves++ = Move::make<Castling>(
                         ksq, x->queenSideDestination
                 );
@@ -600,49 +615,6 @@ namespace Charon {
     } // namespace (anon)
 
     namespace MoveFactory {
-
-        /**
-         * <summary>
-         *  <p><br/>
-         * A function to generate moves for the given
-         * board according to the given filter type,
-         * by populating the given list of MoveWrap
-         * structures.
-         *  </p>
-         *  <p>
-         *  The filter type must be one of the following:
-         *   <ul>
-         *    <li>
-         *     <b><i>All</i></b>
-         *     <p>
-         *  This filter will cause the function to
-         *  return a list of all moves, both passive
-         *  and aggressive.
-         *     </p>
-         *    </li>
-         *    <li>
-         *     <b><i>Passive</i></b>
-         *     <p>
-         *  This filter will cause the function to
-         *  return a list of all non-capture moves.
-         *     </p>
-         *    </li>
-         *    <li>
-         *     <b><i>Aggressive</i></b>
-         *     <p>
-         *  This filter will cause the function to
-         *  return a list of all capture moves.
-         *     </p>
-         *    </li>
-         *   </ul>
-         *  </p>
-         * </summary>
-         *
-         * @tparam FT the filter type.
-         * @param board the current game board
-         * @param moves an empty list of MoveWrap
-         * structures to hold legal moves.
-         */
         template<FilterType FT>
         inline int generateMoves(Board *const board, Move* const moves) {
             static_assert(FT >= Aggressive && FT <= All);

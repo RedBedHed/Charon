@@ -45,10 +45,10 @@ namespace Charon {
     private:
 
         /** Useful masks. */
-        static constexpr uint16_t To = 0x03FU;
-        static constexpr uint16_t From = 0xFC0U;
-        static constexpr uint16_t Type = 0x3000U;
-        static constexpr uint16_t Promotion = 0x8000U;
+        static constexpr uint16_t To         = 0x003FU;
+        static constexpr uint16_t From       = 0x0FC0U;
+        static constexpr uint16_t Type       = 0x3000U;
+        static constexpr uint16_t Promotion  = 0x8000U;
         static constexpr uint16_t PromoPiece = 0x3000U;
 
         /**
@@ -191,7 +191,7 @@ namespace Charon {
          */
         [[nodiscard]]
         constexpr int promotionPiece() const
-        { return (manifest & PromoPiece) >> 12U; }
+        { return ((manifest & PromoPiece) >> 12U) + Rook; }
 
         /**
          * A method to indicate whether or not this move is a
@@ -200,7 +200,7 @@ namespace Charon {
          * @return whether or not this move is a promotion move.
          */
         [[nodiscard]]
-        constexpr int isPromotion() const
+        constexpr bool isPromotion() const
         { return (manifest & Promotion) >> 15U; }
 
         /**
@@ -244,7 +244,7 @@ namespace Charon {
         operator<<(std::ostream& out, const Move& m) {
             if(m.isPromotion())
                 out <<"Promotion - "
-                    << PieceTypeToString[m.promotionPiece()];
+                    << PieceTypeToString[m.promotionPiece() + Rook];
             else
                 out << MoveTypeToString[m.moveType()];
             return

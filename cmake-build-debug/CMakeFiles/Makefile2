@@ -77,12 +77,12 @@ clean: CMakeFiles\Charon.dir\clean
 CMakeFiles\Charon.dir\all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Charon.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Charon.dir\depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Charon.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Charon.dir\build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\evcmo\CLionProjects\Charon\cmake-build-debug\CMakeFiles --progress-num=1,2,3,4 "Built target Charon"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\evcmo\CLionProjects\Charon\cmake-build-debug\CMakeFiles --progress-num=1,2,3,4,5 "Built target Charon"
 .PHONY : CMakeFiles\Charon.dir\all
 
 # Build rule for subdir invocation for target.
 CMakeFiles\Charon.dir\rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\evcmo\CLionProjects\Charon\cmake-build-debug\CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\evcmo\CLionProjects\Charon\cmake-build-debug\CMakeFiles 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) CMakeFiles\Charon.dir\all
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\evcmo\CLionProjects\Charon\cmake-build-debug\CMakeFiles 0
 .PHONY : CMakeFiles\Charon.dir\rule

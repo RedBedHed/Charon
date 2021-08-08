@@ -16,7 +16,7 @@ namespace Charon {
     /**
      * TODO: MOVE BACK TO ANON NAMESPACE IN CPP !!!
      *
-     * A function to calculate attacks on the fly.
+     * A function to find attackers on the fly.
      *
      * @tparam A    the alliance of the piece
      *              on the square under attack
@@ -37,23 +37,24 @@ namespace Charon {
                        allPieces   = board->getAllPieces() & ~target;
 
         // Calculate and return a bitboard representing all attackers.
-        return PT == King ?
-               (attackBoard<Rook>(allPieces, sq)   &
-                (board->getPieces<them, Rook>()   | theirQueens)) |
+        return (attackBoard<Rook>(allPieces, sq)   &
+               (board->getPieces<them, Rook>()   | theirQueens)) |
                (attackBoard<Bishop>(allPieces, sq) &
-                (board->getPieces<them, Bishop>() | theirQueens)) |
-               (SquareToKnightAttacks[sq]   & board->getPieces<them, Knight>()) |
-               (SquareToPawnAttacks[us][sq] & board->getPieces<them, Pawn>())
-                          :
-               (attackBoard<Rook>(allPieces, sq)   &
-                (board->getPieces<them, Rook>()   | theirQueens)) |
-               (attackBoard<Bishop>(allPieces, sq) &
-                (board->getPieces<them, Bishop>() | theirQueens)) |
+               (board->getPieces<them, Bishop>() | theirQueens)) |
                (SquareToKnightAttacks[sq]   & board->getPieces<them, Knight>()) |
                (SquareToPawnAttacks[us][sq] & board->getPieces<them, Pawn>())   |
                (SquareToKingAttacks[sq]     & board->getPieces<them, King>());
     }
 
+    /**
+     * A function to calculate check for our king given a
+     * bitboard representing the pieces that attack its
+     * square.
+     *
+     * @param checkBoard a bitboard of all pieces that attack
+     * our king
+     * @return whether or not our king is in check
+     */
     constexpr CheckType
     calculateCheck(uint64_t checkBoard) {
         return !checkBoard ? None:
@@ -62,6 +63,48 @@ namespace Charon {
     }
 
     namespace MoveFactory {
+
+        /**
+         * <summary>
+         *  <p><br/>
+         * A function to generate moves for the given
+         * board according to the given filter type,
+         * by populating the given list.
+         *  </p>
+         *  <p>
+         *  The filter type must be one of the following:
+         *   <ul>
+         *    <li>
+         *     <b><i>All</i></b>
+         *     <p>
+         *  This filter will cause the function to
+         *  return a list of all legal moves, both
+         *  passive and aggressive.
+         *     </p>
+         *    </li>
+         *    <li>
+         *     <b><i>Passive</i></b>
+         *     <p>
+         *  This filter will cause the function to
+         *  return a list of all legal non-capture
+         *  moves.
+         *     </p>
+         *    </li>
+         *    <li>
+         *     <b><i>Aggressive</i></b>
+         *     <p>
+         *  This filter will cause the function to
+         *  return a list of all legal capture moves.
+         *     </p>
+         *    </li>
+         *   </ul>
+         *  </p>
+         * </summary>
+         *
+         * @tparam FT the filter type
+         * @param board the current game board
+         * @param moves an empty list of moves
+         */
         template<FilterType FT>
         int generateMoves(Board*, Move*);
     }

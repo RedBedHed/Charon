@@ -5,6 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "C:/Users/evcmo/CLionProjects/Charon/ChaosMagic.cpp" "C:/Users/evcmo/CLionProjects/Charon/cmake-build-debug/CMakeFiles/Charon.dir/ChaosMagic.cpp.obj"
+  "C:/Users/evcmo/CLionProjects/Charon/Fen.cpp" "C:/Users/evcmo/CLionProjects/Charon/cmake-build-debug/CMakeFiles/Charon.dir/Fen.cpp.obj"
   "C:/Users/evcmo/CLionProjects/Charon/MoveMake.cpp" "C:/Users/evcmo/CLionProjects/Charon/cmake-build-debug/CMakeFiles/Charon.dir/MoveMake.cpp.obj"
   "C:/Users/evcmo/CLionProjects/Charon/main.cpp" "C:/Users/evcmo/CLionProjects/Charon/cmake-build-debug/CMakeFiles/Charon.dir/main.cpp.obj"
   )

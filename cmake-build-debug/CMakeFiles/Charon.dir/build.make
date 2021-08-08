@@ -117,11 +117,31 @@ CMakeFiles\Charon.dir\MoveMake.cpp.s: cmake_force
  /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\Charon.dir\MoveMake.cpp.s /c C:\Users\evcmo\CLionProjects\Charon\MoveMake.cpp
 <<
 
+CMakeFiles\Charon.dir\Fen.cpp.obj: CMakeFiles\Charon.dir\flags.make
+CMakeFiles\Charon.dir\Fen.cpp.obj: ..\Fen.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\evcmo\CLionProjects\Charon\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Charon.dir/Fen.cpp.obj"
+	C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1427~1.291\bin\Hostx86\x86\cl.exe @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\Charon.dir\Fen.cpp.obj /FdCMakeFiles\Charon.dir\ /FS -c C:\Users\evcmo\CLionProjects\Charon\Fen.cpp
+<<
+
+CMakeFiles\Charon.dir\Fen.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Charon.dir/Fen.cpp.i"
+	C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1427~1.291\bin\Hostx86\x86\cl.exe > CMakeFiles\Charon.dir\Fen.cpp.i @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\evcmo\CLionProjects\Charon\Fen.cpp
+<<
+
+CMakeFiles\Charon.dir\Fen.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Charon.dir/Fen.cpp.s"
+	C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1427~1.291\bin\Hostx86\x86\cl.exe @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\Charon.dir\Fen.cpp.s /c C:\Users\evcmo\CLionProjects\Charon\Fen.cpp
+<<
+
 # Object files for target Charon
 Charon_OBJECTS = \
 "CMakeFiles\Charon.dir\ChaosMagic.cpp.obj" \
 "CMakeFiles\Charon.dir\main.cpp.obj" \
-"CMakeFiles\Charon.dir\MoveMake.cpp.obj"
+"CMakeFiles\Charon.dir\MoveMake.cpp.obj" \
+"CMakeFiles\Charon.dir\Fen.cpp.obj"
 
 # External object files for target Charon
 Charon_EXTERNAL_OBJECTS =
@@ -129,9 +149,10 @@ Charon_EXTERNAL_OBJECTS =
 Charon.exe: CMakeFiles\Charon.dir\ChaosMagic.cpp.obj
 Charon.exe: CMakeFiles\Charon.dir\main.cpp.obj
 Charon.exe: CMakeFiles\Charon.dir\MoveMake.cpp.obj
+Charon.exe: CMakeFiles\Charon.dir\Fen.cpp.obj
 Charon.exe: CMakeFiles\Charon.dir\build.make
 Charon.exe: CMakeFiles\Charon.dir\objects1.rsp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\evcmo\CLionProjects\Charon\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable Charon.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\evcmo\CLionProjects\Charon\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable Charon.exe"
 	"C:\Program Files\JetBrains\CLion 2020.2.3\bin\cmake\win\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\Charon.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x86\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x86\mt.exe --manifests -- C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1427~1.291\bin\Hostx86\x86\link.exe /nologo @CMakeFiles\Charon.dir\objects1.rsp @<<
  /out:Charon.exe /implib:Charon.lib /pdb:C:\Users\evcmo\CLionProjects\Charon\cmake-build-debug\Charon.pdb /version:0.0 /machine:X86 /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib 
 <<

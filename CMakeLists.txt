@@ -15,4 +15,4 @@ add_executable(Charon
         MoveMake.h
         Paths.h
         Rays.h
-        Utility.h)
+        Utility.h Fen.cpp Fen.h)

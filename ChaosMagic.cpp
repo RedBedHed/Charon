@@ -135,7 +135,7 @@ namespace Charon {
              *  <p>
              * The database initialized by this function maps
              * blocker boards to move boards using a special
-             * hashing function and empirically determined
+             * hashing function with empirically determined
              * "magic numbers" which ensure that only purposeful
              * (memory-saving) collisions may occur.
              *  </p>
@@ -148,8 +148,6 @@ namespace Charon {
              * for the given piece type
              * @param sizes the size, by square, of the
              * appropriate "Fancy Magic" attack table.
-             * @return A read-only list of pointers to immutable
-             * "Fancy Magic" objects.
              * @link
              *  <a href=
              *  "https://www.chessprogramming.org/Magic_Bitboards">
@@ -205,7 +203,7 @@ namespace Charon {
                          * Add the blocker square to the attack
                          * board. The blocker may be friendly.
                          * The blocker may be hostile. The Player
-                         * generating moves from these attack
+                         * generating count from these attack
                          * boards must take care to remove target
                          * squares that contain friendly pieces.
                          */
@@ -316,13 +314,13 @@ namespace Charon {
                 bool initialized = false;
 
                 /**
-                 * A mutex to be used in synchronization.
+                 * For synchronizing init() and destroy()
                  */
                 mutex m;
             } // namespace Cauldron
         } // namespace (anon)
 
-        /** @copydoc Witchcraft::init() */
+        /* Witchcraft::init() */
         void init() {
             using namespace Cauldron;
             const lock_guard<mutex> lock(m);
@@ -340,7 +338,7 @@ namespace Charon {
             initialized = true;
         }
 
-        /** @copydoc Witchcraft::destroy() */
+        /* Witchcraft::destroy() */
         void destroy() {
             using namespace Cauldron;
             const lock_guard<mutex> lock(m);

@@ -95,6 +95,12 @@
 		<Unit filename="C:/Users/evcmo/CLionProjects/Charon/ChaosMagic.h">
 			<Option target="Charon"/>
 		</Unit>
+		<Unit filename="C:/Users/evcmo/CLionProjects/Charon/Fen.cpp">
+			<Option target="Charon"/>
+		</Unit>
+		<Unit filename="C:/Users/evcmo/CLionProjects/Charon/Fen.h">
+			<Option target="Charon"/>
+		</Unit>
 		<Unit filename="C:/Users/evcmo/CLionProjects/Charon/Move.h">
 			<Option target="Charon"/>
 		</Unit>

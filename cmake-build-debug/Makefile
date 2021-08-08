@@ -153,6 +153,33 @@ ChaosMagic.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Charon.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Charon.dir\ChaosMagic.cpp.s
 .PHONY : ChaosMagic.cpp.s
 
+Fen.obj: Fen.cpp.obj
+
+.PHONY : Fen.obj
+
+# target to build an object file
+Fen.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Charon.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Charon.dir\Fen.cpp.obj
+.PHONY : Fen.cpp.obj
+
+Fen.i: Fen.cpp.i
+
+.PHONY : Fen.i
+
+# target to preprocess a source file
+Fen.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Charon.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Charon.dir\Fen.cpp.i
+.PHONY : Fen.cpp.i
+
+Fen.s: Fen.cpp.s
+
+.PHONY : Fen.s
+
+# target to generate assembly for a file
+Fen.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Charon.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Charon.dir\Fen.cpp.s
+.PHONY : Fen.cpp.s
+
 MoveMake.obj: MoveMake.cpp.obj
 
 .PHONY : MoveMake.obj
@@ -219,6 +246,9 @@ help:
 	@echo ... ChaosMagic.obj
 	@echo ... ChaosMagic.i
 	@echo ... ChaosMagic.s
+	@echo ... Fen.obj
+	@echo ... Fen.i
+	@echo ... Fen.s
 	@echo ... MoveMake.obj
 	@echo ... MoveMake.i
 	@echo ... MoveMake.s

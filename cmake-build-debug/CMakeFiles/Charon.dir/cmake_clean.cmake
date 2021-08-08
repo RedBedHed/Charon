@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/Charon.dir/ChaosMagic.cpp.obj"
+  "CMakeFiles/Charon.dir/Fen.cpp.obj"
   "CMakeFiles/Charon.dir/MoveMake.cpp.obj"
   "CMakeFiles/Charon.dir/main.cpp.obj"
   "Charon.exe"
