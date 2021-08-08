@@ -202,8 +202,8 @@ namespace Charon {
                          * direction until a blocker is reached.
                          * Add the blocker square to the attack
                          * board. The blocker may be friendly.
-                         * The blocker may be hostile. The Player
-                         * generating count from these attack
+                         * The blocker may be hostile. The client
+                         * generating moves from these attack
                          * boards must take care to remove target
                          * squares that contain friendly pieces.
                          */

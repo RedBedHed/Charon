@@ -118,9 +118,8 @@ namespace Charon {
     };
 
     template<Alliance A>
-    constexpr const Defaults* defaults() {
-        return A == White? &WhiteDefaults : &BlackDefaults;
-    }
+    constexpr const Defaults* defaults()
+    { return A == White? &WhiteDefaults : &BlackDefaults; }
 
     /**
      * <summary>
@@ -722,9 +721,9 @@ namespace Charon {
                     currentState->castlingRights &= them == White ? 0x0EU : 0x0BU;
             }
             if(isPromotion) {
-                pieces[us][Pawn]                      &= ~originBoard;
-                pieces[us][m.promotionPiece()]        |= destinationBoard;
-                pieces[us][NullPT]                    ^= moveBB;
+                pieces[us][Pawn]               &= ~originBoard;
+                pieces[us][m.promotionPiece()] |= destinationBoard;
+                pieces[us][NullPT]             ^= moveBB;
                 if(captureType != NullPT) {
                     pieces[them][NullPT] &= ~destinationBoard;
                     pieces[them][captureType] &= ~destinationBoard;
