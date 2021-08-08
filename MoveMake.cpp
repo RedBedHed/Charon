@@ -167,7 +167,7 @@ namespace Charon {
                     p1 &= checkMask;
                     p2 &= checkMask;
 
-                    // Make legal count from passive one-square
+                    // Make legal moves from passive one-square
                     // pseudo-legal targets.
                     // These moves must have a destination on
                     // the pinning ray.
@@ -179,7 +179,7 @@ namespace Charon {
                             *moves++ = Move::make(o, d);
                     }
 
-                    // Make legal count from passive two-square
+                    // Make legal moves from passive two-square
                     // pseudo-legal targets.
                     // These moves must have a destination on
                     // the pinning ray.
