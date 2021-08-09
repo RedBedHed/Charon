@@ -56,9 +56,6 @@ namespace Charon::FenUtility {
                 b.setCastlingRights<true>(*c);
             ++c;
         } else c += 2;
-        std::cout << '\n' << SquareToString[AlgebraicNotationToSquare
-        [*c - 'a']
-        [*(c + 1) - '1']] << '\n';
         if (*c != '-')
             b.setEnPassantSquare((Square)
                                          (AlgebraicNotationToSquare
