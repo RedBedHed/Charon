@@ -25,7 +25,7 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
 </p>
 
 ### These are Charon's perft scores !!!
-###### *(single-threaded, 1.6 ghz i5, strictly-legal count only.)*
+###### *(single-threaded, 1.6 ghz i5, strictly-legal moves only.)*
  <pre>
   <code>
         .~* Charon Perft *~.
@@ -64,7 +64,7 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
  </code>
 </pre> 
 ### For comparison, QPerft by H.G. Muller does *this* on my computer:
-###### *(single-threaded, 1.6 ghz i5, strictly-legal count only.)*
+###### *(single-threaded, 1.6 ghz i5, strictly-legal moves only.)*
 <pre>
  <code>
          - - - - - - - - - - - -
