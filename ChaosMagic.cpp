@@ -141,13 +141,19 @@ namespace Charon {
              *  </p>
              * </summary>
              *
-             * @param pt the piece type
-             * @param blockerMask a set of all blocker masks for
-             * the given piece type
+             * @param incantations a pointer to the array that
+             * will hold the magics
+             * @param attackTable a pointer to the array
+             * that will hold the attacks
+             * @param directions an iterable array of Directions
+             * in which the piece type (rook or bishop) is allowed
+             * to travel
+             * @param blockerMask a pointer to an array of blocker
+             * masks for the given piece type (rook or bishop)
              * @param magicNumbers a set of all magic numbers
              * for the given piece type
              * @param sizes the size, by square, of the
-             * appropriate "Fancy Magic" attack table.
+             * appropriate "Fancy Magic" attack table
              * @link
              *  <a href=
              *  "https://www.chessprogramming.org/Magic_Bitboards">
