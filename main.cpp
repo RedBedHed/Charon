@@ -41,6 +41,7 @@ int main(int argc, const char** argv) {
     Board b = (argc == 2) ?
         Board::Builder<Default>(x).build() :
         FenUtility::parseBoard(argv[2], &x);
+    cout << b.getEpSquare();
     cout << "\n\t.~* Charon Perft *~." << '\n';
     cout << "\n\t*. by Ellie Moore .*" << '\n';
     cout << "\n\tStarting Position:\n" << b << '\n';

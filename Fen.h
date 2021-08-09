@@ -32,7 +32,7 @@ namespace Charon::FenUtility {
     constexpr bool isLowerCase(const char c)
     { return c > '`' && c < '{'; }
 
-    constexpr Board
+    inline Board
     parseBoard(const char *const fen, State *const x) {
         Board::Builder<Fen> b(*x);
         const char *c = fen;
@@ -41,8 +41,7 @@ namespace Charon::FenUtility {
                 if (*c > '0' && *c < '9')
                     sq -= (*c - '0');
                 else {
-                    const auto a =
-                        Alliance(isLowerCase(*c));
+                    const auto a = Alliance(isLowerCase(*c));
                     b.setPiece(a, PieceType(find(
                         (char)(*c - (a? 32: 0)))),
                         sq--
@@ -50,15 +49,23 @@ namespace Charon::FenUtility {
                 }
             }
         }
+        const char a = *c;
         b.setCurrentPlayer(*c); c += 2;
-        if (*c != '-') for (; *c != ' '; ++c)
-            b.setCastlingRights<true>(*c);
-        ++c; if (*c != '-')
+        if (*c != '-') {
+            for (; *c != ' '; ++c)
+                b.setCastlingRights<true>(*c);
+            ++c;
+        } else c += 2;
+        std::cout << '\n' << SquareToString[AlgebraicNotationToSquare
+        [*c - 'a']
+        [*(c + 1) - '1']] << '\n';
+        if (*c != '-')
             b.setEnPassantSquare((Square)
-                AlgebraicNotationToSquare
-                [*c - 'a']
-                [*(c + 1) - '0']
+                                         (AlgebraicNotationToSquare
+                                         [*c - 'a']
+                                         [*(c + 1) - '1'] + (a == 'w'? -8 : 8))
             );
+
         return b.build();
     }
 }
