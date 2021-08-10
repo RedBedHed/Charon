@@ -1,1 +1,7 @@
 *.txt
+/.idea/
+/c-make-build-debug/
+/uftrace.data.old/
+/uftrace.data/
+*.out
+/cc0
