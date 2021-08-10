@@ -67,27 +67,27 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
 ###### *(single-threaded, 1.6 ghz i5, strictly-legal moves only.)*
 <pre>
  <code>
-         - - - - - - - - - - - -
-         - - - - - - - - - - - -
-         - - r n b q k b n r - -
-         - - p p p p p p p p - -
-         - - . . . . . . . . - -
-         - - . . . . . . . . - -
-         - - . . . . . . . . - -
-         - - . . . . . . . . - -
-         - - P P P P P P P P - -
-         - - R N B Q K B N R - -
-         - - - - - - - - - - - -
-         - - - - - - - - - - - -
+          - - - - - - - - - - - -
+          - - - - - - - - - - - -
+          - - r n b q k b n r - -
+          - - p p p p p p p p - -
+          - - . . . . . . . . - -
+          - - . . . . . . . . - -
+          - - . . . . . . . . - -
+          - - . . . . . . . . - -
+          - - P P P P P P P P - -
+          - - R N B Q K B N R - -
+          - - - - - - - - - - - -
+          - - - - - - - - - - - -
 
-        Quick Perft by H.G. Muller
-        Perft mode: No hashing, bulk counting in horizon nodes
+         Quick Perft by H.G. Muller
+         Perft mode: No hashing, bulk counting in horizon nodes
 
-        perft( 1)=           20 ( 0.000 sec)
-        perft( 2)=          400 ( 0.000 sec)
-        perft( 3)=         8902 ( 0.000 sec)
-        perft( 4)=       197281 ( 0.000 sec)
-        perft( 5)=      4865609 ( 0.031 sec)
-        perft( 6)=    119060324 ( 0.844 sec)
+         perft( 1)=           20 ( 0.000 sec)
+         perft( 2)=          400 ( 0.000 sec)
+         perft( 3)=         8902 ( 0.000 sec)
+         perft( 4)=       197281 ( 0.000 sec)
+         perft( 5)=      4865609 ( 0.047 sec)
+         perft( 6)=    119060324 ( 0.750 sec)
  </code>
 </pre>
