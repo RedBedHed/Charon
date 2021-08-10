@@ -19,7 +19,8 @@ uint64_t perft(Board* const b, int depth) {
     Move m[256];
     uint64_t i = 0, j;
     j = MoveFactory::generateMoves<All>(b, m);
-    if(depth <= 1) return j;
+    if(depth <= 1)
+        return j;
     for(Move* n = m; n->getManifest() != 0; ++n) {
         State x;
         if (b->getPiece(n->destination()) != King) {
@@ -33,7 +34,12 @@ uint64_t perft(Board* const b, int depth) {
 
 int main(int argc, const char** argv) {
     if(argc <= 1) {
-        cout << "Usage: ./exe [integer depth] <FEN string>\n";
+        cout << "Usage: ./cc0 [integer depth] <FEN string>\n";
+        return 0;
+    }
+    int n = atoi(argv[1]);
+    if(n < 1) {
+        cout << "Depth must be positive. Enter \"./cc0\" for usage info.";
         return 0;
     }
     Witchcraft::init();
@@ -41,14 +47,14 @@ int main(int argc, const char** argv) {
     Board b = (argc == 2) ?
         Board::Builder<Default>(x).build() :
         FenUtility::parseBoard(argv[2], &x);
-    cout << b.getEpSquare();
     cout << "\n\t.~* Charon Perft *~." << '\n';
     cout << "\n\t*. by Ellie Moore .*" << '\n';
     cout << "\n\tStarting Position:\n" << b << '\n';
-    int n = atoi(argv[1]);
+
+    uint64_t j;
     for (int i = 1; i <= n; ++i) {
         double start = clock();
-        uint64_t j = perft(&b, i);
+        j = perft(&b, i);
         double stop = clock() - start;
         cout << "\n\tperft(" << i << ") - ";
         printf("%6.3f", (double) stop / (double) CLOCKS_PER_SEC);
@@ -57,6 +63,7 @@ int main(int argc, const char** argv) {
         cout << " nodes visited.";
     }
     cout << "\n\n\tEnding Position:\n" << b << '\n';
+    //cout << "\n\t" << atoi(argv[4]) << ' ' << (j == atoi(argv[3])? "passed": "failed");
     Witchcraft::destroy();
 }
 

@@ -1,6 +1,6 @@
 CC = g++
 STD = -std=c++2a
-CFLAGS = $(STD) -O -Wall # -finstrument-functions
+CFLAGS = $(STD) -O3 -Wall # -finstrument-functions
 O = main.o ChaosMagic.o MoveMake.o
 
 cc0: $(O)

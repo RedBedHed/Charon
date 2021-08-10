@@ -471,7 +471,7 @@ namespace Charon {
         constexpr uint64_t DeBruijn64 = 0x03F79D71B4CB0A89L;
 
         /**
-         * The De Bruijn map from hash key to integer
+         * The DeBruijn map from hash key to integer
          * square index.
          */
         constexpr uint8_t DeBruijnTable[] = {

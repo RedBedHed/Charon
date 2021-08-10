@@ -5,7 +5,6 @@
 #include "MoveMake.h"
 
 namespace Charon {
-
     namespace {
 
         /**
@@ -362,7 +361,7 @@ namespace Charon {
                 return moves;
 
             // If the king is on the en passant rank then
-            // an en passant discovered check is possible.
+            // a horizontal en passant discovered check is possible.
             if (king & x->enPassantRank) {
                 // Find the snipers on the en passant rank.
                 const uint64_t snipers =
@@ -386,6 +385,36 @@ namespace Charon {
                         const uint64_t b = board->getAllPieces() &
                             ~snipers & path, c = b & (b - 1);
                         if (b && c && !(c & (c - 1)))
+                            return moves;
+                    }
+                }
+
+            // If the king square has a path to the en Passant
+            // square but isn't on the rank of the en passant
+            // pawn, en en passant discovered check is still
+            // possible.
+            } else if (pathBoard(kingSquare, enPassantSquare)) {
+
+                // Find the diagonal snipers.
+                const uint64_t snipers =
+                        (board->getPieces<them, Queen>() |
+                         board->getPieces<them, Bishop>()) &
+                         attackBoard<Bishop>(0, kingSquare);
+
+                // Check to see if the en passant pawn
+                // is between any of the snipers and the king
+                // square. If so, check to see if this pawn is
+                // the ONLY blocking piece between the sniper
+                // and the king square.
+                // If this is the case, then any en passant move
+                // will leave our king in check. We are done
+                // generating pawn moves.
+                for (uint64_t s = snipers; s; s &= s - 1) {
+                    const uint64_t path =
+                            pathBoard(bitScanFwd(s), kingSquare);
+                    if (eppBoard & path) {
+                        const uint64_t b = board->getAllPieces() & path;
+                        if (b && !(b & (b - 1)))
                             return moves;
                     }
                 }
