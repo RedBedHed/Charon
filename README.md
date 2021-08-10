@@ -91,7 +91,7 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
          perft( 6)=    119060324 ( 0.625 sec)
  </code>
 </pre>
-### Charon starting from ![KiwiPete](https://www.chessprogramming.org/Perft_Results#Position_2) !
+### Charon starting from ![KiwiPete](https://www.chessprogramming.org/Perft_Results) !
 <pre>
  <code>
         perft(1) -  0.000 seconds -         48 nodes visited.
@@ -102,7 +102,7 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
         perft(6) - 31.766 seconds - 8031647685 nodes visited.
  </code>
 </pre>
-### Charon starting from ![position 3](https://www.chessprogramming.org/Perft_Results#Position_3) !
+### Charon starting from ![position 3](https://www.chessprogramming.org/Perft_Results) !
 <pre>
  <code>
         perft(1) -  0.000 seconds -         14 nodes visited.
