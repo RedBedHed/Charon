@@ -24,7 +24,7 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
  </ol> 
 </p>
 
-### These are Charon's initial position perft scores !!!
+### These are Charon's initial position perft results !!!
 ###### *(single-threaded, 1.6 ghz i5, strictly-legal moves only.)*
  <pre>
   <code>
@@ -91,6 +91,7 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
          perft( 6)=    119060324 ( 0.625 sec)
  </code>
 </pre>
+# Extra results (for science) !
 ### Charon starting from [KiwiPete](https://www.chessprogramming.org/Perft_Results#Position_2) !
 <pre>
  <code>
