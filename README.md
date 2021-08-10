@@ -24,7 +24,7 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
  </ol> 
 </p>
 
-### These are Charon's perft scores !!!
+### These are Charon's initial position perft scores !!!
 ###### *(single-threaded, 1.6 ghz i5, strictly-legal moves only.)*
  <pre>
   <code>
@@ -91,3 +91,28 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
          perft( 6)=    119060324 ( 0.625 sec)
  </code>
 </pre>
+### Charon starting from ![KiwiPete](https://www.chessprogramming.org/Perft_Results#Position_2) !
+<pre>
+ <code>
+        perft(1) -  0.000 seconds -         48 nodes visited.
+        perft(2) -  0.000 seconds -       2039 nodes visited.
+        perft(3) -  0.000 seconds -      97862 nodes visited.
+        perft(4) -  0.031 seconds -    4085603 nodes visited.
+        perft(5) -  0.766 seconds -  193690690 nodes visited.
+        perft(6) - 31.766 seconds - 8031647685 nodes visited.
+ </code>
+</pre>
+### Charon starting from ![position 3](https://www.chessprogramming.org/Perft_Results#Position_3) !
+<pre>
+ <code>
+        perft(1) -  0.000 seconds -         14 nodes visited.
+        perft(2) -  0.000 seconds -        191 nodes visited.
+        perft(3) -  0.000 seconds -       2812 nodes visited.
+        perft(4) -  0.000 seconds -      43238 nodes visited.
+        perft(5) -  0.000 seconds -     674624 nodes visited.
+        perft(6) -  0.078 seconds -   11030083 nodes visited.
+        perft(7) -  1.297 seconds -  178633661 nodes visited.
+        perft(8) - 21.859 seconds - 3009794393 nodes visited.
+ </code>
+</pre>
+
