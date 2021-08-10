@@ -32,7 +32,7 @@ namespace Charon::FenUtility {
     constexpr bool isLowerCase(const char c)
     { return c > '`' && c < '{'; }
 
-    inline Board
+    constexpr Board
     parseBoard(const char *const fen, State *const x) {
         Board::Builder<Fen> b(*x);
         const char *c = fen;
@@ -58,9 +58,10 @@ namespace Charon::FenUtility {
         } else c += 2;
         if (*c != '-')
             b.setEnPassantSquare((Square)
-                                         (AlgebraicNotationToSquare
-                                         [*c - 'a']
-                                         [*(c + 1) - '1'] + (a == 'w'? -8 : 8))
+                (AlgebraicNotationToSquare
+                [*c - 'a']
+                [*(c + 1) - '1'] +
+                (a == 'w'? -8 : 8))
             );
 
         return b.build();
