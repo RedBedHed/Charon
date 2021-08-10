@@ -60,7 +60,7 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
         perft(3) -  0.000 seconds -       8902 nodes visited.
         perft(4) -  0.000 seconds -     197281 nodes visited.
         perft(5) -  0.031 seconds -    4865609 nodes visited.
-        perft(6) -  0.656 seconds -  119060324 nodes visited.
+        perft(6) -  0.531 seconds -  119060324 nodes visited.
  </code>
 </pre> 
 ### For comparison, QPerft by H.G. Muller does *this* on my computer:
@@ -87,7 +87,7 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
          perft( 2)=          400 ( 0.000 sec)
          perft( 3)=         8902 ( 0.000 sec)
          perft( 4)=       197281 ( 0.000 sec)
-         perft( 5)=      4865609 ( 0.047 sec)
-         perft( 6)=    119060324 ( 0.750 sec)
+         perft( 5)=      4865609 ( 0.031 sec)
+         perft( 6)=    119060324 ( 0.625 sec)
  </code>
 </pre>
