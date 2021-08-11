@@ -722,12 +722,12 @@ namespace Charon {
                     currentState->castlingRights &= them == White ? 0x0EU : 0x0BU;
             }
             if(isPromotion) {
-                pieces[us][Pawn]               &= ~originBoard;
+                pieces[us][Pawn]               ^= originBoard;
                 pieces[us][m.promotionPiece()] |= destinationBoard;
                 pieces[us][NullPT]             ^= moveBB;
                 if(captureType != NullPT) {
-                    pieces[them][NullPT] &= ~destinationBoard;
-                    pieces[them][captureType] &= ~destinationBoard;
+                    pieces[them][NullPT] ^= destinationBoard;
+                    pieces[them][captureType] ^= destinationBoard;
                 }
                 allPieces = pieces[us][NullPT] | pieces[them][NullPT];
                 mailbox[destination] = PieceType(m.promotionPiece());
@@ -746,8 +746,8 @@ namespace Charon {
                 pieces[us][activeType] ^= moveBB;
                 pieces[us][NullPT]     ^= moveBB;
                 if(captureType != NullPT) {
-                    pieces[them][NullPT]      &= ~destinationBoard;
-                    pieces[them][captureType] &= ~destinationBoard;
+                    pieces[them][NullPT]      ^= destinationBoard;
+                    pieces[them][captureType] ^= destinationBoard;
                 }
                 allPieces = pieces[us][NullPT] | pieces[them][NullPT];
                 currentState->epSquare = moveType == PawnJump ?
@@ -775,8 +775,8 @@ namespace Charon {
                 const uint64_t captureBB = SquareToBitBoard[epSquare];
                 pieces[us][Pawn] ^= moveBB;
                 pieces[us][NullPT] ^= moveBB;
-                pieces[them][Pawn] &= ~captureBB;
-                pieces[them][NullPT] &= ~captureBB;
+                pieces[them][Pawn] ^= captureBB;
+                pieces[them][NullPT] ^= captureBB;
                 allPieces = pieces[us][NullPT] | pieces[them][NullPT];
                 mailbox[epSquare] = NullPT;
             }
@@ -801,7 +801,7 @@ namespace Charon {
                 mailbox[origin] = Pawn;
                 mailbox[destination] = captureType;
                 pieces[us][Pawn] |= originBoard;
-                pieces[us][m.promotionPiece()] &= ~destinationBoard;
+                pieces[us][m.promotionPiece()] ^= destinationBoard;
                 pieces[us][NullPT]     ^= moveBB;
                 if(captureType != NullPT) {
                     pieces[them][NullPT]      |= destinationBoard;

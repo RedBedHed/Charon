@@ -15,38 +15,30 @@ using std::cout;
 using std::flush;
 using namespace Charon;
 
-uint64_t perft(Board* const b, int depth) {
-    Move m[256];
-    uint64_t i = 0, j;
-    j = MoveFactory::generateMoves<All>(b, m);
-    if(depth <= 1)
-        return j;
-    for(Move* n = m; n->getManifest() != 0; ++n) {
-        State x;
-        if (b->getPiece(n->destination()) != King) {
-            b->applyMove(*n, x);
-            i += perft(b, depth - 1);
-            b->retractMove(*n);
-        }
-    }
-    return i;
+int displayUsage();
+int charPerft(int, int, const char**);
+int charVerify(int, int, const char**);
+uint64_t perft(Board*, int);
+
+int main(const int argc, const char** const argv) {
+    if(argc <= 2 ||
+       argv[1][0] != '-' ||
+       (argv[1][1] != 'v' &&
+       argv[1][1] != 'p'))
+        return displayUsage();
+    int n = atoi(argv[2]);
+    if(n <= 0) displayUsage();
+    return argv[1][1] == 'p'? charPerft(n, argc, argv) :
+           argv[1][1] == 'v'? charVerify(n, argc, argv):
+           displayUsage();
 }
 
-int main(int argc, const char** argv) {
-    if(argc <= 1) {
-        cout << "Usage: ./cc0 [integer depth] <FEN string>\n";
-        return 0;
-    }
-    int n = atoi(argv[1]);
-    if(n < 1) {
-        cout << "Depth must be positive. Enter \"./cc0\" for usage info.";
-        return 0;
-    }
+inline int charPerft(const int n, const int argc, const char** const argv) {
     Witchcraft::init();
     State x;
-    Board b = (argc == 2) ?
-        Board::Builder<Default>(x).build() :
-        FenUtility::parseBoard(argv[2], &x);
+    Board b = (argc == 3) ?
+              Board::Builder<Default>(x).build() :
+              FenUtility::parseBoard(argv[3], &x);
     cout << "     @@@    @@\n";
     cout << "   @@   @@  @@\n";
     cout << "  @@        @@ @@@      @@@@    @@ @@@      @@@@    @@ @@@\n";
@@ -58,7 +50,6 @@ int main(int argc, const char** argv) {
     cout << "\n\t.~* Charon Perft *~.\n";
     cout << "\n\t*. by Ellie Moore .*\n";
     cout << "\n\tStarting Position:\n" << b << '\n';
-
     uint64_t j;
     for (int i = 1; i <= n; ++i) {
         double start = clock();
@@ -72,8 +63,57 @@ int main(int argc, const char** argv) {
     }
     cout << "\n\n\tEnding Position:\n" << b << '\n';
     cout << "~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~.\n\n";
-    //cout << "\n\t" << atoi(argv[4]) << ' ' << (j == atoi(argv[3])? "passed": "failed");
     Witchcraft::destroy();
+    return 0;
+}
+
+uint64_t perft(Board* const b, int depth) {
+    Move m[256];
+    uint64_t i = 0, j;
+    j = MoveFactory::generateMoves<All>(b, m);
+    if(depth <= 1) return j;
+    for(Move* n = m; n->getManifest() != 0; ++n) {
+        State x;
+        if (b->getPiece(n->destination()) != King) {
+            b->applyMove(*n, x);
+            i += perft(b, depth - 1);
+            b->retractMove(*n);
+        }
+    }
+    return i;
+}
+
+inline int charVerify(const int n, const int argc, const char** const argv) {
+    Witchcraft::init();
+    State x;
+    if(argc == 3) return displayUsage();
+    const int q = atoi(argv[4]),
+              z = atoi(argv[5]);
+    if(q <= 0) return displayUsage();
+    Board b = FenUtility::parseBoard(argv[3], &x);
+    uint64_t j;
+    for (int i = 1; i <= n; ++i) j = perft(&b, i);
+    cout << (z? (int) z: (char)'-')      << ' '
+         << (j == q? "passed": "failed") << '\n';
+    Witchcraft::destroy();
+    return 0;
+}
+
+inline int displayUsage() {
+    cout << "Usage: ./cc0 [\"-p\"|\"-v\"] [depth] {FEN} {count} <number>\n\n"
+         << "Usage Symbols (do not pass these with args)\n"
+         << "[] : required argument\n"
+         << "\"\": literal\n"
+         << "<> : optional argument\n"
+         << "{} : if -v, pass this argument, else this argument is optional\n\n"
+         << "Key\n"
+         << "-p     : normal q-perft style perft mode\n"
+         << "-v     : verification mode (for shell script use)\n"
+         << "depth  : the perft depth (a positive integer)\n"
+         << "FEN    : a board in Forsyth-Edwards Notation\n"
+         << "count  : the node count to verify\n"
+         << "number : an integer to represent the line of the client script\n";
+    return 0;
 }
 
 
