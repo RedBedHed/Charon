@@ -47,8 +47,16 @@ int main(int argc, const char** argv) {
     Board b = (argc == 2) ?
         Board::Builder<Default>(x).build() :
         FenUtility::parseBoard(argv[2], &x);
-    cout << "\n\t.~* Charon Perft *~." << '\n';
-    cout << "\n\t*. by Ellie Moore .*" << '\n';
+    cout << "     @@@    @@\n";
+    cout << "   @@   @@  @@\n";
+    cout << "  @@        @@ @@@      @@@@    @@ @@@      @@@@    @@ @@@\n";
+    cout << "  @@        @@@   @@  @@   @@@  @@@   @@  @@    @@  @@@   @@\n";
+    cout << "  @@        @@    @@  @@    @@  @@        @@    @@  @@    @@\n";
+    cout << "   @@   @@  @@    @@  @@   @@@  @@        @@    @@  @@    @@\n";
+    cout << "     @@@    @@    @@   @@@@ @@  @@          @@@@    @@    @@\n\n";
+    cout << "~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~.\n\n";
+    cout << "\n\t.~* Charon Perft *~.\n";
+    cout << "\n\t*. by Ellie Moore .*\n";
     cout << "\n\tStarting Position:\n" << b << '\n';
 
     uint64_t j;
@@ -63,6 +71,7 @@ int main(int argc, const char** argv) {
         cout << " nodes visited.";
     }
     cout << "\n\n\tEnding Position:\n" << b << '\n';
+    cout << "~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~.\n\n";
     //cout << "\n\t" << atoi(argv[4]) << ' ' << (j == atoi(argv[3])? "passed": "failed");
     Witchcraft::destroy();
 }

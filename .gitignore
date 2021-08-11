@@ -1,6 +1,6 @@
 *.txt
 /.idea/
-/c-make-build-debug/
+/cmake-build-debug/
 /uftrace.data.old/
 /uftrace.data/
 *.out

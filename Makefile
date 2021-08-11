@@ -1,4 +1,4 @@
-CC = g++
+CC = clang++
 STD = -std=c++2a
 CFLAGS = $(STD) -O3 -Wall -flto -DNDEBUG # -finstrument-functions
 O = main.o ChaosMagic.o MoveMake.o
