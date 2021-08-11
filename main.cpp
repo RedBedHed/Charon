@@ -39,17 +39,18 @@ inline int charPerft(const int n, const int argc, const char** const argv) {
     Board b = (argc == 3) ?
               Board::Builder<Default>(x).build() :
               FenUtility::parseBoard(argv[3], &x);
-    cout << "     @@@    @@\n";
-    cout << "   @@   @@  @@\n";
-    cout << "  @@        @@ @@@      @@@@    @@ @@@      @@@@    @@ @@@\n";
-    cout << "  @@        @@@   @@  @@   @@@  @@@   @@  @@    @@  @@@   @@\n";
-    cout << "  @@        @@    @@  @@    @@  @@        @@    @@  @@    @@\n";
-    cout << "   @@   @@  @@    @@  @@   @@@  @@        @@    @@  @@    @@\n";
-    cout << "     @@@    @@    @@   @@@@ @@  @@          @@@@    @@    @@\n\n";
-    cout << "~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~.\n\n";
-    cout << "\n\t.~* Charon Perft *~.\n";
-    cout << "\n\t*. by Ellie Moore .*\n";
-    cout << "\n\tStarting Position:\n" << b << '\n';
+    cout << '\n'
+         << "     @@@    @@\n"
+         << "   @@   @@  @@\n"
+         << "  @@        @@ @@@      @@@@    @@ @@@      @@@@    @@ @@@\n"
+         << "  @@        @@@   @@  @@   @@@  @@@   @@  @@    @@  @@@   @@\n"
+         << "  @@        @@    @@  @@    @@  @@        @@    @@  @@    @@\n"
+         << "   @@   @@  @@    @@  @@   @@@  @@        @@    @@  @@    @@\n"
+         << "     @@@    @@    @@   @@@@ @@  @@          @@@@    @@    @@\n\n"
+         << "~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~.\n\n"
+         << "\n\t.~* Charon Perft *~.\n"
+         << "\n\t*. by Ellie Moore .*\n"
+         << "\n\tStarting Position:\n" << b << '\n';
     uint64_t j;
     for (int i = 1; i <= n; ++i) {
         double start = clock();
