@@ -6,7 +6,7 @@
 #ifndef CHARON_CHAOSMAGIC_H
 #define CHARON_CHAOSMAGIC_H
 #define HASH(bb, m, mn, sa) (int) (((bb & m) * mn) >> sa)
-#define USE_LSB
+#define USE_POPCNT
 #	if defined(_MSC_VER)
 #		include <intrin.h>
 #	endif
@@ -666,6 +666,7 @@ namespace Charon {
          * @return the number of high bits in the given ulong
          */
         constexpr int highBitCount(uint64_t x) {
+#ifndef USE_POPCNT
             // Count bits in each 4-bit section.
             uint64_t n =
                 (x >> 1U) & 0x7777777777777777UL;
@@ -679,6 +680,11 @@ namespace Charon {
             // Add the byte sums.
             x *= 0x0101010101010101UL;
             return (short)(x >> 56U);
+#elif defined(_MSC_VER) || defined(__INTEL_COMPILER)
+            return (int)_mm_popcnt_u64(x);
+#else
+            return __builtin_popcountll(x);
+#endif
         }
 
         /**
@@ -695,32 +701,24 @@ namespace Charon {
          * @return the integer index of the first high bit
          * starting from the least significant side.
          */
-
-            // The argument to this function must be non-zero.
-#if defined(__GNUC__)
         inline int bitScanFwd(const uint64_t l) {
-            assert(l != 0);
+#if defined(__GNUC__)
             return __builtin_ctzll(l);
-        }
 #elif defined(_MSC_VER)
 #ifdef WIN64
-        inline int bitScanFwd(const uint64_t l) {
             assert(l != 0);
             unsigned long r;
             _BitScanForward64(&r, l);
             return (int) r;
-        }
 #else
 #error "CPU architecture not supported."
 #endif
 #else
-        constexpr int bitScanFwd(const uint64_t l) {
-                assert(l != 0);
-                return DeBruijnTable[(int)
-                    (((l & (uint64_t)-(int64_t)l) * DeBruijn64) >> 58U)
-                ];
-        }
+            return DeBruijnTable[(int)
+                (((l & (uint64_t)-(int64_t)l) * DeBruijn64) >> 58U)
+            ];
 #endif
+        }
 
         /**
          * A mapping of indices to the west-to-east diagonals
