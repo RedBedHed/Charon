@@ -6,6 +6,10 @@
 #ifndef CHARON_CHAOSMAGIC_H
 #define CHARON_CHAOSMAGIC_H
 #define HASH(bb, m, mn, sa) (int) (((bb & m) * mn) >> sa)
+#define USE_LSB
+#	if defined(_MSC_VER)
+#		include <intrin.h>
+#	endif
 #include <iostream>
 #include <memory>
 #include <cassert>
@@ -691,12 +695,24 @@ namespace Charon {
          * @return the integer index of the first high bit
          * starting from the least significant side.
          */
-        constexpr int bitScanFwd(const uint64_t l) {
-            // The argument to this function must be non-zero.
+        inline int bitScanFwd(const uint64_t l) {
             assert(l != 0);
-            return DeBruijnTable[(int)
-                (((l & (uint64_t)-(int64_t)l) * DeBruijn64) >> 58U)
-            ];
+            // The argument to this function must be non-zero.
+#if         defined(__GNUC__)
+                return __builtin_ctzll(l);
+#elif       defined(_MSC_VER)
+#ifdef      WIN64
+                unsigned long r;
+                _BitScanForward64(&r, l);
+                return (int) r;
+#else
+#error          "CPU architecture not supported."
+#endif
+#else
+                return DeBruijnTable[(int)
+                    (((l & (uint64_t)-(int64_t)l) * DeBruijn64) >> 58U)
+                ];
+#endif
         }
 
         /**

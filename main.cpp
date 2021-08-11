@@ -75,11 +75,9 @@ uint64_t perft(Board* const b, int depth) {
     if(depth <= 1) return j;
     for(Move* n = m; n->getManifest() != 0; ++n) {
         State x;
-        if (b->getPiece(n->destination()) != King) {
-            b->applyMove(*n, x);
-            i += perft(b, depth - 1);
-            b->retractMove(*n);
-        }
+        b->applyMove(*n, x);
+        i += perft(b, depth - 1);
+        b->retractMove(*n);
     }
     return i;
 }
