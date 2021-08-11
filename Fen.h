@@ -33,7 +33,8 @@ namespace Charon::FenUtility {
     { return c > '`' && c < '{'; }
 
     constexpr Board
-    parseBoard(const char *const fen, State *const x) {
+    parseBoard(const char *const fen,
+               State *const x) {
         Board::Builder<Fen> b(*x);
         const char *c = fen;
         for (int sq = A8; sq >= H1; ++c) {
@@ -41,8 +42,10 @@ namespace Charon::FenUtility {
                 if (*c > '0' && *c < '9')
                     sq -= (*c - '0');
                 else {
-                    const auto a = Alliance(isLowerCase(*c));
-                    b.setPiece(a, PieceType(find(
+                    const auto a =
+                        Alliance(isLowerCase(*c));
+                    b.setPiece(a,
+                        PieceType(find(
                         (char)(*c - (a? 32: 0)))),
                         sq--
                     );
