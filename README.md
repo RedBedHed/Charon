@@ -112,54 +112,33 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
         perft(1) -  0.000 seconds -         48 nodes visited.
         perft(2) -  0.000 seconds -       2039 nodes visited.
         perft(3) -  0.000 seconds -      97862 nodes visited.
-        perft(4) -  0.031 seconds -    4085603 nodes visited.
-        perft(5) -  0.766 seconds -  193690690 nodes visited.
-        perft(6) - 31.766 seconds - 8031647685 nodes visited.
+        perft(4) -  0.000 seconds -    4085603 nodes visited.
+        perft(5) -  0.547 seconds -  193690690 nodes visited.
+        perft(6) - 25.625 seconds - 8031647685 nodes visited.
  </code>
 </pre>
-### Charon starting from [position 3](https://www.chessprogramming.org/Perft_Results#Position_3) !
+### Charon starting from [position 3](https://www.chessprogramming.org/Perft_Results#Position_3) ! 
 <pre>
  <code>
-        perft(1) -  0.000 seconds -         14 nodes visited.
-        perft(2) -  0.000 seconds -        191 nodes visited.
-        perft(3) -  0.000 seconds -       2812 nodes visited.
-        perft(4) -  0.000 seconds -      43238 nodes visited.
-        perft(5) -  0.000 seconds -     674624 nodes visited.
-        perft(6) -  0.078 seconds -   11030083 nodes visited.
-        perft(7) -  1.297 seconds -  178633661 nodes visited.
-        perft(8) - 21.859 seconds - 3009794393 nodes visited.
+       (needs to be updated)
  </code>
 </pre>
 ### Charon starting from [position 4](https://www.chessprogramming.org/Perft_Results#Position_4) !
 <pre>
  <code>
-        perft(1) -  0.000 seconds -          6 nodes visited.
-        perft(2) -  0.000 seconds -        264 nodes visited.
-        perft(3) -  0.000 seconds -       9467 nodes visited.
-        perft(4) -  0.000 seconds -     422333 nodes visited.
-        perft(5) -  0.078 seconds -   15833292 nodes visited.
-        perft(6) -  2.812 seconds -  706045033 nodes visited.
+        (needs to be updated)
  </code>
 </pre>
 ### Charon starting from [position 5](https://www.chessprogramming.org/Perft_Results#Position_5) !
 <pre>
  <code>
-        perft(1) -  0.000 seconds -         44 nodes visited.
-        perft(2) -  0.000 seconds -       1486 nodes visited.
-        perft(3) -  0.000 seconds -      62379 nodes visited.
-        perft(4) -  0.000 seconds -    2103487 nodes visited.
-        perft(5) -  0.375 seconds -   89941194 nodes visited.
+        (needs to be updated)
  </code>
 </pre>
 ### Charon starting from [position 6](https://www.chessprogramming.org/Perft_Results#Position_6) !
 <pre>
  <code>
-        perft(1) -  0.000 seconds -         46 nodes visited.
-        perft(2) -  0.000 seconds -       2079 nodes visited.
-        perft(3) -  0.000 seconds -      89890 nodes visited.
-        perft(4) -  0.016 seconds -    3894594 nodes visited.
-        perft(5) -  0.641 seconds -  164075551 nodes visited.
-        perft(6) - 26.172 seconds - 6923051137 nodes visited.
+        (needs to be updated)
  </code>
 </pre>
 
