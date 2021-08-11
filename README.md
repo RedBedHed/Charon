@@ -28,6 +28,17 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
 ###### *(single-threaded, 1.6 ghz i5, strictly-legal moves only.)*
  <pre>
   <code>
+     @@@    @@
+   @@   @@  @@
+  @@        @@ @@@      @@@@    @@ @@@      @@@@    @@ @@@
+  @@        @@@   @@  @@   @@@  @@@   @@  @@    @@  @@@   @@
+  @@        @@    @@  @@    @@  @@        @@    @@  @@    @@
+   @@   @@  @@    @@  @@   @@@  @@        @@    @@  @@    @@
+     @@@    @@    @@   @@@@ @@  @@          @@@@    @@    @@
+
+~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~.
+
+
         .~* Charon Perft *~.
 
         *. by Ellie Moore .*
@@ -59,8 +70,10 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
         perft(2) -  0.000 seconds -        400 nodes visited.
         perft(3) -  0.000 seconds -       8902 nodes visited.
         perft(4) -  0.000 seconds -     197281 nodes visited.
-        perft(5) -  0.031 seconds -    4865609 nodes visited.
-        perft(6) -  0.531 seconds -  119060324 nodes visited.
+        perft(5) -  0.016 seconds -    4865609 nodes visited.
+        perft(6) -  0.516 seconds -  119060324 nodes visited.
+        
+~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~.
  </code>
 </pre> 
 ### For comparison, QPerft by H.G. Muller does *this* on my computer:
