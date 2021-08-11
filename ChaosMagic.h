@@ -6,10 +6,23 @@
 #ifndef CHARON_CHAOSMAGIC_H
 #define CHARON_CHAOSMAGIC_H
 #define HASH(bb, m, mn, sa) (int) (((bb & m) * mn) >> sa)
-#define USE_POPCNT
-#	if defined(_MSC_VER)
-#		include <intrin.h>
-#	endif
+#define USE_BMI2
+#if defined(USE_BMI2)
+#	include <immintrin.h>
+#endif
+#if defined(_MSC_VER)
+#	include <intrin.h>
+#endif
+#if defined(USE_BMI2)
+constexpr bool HasBMI2 = true;
+#else
+constexpr bool HasBMI2 = false;
+#endif
+#ifdef USE_BMI2
+#  define PEXT(b, m) _pext_u64(b, m)
+#else
+#  define PEXT(b, m) 0
+#endif
 #include <iostream>
 #include <memory>
 #include <cassert>
@@ -191,12 +204,17 @@ namespace Charon {
          * the given blocker board
          */
         [[nodiscard]]
-        constexpr uint64_t
+        inline uint64_t
         getAttacks(const uint64_t blockerBoard) const {
+            if(HasBMI2)
+            return attackBoards[PEXT(
+                    blockerBoard, mask)];
+            else
             return attackBoards[HASH(
                    blockerBoard, mask,
                             magicNumber, shiftAmount
             )];
+
         }
 
         /**

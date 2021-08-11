@@ -227,9 +227,10 @@ namespace Charon {
                         // Place the attack board within the
                         // magic builder at an index calculated
                         // from the current blockerBoard.
-                        magicBuilder.placeAttacks(
-                                blockerBoard, attackBoard
-                        );
+
+                            magicBuilder.placeAttacks(
+                                    blockerBoard, attackBoard
+                            );
 
                         /*
                          * Find the next permutation.
@@ -489,10 +490,14 @@ namespace Charon {
     FancyMagic::Builder::
     placeAttacks(uint64_t blockerBoard,
                  uint64_t attackBoard) {
-        attacks[HASH(
-                blockerBoard, mask,
-                magicNumber, shiftAmount
-        )] = attackBoard;
+        if(HasBMI2) {
+            attacks[PEXT(blockerBoard, mask)] = attackBoard;
+        }
+        else
+            attacks[HASH(
+                    blockerBoard, mask,
+                    magicNumber, shiftAmount
+            )] = attackBoard;
         return *this;
     }
 
