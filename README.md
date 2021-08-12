@@ -1,5 +1,5 @@
 # Charon Perft
-# Hi! And welcome to the glorious mess that is Charon!
+## *250-350 mnps*
 
 ### Few things worth mentioning:
 
