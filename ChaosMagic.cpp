@@ -187,14 +187,16 @@ namespace Charon {
 
                     magicBuilder
                         // Set the blocker mask for the magic.
-                        .setMask(mask)
+                        .setMask(mask);
+
+                    // If Pext isn't available.
+                    if(!HasBMI2) magicBuilder
                         // Set the shift amount for the
                         // magic.
                         .setShiftAmount(
                             BoardLength - highBitCount(mask)
-                        );
+                        )
 
-                    if(!HasBMI2) magicBuilder
                         // Set the magic number for the magic.
                         .setMagicNumber(magicNumbers[sq]);
 
