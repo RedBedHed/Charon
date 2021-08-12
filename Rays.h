@@ -2195,6 +2195,5 @@ namespace Charon {
                     0xFF00000000000000L, 0x8040201008040201L,
             }
     };
-
 }
 #endif //CHARON_RAYS_H

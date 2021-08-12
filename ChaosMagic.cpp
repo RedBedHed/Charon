@@ -10,6 +10,7 @@ namespace Charon {
         using std::string;
         using std::mutex;
         using std::lock_guard;
+        using std::cout;
 
         namespace {
 
@@ -419,7 +420,7 @@ namespace Charon {
          * @param p the bitboard to print
          */
         void bb(uint64_t p) {
-            std::string sb;
+            string sb;
             sb.reserve(136);
             for (
                 int i = 0; i < BoardLength;
@@ -430,7 +431,7 @@ namespace Charon {
                 sb.push_back(p & 1U ? '1' : '-');
                 sb.push_back(' ');
             }
-            std::cout << sb;
+            cout << sb;
         }
     } // namespace Witchcraft
 

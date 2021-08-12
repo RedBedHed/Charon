@@ -14,7 +14,7 @@
 #   error "CPU architecture not supported."
 #endif
 
-// If BMI2 is supported...
+// Whether BMI2 is supported...
 #define USE_BMI2
 
 // If this is a Microsoft compiler,

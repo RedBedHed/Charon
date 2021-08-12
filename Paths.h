@@ -9,6 +9,7 @@
 #include "Utility.h"
 
 namespace Charon {
+
     /**
      * The 2D list of all paths between the origin squares
      * corresponding to each index in the first dimension
