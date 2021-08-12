@@ -1,5 +1,6 @@
 # Charon Perft 
-###### approx. speed: *250-350 mnps*
+###### version   : *08.11.2021*
+###### avg speed : *250-350 mnps*
 
 ### Few things worth mentioning:
 
