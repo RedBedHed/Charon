@@ -5,28 +5,44 @@
 #pragma once
 #ifndef CHARON_CHAOSMAGIC_H
 #define CHARON_CHAOSMAGIC_H
-#define HASH(bb, m, mn, sa) (int) (((bb & m) * mn) >> sa)
+
 #include <cstdint>
+
+// Check to see if we are compiling for a
+// 64-bit cpu.
 #if INTPTR_MAX == INT32_MAX
 #   error "CPU architecture not supported."
 #endif
+
+// If BMI2 is supported...
 #define USE_BMI2
-#if defined(USE_BMI2)
-#	include <immintrin.h>
-#endif
+
+// If this is a Microsoft compiler,
+// include the Microsoft intrinsic library.
 #if defined(_MSC_VER)
 #	include <intrin.h>
 #endif
+
+// If this BMI2 is supported, set the
+// HasBMI flag and include the BMI2
+// intrinsic library.
+// Define HASH and PEXT macros.
 #if defined(USE_BMI2)
-constexpr bool HasBMI2 = true;
+#	include <immintrin.h>
+    constexpr bool HasBMI2 = true;
+// Magic hash.
+#   define HASH(bb, m, mn, sa) 0
+// Pext hash.
+#   define PEXT(b, m) _pext_u64(b, m)
 #else
-constexpr bool HasBMI2 = false;
+    constexpr bool HasBMI2 = false;
+    // Magic hash.
+#   define HASH(bb, m, mn, sa) \
+    (int) (((bb & m) * mn) >> sa)
+// Pext hash.
+#   define PEXT(b, m) 0
 #endif
-#ifdef USE_BMI2
-#  define PEXT(b, m) _pext_u64(b, m)
-#else
-#  define PEXT(b, m) 0
-#endif
+
 #include <iostream>
 #include <memory>
 #include <cassert>

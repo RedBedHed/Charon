@@ -18,6 +18,7 @@ namespace Charon {
              * special pseudo-random long generator by Sebastiano
              * Vigna and a brute-force verification algorithm.
              */
+#           ifndef USE_BMI2
 
             /**
              * A list of empirically determined magic numbers
@@ -104,6 +105,7 @@ namespace Charon {
                     0x0020400120602480L, 0x40020420E0020C84L,
                     0x0000312208080880L, 0x48081010008A2A80L
             };
+#           endif
 
             /**
              * <summary>
@@ -189,7 +191,9 @@ namespace Charon {
                         // magic.
                         .setShiftAmount(
                             BoardLength - highBitCount(mask)
-                        )
+                        );
+
+                    if(!HasBMI2) magicBuilder
                         // Set the magic number for the magic.
                         .setMagicNumber(magicNumbers[sq]);
 
@@ -227,10 +231,9 @@ namespace Charon {
                         // Place the attack board within the
                         // magic builder at an index calculated
                         // from the current blockerBoard.
-
-                            magicBuilder.placeAttacks(
-                                    blockerBoard, attackBoard
-                            );
+                        magicBuilder.placeAttacks(
+                                blockerBoard, attackBoard
+                        );
 
                         /*
                          * Find the next permutation.
@@ -332,6 +335,7 @@ namespace Charon {
             using namespace Cauldron;
             const lock_guard<mutex> lock(m);
             assert(!initialized);
+#       ifndef USE_BMI2
             initFancyMagics(
                     RookAttackWitchcraft, RookAttacks,
                     RookDirections, SquareToRookBlockerMask,
@@ -342,6 +346,18 @@ namespace Charon {
                     BishopDirections, SquareToBishopBlockerMask,
                     BishopMagicNumbers, FancyBishopSizes
             );
+#       else
+            initFancyMagics(
+                    RookAttackWitchcraft, RookAttacks,
+                    RookDirections, SquareToRookBlockerMask,
+                    nullptr, FancyRookSizes
+            );
+            initFancyMagics(
+                    BishopAttackWitchcraft, BishopAttacks,
+                    BishopDirections, SquareToBishopBlockerMask,
+                    nullptr, FancyBishopSizes
+            );
+#       endif
             initialized = true;
         }
 
