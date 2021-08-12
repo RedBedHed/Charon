@@ -73,6 +73,7 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
         perft(4) -  0.000 seconds -     197281 nodes visited.
         perft(5) -  0.016 seconds -    4865609 nodes visited.
         perft(6) -  0.375 seconds -  119060324 nodes visited.
+        perft(7) -  9.469 seconds - 3195901860 nodes visited.
         
 ~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~.
  </code>
