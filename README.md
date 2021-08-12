@@ -110,50 +110,6 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
  </code>
 </pre>
 # Extra results (for science) !
-### Charon starting from [KiwiPete](https://www.chessprogramming.org/Perft_Results#Position_2) !
-<pre>
- <code>
- Charon:
-        perft(1) -  0.000 seconds -         48 nodes visited.
-        perft(2) -  0.000 seconds -       2039 nodes visited.
-        perft(3) -  0.000 seconds -      97862 nodes visited.
-        perft(4) -  0.000 seconds -    4085603 nodes visited.
-        perft(5) -  0.469 seconds -  193690690 nodes visited.
-        perft(6) - 23.641 seconds - 8031647685 nodes visited.
-        
-Qperft:
-        perft( 1)=           48 ( 0.000 sec)
-        perft( 2)=         2039 ( 0.000 sec)
-        perft( 3)=        97862 ( 0.001 sec)
-        perft( 4)=      4085603 ( 0.022 sec)
-        perft( 5)=    193690690 ( 0.902 sec)
-        perft( 6)=   8031647685 (41.636 sec)
- </code>
-</pre>
-### Charon starting from [position 3](https://www.chessprogramming.org/Perft_Results#Position_3) ! 
-<pre>
- <code>
-Charon:
-        perft(1) -  0.000 seconds -         14 nodes visited.
-        perft(2) -  0.000 seconds -        191 nodes visited.
-        perft(3) -  0.000 seconds -       2812 nodes visited.
-        perft(4) -  0.000 seconds -      43238 nodes visited.
-        perft(5) -  0.000 seconds -     674624 nodes visited.
-        perft(6) -  0.078 seconds -   11030083 nodes visited.
-        perft(7) -  0.953 seconds -  178633661 nodes visited.
-        perft(8) - 16.312 seconds - 3009794393 nodes visited.
-        
-Qperft:
-        perft( 1)=           14 ( 0.000 sec)
-        perft( 2)=          191 ( 0.000 sec)
-        perft( 3)=         2812 ( 0.000 sec)
-        perft( 4)=        43238 ( 0.001 sec)
-        perft( 5)=       674624 ( 0.007 sec)
-        perft( 6)=     11030083 ( 0.108 sec)
-        perft( 7)=    178633661 ( 1.524 sec)
-        perft( 8)=   3009794393 (28.467 sec)
- </code>
-</pre>
 ### Charon starting from [position 4](https://www.chessprogramming.org/Perft_Results#Position_4) !
 <pre>
  <code>
@@ -220,10 +176,16 @@ Qperft:
   <th>Qpeft  (seconds)</th>
  </tr>
  <tr>
-  <td><a href = "https://www.chessprogramming.org/Perft_Results#Position_2">KiwiPete]</a> - Depth 6</td>
+  <td><a href = "https://www.chessprogramming.org/Perft_Results#Position_2">KiwiPete</a> - Depth 6</td>
   <td>8031647685</td>
   <td>23.641</td>
   <td>41.636</td>
+ </tr>
+ <tr>
+  <td><a href = "https://www.chessprogramming.org/Perft_Results#Position_3">Position 3</a> - Depth 6</td>
+  <td>3009794393</td>
+  <td>16.312</td>
+  <td>28.467</td>
  </tr>
 </table>
 
