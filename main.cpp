@@ -37,9 +37,6 @@ inline int charPerft(const int n, const int argc, const char** const argv) {
     double start = clock();
     Witchcraft::init();
     double stop = clock() - start;
-    cout << "\ninit - ";
-    printf("%6.3f", (double) stop / (double) CLOCKS_PER_SEC);
-    cout << " seconds.\n";
     State x;
     Board b = (argc == 3) ?
               Board::Builder<Default>(x).build() :
@@ -56,19 +53,21 @@ inline int charPerft(const int n, const int argc, const char** const argv) {
          << "\n\t.~* Charon Perft *~.\n"
          << "\n\t*. by Ellie Moore .*\n"
          << "\n\tStarting Position:\n" << b << '\n';
+    cout << "\tStartup  - ";
+    printf("%6.3f", (double) stop / (double) CLOCKS_PER_SEC);
+    cout << " seconds\n";
     uint64_t j;
     for (int i = 1; i <= n; ++i) {
-        double start = clock();
+        start = clock();
         j = perft(&b, i);
-        double stop = clock() - start;
+        stop = clock() - start;
         cout << "\n\tperft(" << i << ") - ";
         printf("%6.3f", (double) stop / (double) CLOCKS_PER_SEC);
         cout << " seconds - ";
-        printf("%10llu", j);
+        printf("%10lu", j);
         cout << " nodes visited.";
     }
-    cout << "\n\n\tEnding Position:\n" << b << '\n';
-    cout << "~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~.\n\n";
+    cout << "\n\n~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~.\n\n";
     Witchcraft::destroy();
     return 0;
 }
@@ -91,12 +90,11 @@ inline int charVerify(const int n, const int argc, const char** const argv) {
     Witchcraft::init();
     State x;
     if(argc == 3) return displayUsage();
-    const int q = atoi(argv[4]),
-              z = atoi(argv[5]);
+    const uint64_t q = atoll(argv[4]);
+    const int z      = atoi(argv[5]);
     if(q <= 0) return displayUsage();
     Board b = FenUtility::parseBoard(argv[3], &x);
-    uint64_t j;
-    for (int i = 1; i <= n; ++i) j = perft(&b, i);
+    uint64_t  j = perft(&b, n);
     cout << (z? (int) z: (char)'-')      << ' '
          << (j == q? "passed": "failed") << '\n';
     Witchcraft::destroy();
