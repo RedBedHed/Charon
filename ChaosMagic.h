@@ -215,7 +215,6 @@ namespace Charon {
                     blockerBoard, mask,
                             magicNumber, shiftAmount
                 )];
-
         }
 
         /**
@@ -685,7 +684,7 @@ namespace Charon {
          * @return the number of high bits in the given ulong
          */
         constexpr int highBitCount(uint64_t x) {
-#ifndef USE_POPCNT
+#       ifndef USE_POPCNT
             // Count bits in each 4-bit section.
             uint64_t n =
                 (x >> 1U) & 0x7777777777777777UL;
@@ -699,11 +698,11 @@ namespace Charon {
             // Add the byte sums.
             x *= 0x0101010101010101UL;
             return (short)(x >> 56U);
-#elif defined(_MSC_VER) || defined(__INTEL_COMPILER)
+#       elif defined(_MSC_VER) || defined(__INTEL_COMPILER)
             return (int)_mm_popcnt_u64(x);
-#else
+#       else
             return __builtin_popcountll(x);
-#endif
+#       endif
         }
 
         /**
@@ -721,22 +720,22 @@ namespace Charon {
          * starting from the least significant side.
          */
         inline int bitScanFwd(const uint64_t l) {
-#if defined(__GNUC__)
+#       if defined(__GNUC__)
             return __builtin_ctzll(l);
-#elif defined(_MSC_VER)
-#ifdef WIN64
-            assert(l != 0);
-            unsigned long r;
-            _BitScanForward64(&r, l);
-            return (int) r;
-#else
-#error "CPU architecture not supported."
-#endif
-#else
+#       elif defined(_MSC_VER)
+#           ifdef WIN64
+                assert(l != 0);
+                unsigned long r;
+                _BitScanForward64(&r, l);
+                return (int) r;
+#           else
+#               error "CPU architecture not supported."
+#           endif
+#       else
             return DeBruijnTable[(int)
                 (((l & (uint64_t)-(int64_t)l) * DeBruijn64) >> 58U)
             ];
-#endif
+#       endif
         }
 
         /**
