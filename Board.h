@@ -194,6 +194,18 @@ namespace Charon {
     class Board final {
     private:
 
+        // masks for castling rights.
+        static constexpr uint16_t Wkoff = 0x0DU;
+        static constexpr uint16_t Bkoff = 0x07U;
+        static constexpr uint16_t Wqoff = 0x0EU;
+        static constexpr uint16_t Bqoff = 0x0BU;
+        static constexpr uint16_t Wkon = 0x02U;
+        static constexpr uint16_t Bkon = 0x08U;
+        static constexpr uint16_t Wqon = 0x01U;
+        static constexpr uint16_t Bqon = 0x04U;
+        static constexpr uint16_t Woff = 0x0CU;
+        static constexpr uint16_t Boff = 0x03U;
+
         /**
          * @private
          * Bitboard layers for the various piece types.
@@ -541,15 +553,15 @@ namespace Charon {
                 if(!B)
                     state->castlingRights &= A == White?
                         CT == KingSide ?
-                            0x0DU : 0x0EU :
+                            Wkoff : Wqoff :
                         CT == KingSide ?
-                            0x07U : 0x0BU;
+                            Bkoff : Bqoff;
                 else
                     state->castlingRights |= A == White?
                         CT == KingSide ?
-                            0x02U : 0x01U :
+                            Wkon : Wqon :
                         CT == KingSide ?
-                            0x08U : 0x04U ;
+                            Bkon : Bqon ;
                 return *this;
             }
 
@@ -566,26 +578,26 @@ namespace Charon {
             constexpr Builder& setCastlingRights(const char c) {
                 if(!B) {
                     switch (c) {
-                        case 'K': state->castlingRights &= 0x0DU;
+                        case 'K': state->castlingRights &= Wkoff;
                             break;
-                        case 'Q': state->castlingRights &= 0x0EU;
+                        case 'Q': state->castlingRights &= Wqoff;
                             break;
-                        case 'k': state->castlingRights &= 0x07U;
+                        case 'k': state->castlingRights &= Bkoff;
                             break;
-                        case 'q': state->castlingRights &= 0x0BU;
+                        case 'q': state->castlingRights &= Bqoff;
                             break;
                         default: assert(false);
                     }
                 }
                 else   {
                     switch (c) {
-                        case 'K': state->castlingRights |= 0x02U;
+                        case 'K': state->castlingRights |= Wkon;
                             break;
-                        case 'Q': state->castlingRights |= 0x01U;
+                        case 'Q': state->castlingRights |= Wqon;
                             break;
-                        case 'k': state->castlingRights |= 0x08U;
+                        case 'k': state->castlingRights |= Bkon;
                             break;
-                        case 'q': state->castlingRights |= 0x04U;
+                        case 'q': state->castlingRights |= Bqon;
                             break;
                         default: assert(false);
                     }
@@ -694,6 +706,7 @@ namespace Charon {
 
         template<Alliance A>
         constexpr void applyMove(const Move& m, State& state) {
+            static_assert(A == White || A == Black);
             // ASSUME THAT THE MOVE IS LEGAL ! ! !
             assert(currentState != &state);
             const int  origin      = m.origin(),
@@ -701,6 +714,7 @@ namespace Charon {
             const bool isPromotion = m.isPromotion();
             const PieceType captureType = mailbox[destination],
                             activeType  = mailbox[origin];
+            state.castlingRights = currentState->castlingRights;
             state.prevState = currentState;
             currentState = &state;
             currentState->capturedPiece = captureType;
@@ -708,25 +722,23 @@ namespace Charon {
             const uint64_t originBoard      = SquareToBitBoard[origin],
                            destinationBoard = SquareToBitBoard[destination],
                            moveBB           = originBoard | destinationBoard;
-            constexpr const Defaults* const x = us == White?
-                                      &WhiteDefaults: &BlackDefaults;
-            currentState->castlingRights = currentState->prevState->castlingRights;
+            constexpr const Defaults* const x = defaults<us>();
             mailbox[origin] = NullPT;
             mailbox[destination] = activeType;
             currentPlayerAlliance = them;
             if(captureType == Rook) {
                 constexpr const Defaults* xx = defaults<them>();
                 if(destination == xx->kingSideRookOrigin)
-                    currentState->castlingRights &= them == White ? 0x0DU : 0x07U ;
+                    currentState->castlingRights &= them == White ? Wkoff : Bkoff;
                 else if(destination == xx->queenSideRookOrigin)
-                    currentState->castlingRights &= them == White ? 0x0EU : 0x0BU;
+                    currentState->castlingRights &= them == White ? Wqoff : Bqoff;
             }
             if(isPromotion) {
                 pieces[us][Pawn]               ^= originBoard;
                 pieces[us][m.promotionPiece()] |= destinationBoard;
                 pieces[us][NullPT]             ^= moveBB;
                 if(captureType != NullPT) {
-                    pieces[them][NullPT] ^= destinationBoard;
+                    pieces[them][NullPT]      ^= destinationBoard;
                     pieces[them][captureType] ^= destinationBoard;
                 }
                 allPieces = pieces[us][NullPT] | pieces[them][NullPT];
@@ -737,11 +749,11 @@ namespace Charon {
             if(moveType == FreeForm || moveType == PawnJump) {
                 if(activeType == Rook) {
                     if(x->kingSideRookOrigin == origin)
-                        currentState->castlingRights &= us == White ? 0x0DU : 0x07U ;
+                        currentState->castlingRights &= us == White ? Wkoff : Bkoff;
                     else if(x->queenSideRookOrigin == origin)
-                        currentState->castlingRights &= us == White? 0x0EU : 0x0BU;
+                        currentState->castlingRights &= us == White? Wqoff : Bqoff;
                 } else if(activeType == King) {
-                    currentState->castlingRights &= us == White? 0x0CU: 0x03U;
+                    currentState->castlingRights &= us == White? Woff: Boff;
                 }
                 pieces[us][activeType] ^= moveBB;
                 pieces[us][NullPT]     ^= moveBB;
@@ -766,16 +778,17 @@ namespace Charon {
                     mailbox[x->queenSideRookDestination] = Rook;
                 }
                 const uint64_t fullBB = moveBB | rookMoveBB;
-                pieces[us][Rook]       ^= rookMoveBB;
-                pieces[us][King]       ^= moveBB;
-                pieces[us][NullPT]     ^= fullBB;
-                allPieces              ^= fullBB;
-            } else if(moveType == EnPassant) {
+                pieces[us][Rook]   ^= rookMoveBB;
+                pieces[us][King]   ^= moveBB;
+                pieces[us][NullPT] ^= fullBB;
+                allPieces          ^= fullBB;
+            }
+            else if(moveType == EnPassant) {
                 const int epSquare = currentState->prevState->epSquare;
                 const uint64_t captureBB = SquareToBitBoard[epSquare];
-                pieces[us][Pawn] ^= moveBB;
-                pieces[us][NullPT] ^= moveBB;
-                pieces[them][Pawn] ^= captureBB;
+                pieces[us][Pawn]     ^= moveBB;
+                pieces[us][NullPT]   ^= moveBB;
+                pieces[them][Pawn]   ^= captureBB;
                 pieces[them][NullPT] ^= captureBB;
                 allPieces = pieces[us][NullPT] | pieces[them][NullPT];
                 mailbox[epSquare] = NullPT;
@@ -784,6 +797,7 @@ namespace Charon {
 
         template<Alliance A>
         constexpr void retractMove(const Move& m) {
+            static_assert(A == White || A == Black);
             // ASSUME THAT THE MOVE IS LEGAL ! ! !
             constexpr const Alliance us = A, them = ~us;
             const int origin      = m.origin(),
@@ -794,15 +808,14 @@ namespace Charon {
             const uint64_t originBoard      = SquareToBitBoard[origin],
                            destinationBoard = SquareToBitBoard[destination],
                            moveBB           = originBoard | destinationBoard;
-            constexpr const Defaults* const x = us == White?
-                    &WhiteDefaults: &BlackDefaults;
+            constexpr const Defaults* const x = defaults<us>();
             currentPlayerAlliance = us;
             if(isPromotion) {
                 mailbox[origin] = Pawn;
                 mailbox[destination] = captureType;
-                pieces[us][Pawn] |= originBoard;
+                pieces[us][Pawn]               |= originBoard;
                 pieces[us][m.promotionPiece()] ^= destinationBoard;
-                pieces[us][NullPT]     ^= moveBB;
+                pieces[us][NullPT]             ^= moveBB;
                 if(captureType != NullPT) {
                     pieces[them][NullPT]      |= destinationBoard;
                     pieces[them][captureType] |= destinationBoard;
@@ -815,8 +828,8 @@ namespace Charon {
             mailbox[destination] = captureType;
             const int moveType = m.moveType();
             if(moveType == FreeForm || moveType == PawnJump) {
-                pieces[us][activeType]    ^= moveBB;
-                pieces[us][NullPT]        ^= moveBB;
+                pieces[us][activeType] ^= moveBB;
+                pieces[us][NullPT]     ^= moveBB;
                 if(captureType != NullPT) {
                     pieces[them][NullPT]      |= destinationBoard;
                     pieces[them][captureType] |= destinationBoard;
@@ -835,10 +848,10 @@ namespace Charon {
                     mailbox[x->queenSideRookDestination] = NullPT;
                 }
                 const uint64_t fullBB = moveBB | rookMoveBB;
-                pieces[us][Rook]       ^= rookMoveBB;
-                pieces[us][King]       ^= moveBB;
-                pieces[us][NullPT]     ^= fullBB;
-                allPieces              ^= fullBB;
+                pieces[us][Rook]   ^= rookMoveBB;
+                pieces[us][King]   ^= moveBB;
+                pieces[us][NullPT] ^= fullBB;
+                allPieces          ^= fullBB;
             }
             else {
                 const uint64_t epSquare  = currentState->prevState->epSquare;
@@ -846,7 +859,7 @@ namespace Charon {
                 pieces[us][Pawn]     ^= moveBB;
                 pieces[us][NullPT]   ^= moveBB;
                 pieces[them][NullPT] |= captureBB;
-                pieces[them][Pawn] |= captureBB;
+                pieces[them][Pawn]   |= captureBB;
                 allPieces = pieces[us][NullPT] | pieces[them][NullPT];
                 mailbox[epSquare] = Pawn;
             }

@@ -1,6 +1,6 @@
 CC = clang++
 STD = -std=c++2a
-CFLAGS = $(STD) -Ofast -pipe -march=native -Wall -flto -DNDEBUG -mpopcnt -m64 -mbmi2 # -pg
+CFLAGS = $(STD) -O3 -pipe -march=native -Wall -flto -DNDEBUG -mpopcnt -m64 -mbmi2 # -pg
 O = main.o ChaosMagic.o MoveMake.o
 
 cc0: $(O)
