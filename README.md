@@ -1,6 +1,6 @@
 # Charon Perft 
 ###### version: *08.11.2021 with support for pext (BMI2), popcnt, and bsf*
-###### speed: *185-410 mnps*  
+###### speed: *191-410 mnps*  
 ## Stuff worth mentioning :
 <p>
  <ul>
