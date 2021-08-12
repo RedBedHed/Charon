@@ -124,7 +124,7 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
   <td>192.9</td>
  </tr>
  <tr>
-  <td><a href = "https://www.chessprogramming.org/Perft_Results#Position_3">Position 3</a></td>
+  <td><a href = "https://www.chessprogramming.org/Perft_Results#Position_3">3</a></td>
   <td>6</td>
   <td>3009794393</td>
   <td>16.312</td>
@@ -133,7 +133,7 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
   <td>105.7</td>
  </tr>
  <tr>
-  <td><a href = "https://www.chessprogramming.org/Perft_Results#Position_4">Position 4</a></td>
+  <td><a href = "https://www.chessprogramming.org/Perft_Results#Position_4">4</a></td>
   <td>6</td>
   <td>706045033</td>
   <td>2.094</td>
@@ -142,7 +142,7 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
   <td>130.6</td>
  </tr>
  <tr>
-  <td><a href = "https://www.chessprogramming.org/Perft_Results#Position_5">Position 5</a></td>
+  <td><a href = "https://www.chessprogramming.org/Perft_Results#Position_5">5</a></td>
   <td>5</td> 
   <td>89941194</td>
   <td>0.250</td>
@@ -151,7 +151,7 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
   <td>141.6</td>
  </tr>
  <tr>
-  <td><a href = "https://www.chessprogramming.org/Perft_Results#Position_6">Position 6</a></td>
+  <td><a href = "https://www.chessprogramming.org/Perft_Results#Position_6">6</a></td>
   <td>6</td> 
   <td>6923051137</td>
   <td>18.766</td>
