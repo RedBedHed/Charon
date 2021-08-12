@@ -109,36 +109,103 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
 ### Charon starting from [KiwiPete](https://www.chessprogramming.org/Perft_Results#Position_2) !
 <pre>
  <code>
+ Charon:
         perft(1) -  0.000 seconds -         48 nodes visited.
         perft(2) -  0.000 seconds -       2039 nodes visited.
         perft(3) -  0.000 seconds -      97862 nodes visited.
         perft(4) -  0.000 seconds -    4085603 nodes visited.
-        perft(5) -  0.547 seconds -  193690690 nodes visited.
-        perft(6) - 25.625 seconds - 8031647685 nodes visited.
+        perft(5) -  0.469 seconds -  193690690 nodes visited.
+        perft(6) - 23.641 seconds - 8031647685 nodes visited.
+        
+Qperft:
+        perft( 1)=           48 ( 0.000 sec)
+        perft( 2)=         2039 ( 0.000 sec)
+        perft( 3)=        97862 ( 0.001 sec)
+        perft( 4)=      4085603 ( 0.022 sec)
+        perft( 5)=    193690690 ( 0.902 sec)
+        perft( 6)=   8031647685 (41.636 sec)
  </code>
 </pre>
 ### Charon starting from [position 3](https://www.chessprogramming.org/Perft_Results#Position_3) ! 
 <pre>
  <code>
-       (needs to be updated)
+Charon:
+        perft(1) -  0.000 seconds -         14 nodes visited.
+        perft(2) -  0.000 seconds -        191 nodes visited.
+        perft(3) -  0.000 seconds -       2812 nodes visited.
+        perft(4) -  0.000 seconds -      43238 nodes visited.
+        perft(5) -  0.000 seconds -     674624 nodes visited.
+        perft(6) -  0.078 seconds -   11030083 nodes visited.
+        perft(7) -  0.953 seconds -  178633661 nodes visited.
+        perft(8) - 16.312 seconds - 3009794393 nodes visited.
+        
+Qperft:
+        perft( 1)=           14 ( 0.000 sec)
+        perft( 2)=          191 ( 0.000 sec)
+        perft( 3)=         2812 ( 0.000 sec)
+        perft( 4)=        43238 ( 0.001 sec)
+        perft( 5)=       674624 ( 0.007 sec)
+        perft( 6)=     11030083 ( 0.108 sec)
+        perft( 7)=    178633661 ( 1.524 sec)
+        perft( 8)=   3009794393 (28.467 sec)
  </code>
 </pre>
 ### Charon starting from [position 4](https://www.chessprogramming.org/Perft_Results#Position_4) !
 <pre>
  <code>
-        (needs to be updated)
+Charon:
+        perft(1) -  0.000 seconds -          6 nodes visited.
+        perft(2) -  0.000 seconds -        264 nodes visited.
+        perft(3) -  0.000 seconds -       9467 nodes visited.
+        perft(4) -  0.000 seconds -     422333 nodes visited.
+        perft(5) -  0.047 seconds -   15833292 nodes visited.
+        perft(6) -  2.094 seconds -  706045033 nodes visited.
+        
+Qperft:
+        perft( 1)=            6 ( 0.000 sec)
+        perft( 2)=          264 ( 0.000 sec)
+        perft( 3)=         9467 ( 0.000 sec)
+        perft( 4)=       422333 ( 0.003 sec)
+        perft( 5)=     15833292 ( 0.090 sec)
+        perft( 6)=    706045033 ( 5.406 sec)
  </code>
 </pre>
 ### Charon starting from [position 5](https://www.chessprogramming.org/Perft_Results#Position_5) !
 <pre>
  <code>
-        (needs to be updated)
+Charon:
+        perft(1) -  0.000 seconds -         44 nodes visited.
+        perft(2) -  0.000 seconds -       1486 nodes visited.
+        perft(3) -  0.000 seconds -      62379 nodes visited.
+        perft(4) -  0.000 seconds -    2103487 nodes visited.
+        perft(5) -  0.250 seconds -   89941194 nodes visited.
+        
+Qperft:
+        perft( 1)=           44 ( 0.000 sec)
+        perft( 2)=         1486 ( 0.000 sec)
+        perft( 3)=        62379 ( 0.001 sec)
+        perft( 4)=      2103487 ( 0.010 sec)
+        perft( 5)=     89941194 ( 0.635 sec)
  </code>
 </pre>
 ### Charon starting from [position 6](https://www.chessprogramming.org/Perft_Results#Position_6) !
 <pre>
  <code>
-        (needs to be updated)
+Charon:
+        perft(1) -  0.000 seconds -         46 nodes visited.
+        perft(2) -  0.000 seconds -       2079 nodes visited.
+        perft(3) -  0.000 seconds -      89890 nodes visited.
+        perft(4) -  0.016 seconds -    3894594 nodes visited.
+        perft(5) -  0.406 seconds -  164075551 nodes visited.
+        perft(6) - 18.766 seconds - 6923051137 nodes visited.
+        
+Qperft:
+        perft( 1)=           46 ( 0.000 sec)
+        perft( 2)=         2079 ( 0.000 sec)
+        perft( 3)=        89890 ( 0.000 sec)
+        perft( 4)=      3894594 ( 0.013 sec)
+        perft( 5)=    164075551 ( 0.578 sec)
+        perft( 6)=   6923051137 (24.300 sec)
  </code>
 </pre>
 
