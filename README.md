@@ -1,34 +1,27 @@
-# Charon Perft
-# Hi! And welcome to the glorious mess that is Charon!
-
-### Few things worth mentioning:
-
+# Charon Perft 
+###### version: *08.11.2021 with support for pext (BMI2), popcnt, and bsf*
+###### speed: *191-410 mnps*  
+## Stuff worth mentioning :
 <p>
- <ol>
+ <ul>
   <li>
    <p>
 Board.h is still in the works... And I could really use advice on how to improve it.
-The applyMove and retractMove algorithms are completely unfinished.
+The applyMove and retractMove algorithms are functional, but unfinished.
    </p> 
-  <li>
-   <p>
-There are multiple files that need to be deleted. Among these are empty cpp files and 
-my crude List that I opted not to use.
-   </p>
   </li> 
   <li>
    <p>
 Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation.
    </p>
   </li> 
- </ol> 
+ </ul> 
 </p>
 
-### These are Charon's initial position perft results !!!
+## These are Charon's initial position perft results !!!
 ###### *(single-threaded, 1.6 ghz i5, strictly-legal moves only.)*
  <pre>
   <code>
-
      @@@    @@
    @@   @@  @@
   @@        @@ @@@      @@@@    @@ @@@      @@@@    @@ @@@
@@ -67,12 +60,14 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
             H   G   F   E   D   C   B   A
 
 
-        perft(1) -  0.000 seconds -         20 nodes visited.
-        perft(2) -  0.000 seconds -        400 nodes visited.
-        perft(3) -  0.000 seconds -       8902 nodes visited.
-        perft(4) -  0.000 seconds -     197281 nodes visited.
-        perft(5) -  0.016 seconds -    4865609 nodes visited.
-        perft(6) -  0.375 seconds -  119060324 nodes visited.
+        perft(1) -  0.000 seconds  -          20 nodes visited.
+        perft(2) -  0.000 seconds  -         400 nodes visited.
+        perft(3) -  0.000 seconds  -        8902 nodes visited.
+        perft(4) -  0.000 seconds  -      197281 nodes visited.
+        perft(5) -  0.016 seconds  -     4865609 nodes visited.
+        perft(6) -  0.344 seconds  -   119060324 nodes visited.
+        perft(7) -  9.047 seconds  -  3195901860 nodes visited.
+        perft(8) - 249.016 seconds - 84998978956 nodes visited.
         
 ~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~.
  </code>
@@ -103,42 +98,65 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
          perft( 4)=       197281 ( 0.000 sec)
          perft( 5)=      4865609 ( 0.031 sec)
          perft( 6)=    119060324 ( 0.625 sec)
+         perft( 7)=   3195901860 (16.576 sec)
+         perft( 8)=  84998978956 (441.816 sec)
  </code>
 </pre>
 # Extra results (for science) !
-### Charon starting from [KiwiPete](https://www.chessprogramming.org/Perft_Results#Position_2) !
-<pre>
- <code>
-        perft(1) -  0.000 seconds -         48 nodes visited.
-        perft(2) -  0.000 seconds -       2039 nodes visited.
-        perft(3) -  0.000 seconds -      97862 nodes visited.
-        perft(4) -  0.000 seconds -    4085603 nodes visited.
-        perft(5) -  0.547 seconds -  193690690 nodes visited.
-        perft(6) - 25.625 seconds - 8031647685 nodes visited.
- </code>
-</pre>
-### Charon starting from [position 3](https://www.chessprogramming.org/Perft_Results#Position_3) ! 
-<pre>
- <code>
-       (needs to be updated)
- </code>
-</pre>
-### Charon starting from [position 4](https://www.chessprogramming.org/Perft_Results#Position_4) !
-<pre>
- <code>
-        (needs to be updated)
- </code>
-</pre>
-### Charon starting from [position 5](https://www.chessprogramming.org/Perft_Results#Position_5) !
-<pre>
- <code>
-        (needs to be updated)
- </code>
-</pre>
-### Charon starting from [position 6](https://www.chessprogramming.org/Perft_Results#Position_6) !
-<pre>
- <code>
-        (needs to be updated)
- </code>
-</pre>
+<table style="width:100%">
+ <tr>
+  <th>Position</th>
+  <th>Depth</th>
+  <th>Node Count</th>
+  <th>Charon (seconds)</th>
+  <th>QPerft (seconds)</th>
+  <th>Charon (mnps)</th>
+  <th>QPerft (mnps)</th>
+ </tr>
+ <tr>
+  <td><a href = "https://www.chessprogramming.org/Perft_Results#Position_2">KiwiPete</a></td>
+  <td>6</td>
+  <td>8031647685</td>
+  <td>20.766</td>
+  <td>41.636</td>
+  <td>401.5</td>
+  <td>192.9</td>
+ </tr>
+ <tr>
+  <td><a href = "https://www.chessprogramming.org/Perft_Results#Position_3">3</a></td>
+  <td>6</td>
+  <td>3009794393</td>
+  <td>15.703</td>
+  <td>28.467</td>
+  <td>191.7</td>
+  <td>105.7</td>
+ </tr>
+ <tr>
+  <td><a href = "https://www.chessprogramming.org/Perft_Results#Position_4">4</a></td>
+  <td>6</td>
+  <td>706045033</td>
+  <td>1.953</td>
+  <td>5.406</td>
+  <td>361.5</td>
+  <td>130.6</td>
+ </tr>
+ <tr>
+  <td><a href = "https://www.chessprogramming.org/Perft_Results#Position_5">5</a></td>
+  <td>5</td> 
+  <td>89941194</td>
+  <td>0.234</td>
+  <td>0.635</td>
+  <td>384.3</td>
+  <td>141.6</td>
+ </tr>
+ <tr>
+  <td><a href = "https://www.chessprogramming.org/Perft_Results#Position_6">6</a></td>
+  <td>6</td> 
+  <td>6923051137</td>
+  <td>16.859</td>
+  <td>24.300</td>
+  <td>410.6</td>
+  <td>284.9</td>
+ </tr>
+</table>
 
