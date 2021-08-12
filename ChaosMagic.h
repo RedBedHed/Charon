@@ -207,13 +207,14 @@ namespace Charon {
         inline uint64_t
         getAttacks(const uint64_t blockerBoard) const {
             if(HasBMI2)
-            return attackBoards[PEXT(
-                    blockerBoard, mask)];
+                return attackBoards[PEXT(
+                    blockerBoard, mask
+                )];
             else
-            return attackBoards[HASH(
-                   blockerBoard, mask,
+                return attackBoards[HASH(
+                    blockerBoard, mask,
                             magicNumber, shiftAmount
-            )];
+                )];
 
         }
 

@@ -491,7 +491,9 @@ namespace Charon {
     placeAttacks(uint64_t blockerBoard,
                  uint64_t attackBoard) {
         if(HasBMI2) {
-            attacks[PEXT(blockerBoard, mask)] = attackBoard;
+            attacks[PEXT(
+                    blockerBoard, mask
+            )] = attackBoard;
         }
         else
             attacks[HASH(
