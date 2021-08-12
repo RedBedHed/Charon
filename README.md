@@ -110,9 +110,9 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
   <th>Depth</th>
   <th>Node Count</th>
   <th>Charon (seconds)</th>
-  <th>Qperft (seconds)</th>
+  <th>QPerft (seconds)</th>
   <th>Charon (mnps)</th>
-  <th>Qperft (mnps)</th>
+  <th>QPerft (mnps)</th>
  </tr>
  <tr>
   <td><a href = "https://www.chessprogramming.org/Perft_Results#Position_2">KiwiPete</a></td>
