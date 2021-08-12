@@ -1,5 +1,5 @@
 # Charon Perft 
-###### version: *08.11.2021 with support for pext (BMI2), popcnt, and lsb*
+###### version: *08.11.2021 with support for pext, popcnt, and lsb*
 ###### speed: *191-410 mnps*  
 ## Stuff worth mentioning :
 <p>
@@ -60,13 +60,13 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
             H   G   F   E   D   C   B   A
 
 
-        perft(1) -  0.000 seconds  -          20 nodes visited.
-        perft(2) -  0.000 seconds  -         400 nodes visited.
-        perft(3) -  0.000 seconds  -        8902 nodes visited.
-        perft(4) -  0.000 seconds  -      197281 nodes visited.
-        perft(5) -  0.016 seconds  -     4865609 nodes visited.
-        perft(6) -  0.344 seconds  -   119060324 nodes visited.
-        perft(7) -  9.047 seconds  -  3195901860 nodes visited.
+        perft(1) -   0.000 seconds -          20 nodes visited.
+        perft(2) -   0.000 seconds -         400 nodes visited.
+        perft(3) -   0.000 seconds -        8902 nodes visited.
+        perft(4) -   0.000 seconds -      197281 nodes visited.
+        perft(5) -   0.016 seconds -     4865609 nodes visited.
+        perft(6) -   0.344 seconds -   119060324 nodes visited.
+        perft(7) -   9.047 seconds -  3195901860 nodes visited.
         perft(8) - 249.016 seconds - 84998978956 nodes visited.
         
 ~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~.
