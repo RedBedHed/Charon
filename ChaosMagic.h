@@ -6,6 +6,10 @@
 #ifndef CHARON_CHAOSMAGIC_H
 #define CHARON_CHAOSMAGIC_H
 #define HASH(bb, m, mn, sa) (int) (((bb & m) * mn) >> sa)
+#include <cstdint>
+#if INTPTR_MAX == INT32_MAX
+#   error "CPU architecture not supported."
+#endif
 #define USE_BMI2
 #if defined(USE_BMI2)
 #	include <immintrin.h>
@@ -724,13 +728,9 @@ namespace Charon {
 #       if defined(__GNUC__)
             return __builtin_ctzll(l);
 #       elif defined(_MSC_VER)
-#           ifdef WIN64
-                unsigned long r;
-                _BitScanForward64(&r, l);
-                return (int) r;
-#           else
-#               error "CPU architecture not supported."
-#           endif
+            unsigned long r;
+            _BitScanForward64(&r, l);
+            return (int) r;
 #       else
             return DeBruijnTable[(int)
                 (((l & (uint64_t)-(int64_t)l) * DeBruijn64) >> 58U)

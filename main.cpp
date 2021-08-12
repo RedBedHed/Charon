@@ -34,7 +34,12 @@ int main(const int argc, const char** const argv) {
 }
 
 inline int charPerft(const int n, const int argc, const char** const argv) {
+    double start = clock();
     Witchcraft::init();
+    double stop = clock() - start;
+    cout << "\ninit - ";
+    printf("%6.3f", (double) stop / (double) CLOCKS_PER_SEC);
+    cout << " seconds.\n";
     State x;
     Board b = (argc == 3) ?
               Board::Builder<Default>(x).build() :
