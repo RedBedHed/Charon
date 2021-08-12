@@ -1,6 +1,6 @@
 # Charon Perft 
 ###### version: *08.11.2021 with support for pext (BMI2), popcnt, and bsf*
-###### speed: *250-350 mnps*  
+###### speed: *180-340 mnps*  
 ## Stuff worth mentioning :
 <p>
  <ul>
@@ -110,7 +110,9 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
   <th>Depth</th>
   <th>Node Count</th>
   <th>Charon (seconds)</th>
-  <th>Qperft  (seconds)</th>
+  <th>Qperft (seconds)</th>
+  <th>Charon (mnps)</th>
+  <th>QPerft (mnps)</th>
  </tr>
  <tr>
   <td><a href = "https://www.chessprogramming.org/Perft_Results#Position_2">KiwiPete</a></td>
@@ -118,6 +120,8 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
   <td>8031647685</td>
   <td>23.641</td>
   <td>41.636</td>
+  <td>339.7</td>
+  <td>192.9</td>
  </tr>
  <tr>
   <td><a href = "https://www.chessprogramming.org/Perft_Results#Position_3">Position 3</a></td>
@@ -125,6 +129,8 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
   <td>3009794393</td>
   <td>16.312</td>
   <td>28.467</td>
+  <td>184.5</td>
+  <td>105.7</td>
  </tr>
  <tr>
   <td><a href = "https://www.chessprogramming.org/Perft_Results#Position_4">Position 4</a></td>
@@ -132,6 +138,8 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
   <td>706045033</td>
   <td>2.094</td>
   <td>5.406</td>
+  <td>337.2</td>
+  <td>130.6</td>
  </tr>
  <tr>
   <td><a href = "https://www.chessprogramming.org/Perft_Results#Position_5">Position 5</a></td>
