@@ -720,11 +720,11 @@ namespace Charon {
          * starting from the least significant side.
          */
         inline int bitScanFwd(const uint64_t l) {
+            assert(l != 0);
 #       if defined(__GNUC__)
             return __builtin_ctzll(l);
 #       elif defined(_MSC_VER)
 #           ifdef WIN64
-                assert(l != 0);
                 unsigned long r;
                 _BitScanForward64(&r, l);
                 return (int) r;
