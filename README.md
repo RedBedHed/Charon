@@ -1,6 +1,6 @@
 # Charon Perft 
 ###### version: *08.11.2021 with support for pext (BMI2), popcnt, and bsf*
-###### speed: *180-340 mnps*  
+###### speed: *180-370 mnps*  
 ## Stuff worth mentioning :
 <p>
  <ul>
@@ -147,6 +147,8 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
   <td>89941194</td>
   <td>0.250</td>
   <td>0.635</td>
+  <td>359.8</td>
+  <td>141.6</td>
  </tr>
  <tr>
   <td><a href = "https://www.chessprogramming.org/Perft_Results#Position_6">Position 6</a></td>
@@ -154,6 +156,8 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
   <td>6923051137</td>
   <td>18.766</td>
   <td>24.300</td>
+  <td>368.9</td>
+  <td>284.9</td>
  </tr>
 </table>
 
