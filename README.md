@@ -1,5 +1,5 @@
 # Charon Perft 
-###### version: *08.11.2021 with support for pext, popcnt, and lsb via profile-guided optimization*
+###### version: *08.11.2021 with support for pext, popcnt, and lsb*
 ###### speed: *191-410 mnps*  
 ## Stuff worth mentioning :
 <p>
