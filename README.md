@@ -1,5 +1,5 @@
 # Charon Perft
-## *250-350 mnps*
+##### *250-350 mnps*
 
 ### Few things worth mentioning:
 
