@@ -1,14 +1,12 @@
 # Charon Perft 
-###### version: *08.11.2021* - speed: *250-350 mnps*
-
+###### version: *08.11.2021* - speed: *250-350 mnps* - supports: *pext (BMI2), popcnt, bsf*  
 ### Few things worth mentioning:
-
 <p>
  <ol>
   <li>
    <p>
 Board.h is still in the works... And I could really use advice on how to improve it.
-The applyMove and retractMove algorithms are completely unfinished.
+The applyMove and retractMove algorithms are functional, but unfinished.
    </p> 
   <li>
    <p>
