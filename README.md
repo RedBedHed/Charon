@@ -1,5 +1,5 @@
 # Charon Perft 
-####### approx. speed: *250-350 mnps*
+###### approx. speed: *250-350 mnps*
 
 ### Few things worth mentioning:
 
