@@ -1,6 +1,6 @@
 # Charon Perft 
 ###### version: *08.11.2021 with support for pext (BMI2), popcnt, and bsf*
-###### speed: *185-370 mnps*  
+###### speed: *185-410 mnps*  
 ## Stuff worth mentioning :
 <p>
  <ul>
@@ -67,7 +67,7 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
         perft(5) -  0.016 seconds   -     4865609 nodes visited.
         perft(6) -  0.375 seconds   -   119060324 nodes visited.
         perft(7) -  9.469 seconds   -  3195901860 nodes visited.
-        perft(8) -  272.094 seconds - 84998978956 nodes visited.
+        perft(8) -  249.016 seconds - 84998978956 nodes visited.
         
 ~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~.
  </code>
@@ -117,45 +117,45 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
   <td><a href = "https://www.chessprogramming.org/Perft_Results#Position_2">KiwiPete</a></td>
   <td>6</td>
   <td>8031647685</td>
-  <td>23.641</td>
+  <td>20.766</td>
   <td>41.636</td>
-  <td>339.7</td>
+  <td>401.5</td>
   <td>192.9</td>
  </tr>
  <tr>
   <td><a href = "https://www.chessprogramming.org/Perft_Results#Position_3">3</a></td>
   <td>6</td>
   <td>3009794393</td>
-  <td>16.312</td>
+  <td>15.703</td>
   <td>28.467</td>
-  <td>184.5</td>
+  <td>191.7</td>
   <td>105.7</td>
  </tr>
  <tr>
   <td><a href = "https://www.chessprogramming.org/Perft_Results#Position_4">4</a></td>
   <td>6</td>
   <td>706045033</td>
-  <td>2.094</td>
+  <td>1.953</td>
   <td>5.406</td>
-  <td>337.2</td>
+  <td>361.5</td>
   <td>130.6</td>
  </tr>
  <tr>
   <td><a href = "https://www.chessprogramming.org/Perft_Results#Position_5">5</a></td>
   <td>5</td> 
   <td>89941194</td>
-  <td>0.250</td>
+  <td>0.234</td>
   <td>0.635</td>
-  <td>359.8</td>
+  <td>384.3</td>
   <td>141.6</td>
  </tr>
  <tr>
   <td><a href = "https://www.chessprogramming.org/Perft_Results#Position_6">6</a></td>
   <td>6</td> 
   <td>6923051137</td>
-  <td>18.766</td>
+  <td>16.859</td>
   <td>24.300</td>
-  <td>368.9</td>
+  <td>410.6</td>
   <td>284.9</td>
  </tr>
 </table>
