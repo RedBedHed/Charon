@@ -1,5 +1,5 @@
 # Charon Perft 
-###### version: *08.11.2021* speed: *250-350 mnps*
+###### version: *08.11.2021* - speed: *250-350 mnps*
 
 ### Few things worth mentioning:
 
