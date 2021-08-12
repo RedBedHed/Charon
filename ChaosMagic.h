@@ -14,13 +14,16 @@
 #   error "CPU architecture not supported."
 #endif
 
-// Whether BMI2 is supported...
-#define USE_BMI2
+// BMI2 - has pext
+//#define USE_BMI2
+
+// Popcnt
+//#define USE_POPCNT
 
 // If this is a Microsoft compiler,
 // include the Microsoft intrinsic library.
 #if defined(_MSC_VER)
-#	include <intrin.h>
+#   include <intrin.h>
 #endif
 
 // If this BMI2 is supported, set the
@@ -28,7 +31,7 @@
 // intrinsic library.
 // Define HASH and PEXT macros.
 #if defined(USE_BMI2)
-#	include <immintrin.h>
+#   include <immintrin.h>
     constexpr bool HasBMI2 = true;
 // Magic hash.
 #   define HASH(bb, m, mn, sa) 0
