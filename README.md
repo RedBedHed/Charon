@@ -1,5 +1,5 @@
 # Charon Perft 
-###### version: *08.11.2021 with support for pext (BMI2), popcnt, and bsf*
+###### version: *08.11.2021 with support for pext (BMI2), popcnt, and lsb*
 ###### speed: *191-410 mnps*  
 ## Stuff worth mentioning :
 <p>
@@ -18,7 +18,7 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
  </ul> 
 </p>
 
-## These are Charon's initial position perft results !!!
+## These are Charon's initial-position perft results !!!
 ###### *(single-threaded, 1.6 ghz i5, strictly-legal moves only.)*
  <pre>
   <code>
