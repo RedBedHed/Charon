@@ -1,26 +1,21 @@
 # Charon Perft 
 ###### version: *08.11.2021 with support for pext (BMI2), popcnt, and bsf*
 ###### speed: *250-350 mnps*  
-### Few things worth mentioning:
+## Stuff worth mentioning :
 <p>
- <ol>
+ <ul>
   <li>
    <p>
 Board.h is still in the works... And I could really use advice on how to improve it.
 The applyMove and retractMove algorithms are functional, but unfinished.
    </p> 
-  <li>
-   <p>
-There are multiple files that need to be deleted. Among these are empty cpp files and 
-my crude List that I opted not to use.
-   </p>
   </li> 
   <li>
    <p>
 Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation.
    </p>
   </li> 
- </ol> 
+ </ul> 
 </p>
 
 ### These are Charon's initial position perft results !!!
