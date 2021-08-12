@@ -22,7 +22,6 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
 ###### *(single-threaded, 1.6 ghz i5, strictly-legal moves only.)*
  <pre>
   <code>
-
      @@@    @@
    @@   @@  @@
   @@        @@ @@@      @@@@    @@ @@@      @@@@    @@ @@@
