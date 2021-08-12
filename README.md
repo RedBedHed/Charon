@@ -67,13 +67,14 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
             H   G   F   E   D   C   B   A
 
 
-        perft(1) -  0.000 seconds -         20 nodes visited.
-        perft(2) -  0.000 seconds -        400 nodes visited.
-        perft(3) -  0.000 seconds -       8902 nodes visited.
-        perft(4) -  0.000 seconds -     197281 nodes visited.
-        perft(5) -  0.016 seconds -    4865609 nodes visited.
-        perft(6) -  0.375 seconds -  119060324 nodes visited.
-        perft(7) -  9.469 seconds - 3195901860 nodes visited.
+        perft(1) -  0.000 seconds   -          20 nodes visited.
+        perft(2) -  0.000 seconds   -         400 nodes visited.
+        perft(3) -  0.000 seconds   -        8902 nodes visited.
+        perft(4) -  0.000 seconds   -      197281 nodes visited.
+        perft(5) -  0.016 seconds   -     4865609 nodes visited.
+        perft(6) -  0.375 seconds   -   119060324 nodes visited.
+        perft(7) -  9.469 seconds   -  3195901860 nodes visited.
+        perft(8) -  272.094 seconds - 84998978956 nodes visited.
         
 ~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~._.~^*^~.
  </code>
@@ -104,6 +105,8 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
          perft( 4)=       197281 ( 0.000 sec)
          perft( 5)=      4865609 ( 0.031 sec)
          perft( 6)=    119060324 ( 0.625 sec)
+         perft( 7)=   3195901860 (16.576 sec)
+         perft( 8)=  84998978956 (441.816 sec)
  </code>
 </pre>
 # Extra results (for science) !
@@ -209,4 +212,18 @@ Qperft:
         perft( 6)=   6923051137 (24.300 sec)
  </code>
 </pre>
+<table style="width:100%">
+ <tr>
+  <th>Position</th>
+  <th>Node Count</th>
+  <th>Charon (seconds)</th>
+  <th>Qpeft  (seconds)</th>
+ </tr>
+ <tr>
+  <td><a href = "https://www.chessprogramming.org/Perft_Results#Position_2">KiwiPete]</a> - Depth 6</td>
+  <td>8031647685</td>
+  <td>23.641</td>
+  <td>41.636</td>
+ </tr>
+</table>
 
