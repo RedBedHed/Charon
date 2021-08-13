@@ -70,7 +70,6 @@ namespace Charon {
                             const uint64_t checkMask,
                             const uint64_t kingGuard,
                             const int kingSquare,
-                            const uint64_t diagonalSnipers,
                             Move* moves) {
             static_assert(A == White || A == Black);
             static_assert(FT >= Aggressive && FT <= All);
@@ -82,7 +81,8 @@ namespace Charon {
 
             // Initialize constants.
             const uint64_t enemies         = board->getPieces<them>() & checkMask,
-                           emptySquares    = ~board->getAllPieces(),
+                           allPieces       = board->getAllPieces(),
+                           emptySquares    = ~allPieces,
                            pawns           = board->getPieces<us, Pawn>(),
                            king            = board->getPieces<us, King>(),
                            freePawns       = pawns & ~kingGuard,
@@ -383,7 +383,7 @@ namespace Charon {
                     const uint64_t path =
                             pathBoard(bitScanFwd(s), kingSquare);
                     if (eppBoard & path) {
-                        const uint64_t b = board->getAllPieces() &
+                        const uint64_t b = allPieces &
                             ~snipers & path, c = b & (b - 1);
                         if (b && c && !(c & (c - 1)))
                             return moves;
@@ -395,6 +395,11 @@ namespace Charon {
             // pawn, en en passant discovered check is still
             // possible.
             } else if (pathBoard(kingSquare, enPassantSquare)) {
+
+                const uint64_t diagonalSnipers =
+                    (attackBoard<Bishop>(0, kingSquare) &
+                    (board->getPieces<them, Bishop>() |
+                     board->getPieces<them, Rook>()));
 
                 // Check to see if the en passant pawn
                 // is between any of the snipers and the king
@@ -408,7 +413,7 @@ namespace Charon {
                     const uint64_t path =
                             pathBoard(bitScanFwd(s), kingSquare);
                     if (eppBoard & path) {
-                        const uint64_t b = board->getAllPieces() & path;
+                        const uint64_t b = allPieces & path;
                         if (b && !(b & (b - 1)))
                             return moves;
                     }
@@ -565,17 +570,14 @@ namespace Charon {
             if (checkType != DoubleCheck) {
                 uint64_t blockers = 0;
                 const uint64_t theirQueens     =
-                                        board->getPieces<them, Queen>(),
-                               diagonalSnipers =
-                                       (attackBoard<Bishop>(0, ksq) &
-                                       (board->getPieces<them, Bishop>() |
-                                        theirQueens));
+                        board->getPieces<them, Queen>();
 
                 // Find the sniper pieces.
                 const uint64_t snipers =
-                        (attackBoard<Rook>(0, ksq)          &
-                        (board->getPieces<them, Rook>()   | theirQueens)) |
-                        diagonalSnipers;
+                        (attackBoard<Rook>(0, ksq) &
+                        (board->getPieces<them, Rook>() | theirQueens)) |
+                        (attackBoard<Bishop>(0, ksq) &
+                        (board->getPieces<them, Bishop>() | theirQueens));
 
                 // Iterate through the snipers and draw paths to the king,
                 // using these paths as an x-ray to find the blockers.
@@ -601,9 +603,7 @@ namespace Charon {
                                fullFilter = partialFilter & checkPath;
 
                 // Make non-king moves.
-                moves = makePawnMoves<us, FT>(
-                             board, checkPath, kingGuard,  ksq, diagonalSnipers, moves
-                );
+                moves = makePawnMoves<us, FT>(board, checkPath, kingGuard,  ksq, moves);
                 moves = makeMoves<us,   Rook>(board, kingGuard, fullFilter, ksq, moves);
                 moves = makeMoves<us, Knight>(board, kingGuard, fullFilter, ksq, moves);
                 moves = makeMoves<us, Bishop>(board, kingGuard, fullFilter, ksq, moves);
