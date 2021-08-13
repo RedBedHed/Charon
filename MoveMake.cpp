@@ -569,7 +569,7 @@ namespace Charon {
             // should be considered.
             if (checkType != DoubleCheck) {
                 uint64_t blockers = 0;
-                const uint64_t theirQueens     =
+                const uint64_t theirQueens =
                         board->getPieces<them, Queen>();
 
                 // Find the sniper pieces.
