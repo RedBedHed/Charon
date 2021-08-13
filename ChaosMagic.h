@@ -15,10 +15,10 @@
 #endif
 
 // BMI2 - has pext
-//#define USE_BMI2
+#define USE_BMI2
 
 // Popcnt
-//#define USE_POPCNT
+#define USE_POPCNT
 
 // If this is a Microsoft compiler,
 // include the Microsoft intrinsic library.
