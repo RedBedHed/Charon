@@ -399,7 +399,7 @@ namespace Charon {
                 const uint64_t diagonalSnipers =
                     (attackBoard<Bishop>(0, kingSquare) &
                     (board->getPieces<them, Bishop>() |
-                     board->getPieces<them, Rook>()));
+                     board->getPieces<them, Queen>()));
 
                 // Check to see if the en passant pawn
                 // is between any of the snipers and the king

@@ -714,10 +714,10 @@ namespace Charon {
             const bool isPromotion = m.isPromotion();
             const PieceType captureType = mailbox[destination],
                             activeType  = mailbox[origin];
+            state.capturedPiece  = captureType;
             state.castlingRights = currentState->castlingRights;
-            state.prevState = currentState;
-            currentState = &state;
-            currentState->capturedPiece = captureType;
+            state.prevState      = currentState;
+            currentState         = &state;
             constexpr const Alliance us = A, them = ~us;
             const uint64_t originBoard      = SquareToBitBoard[origin],
                            destinationBoard = SquareToBitBoard[destination],
