@@ -124,7 +124,7 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
  </tr>
  <tr>
   <td><a href = "https://www.chessprogramming.org/Perft_Results#Position_3">3</a></td>
-  <td>6</td>
+  <td>8</td>
   <td>3009794393</td>
   <td>15.703</td>
   <td>28.467</td>
