@@ -403,7 +403,7 @@ namespace Charon {
 
         template <> uint64_t
         attackBoard<King>(const uint64_t board, const int sq)
-        { return SquareToKnightAttacks[sq]; }
+        { return SquareToKingAttacks[sq]; }
 
         template <> uint64_t
         attackBoard<King>(const int sq)
