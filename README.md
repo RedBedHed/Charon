@@ -6,6 +6,16 @@
  <ul>
   <li>
    <p>
+Charon borrows from many open-source chess engines, including Stockfish and Leela.
+   </p> 
+  </li> 
+  <li>
+   <p>
+Charon uses techniques from the Chess Programming Wiki and Hacker's Delight.
+   </p> 
+  </li> 
+  <li>
+   <p>
 Board.h is still in the works... And I could really use advice on how to improve it.
 The applyMove and retractMove algorithms are functional, but unfinished.
    </p> 
