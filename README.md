@@ -21,8 +21,8 @@ Charon is vanilla bulk-counted perft. No hashing. Strictly legal move generation
   </li> 
   <li>
    <p>
-Board.h is still in the works... And I could really use advice on how to improve it.
-The applyMove and retractMove algorithms are functional, but unfinished.
+This move generator is functional, but unfinished. The engine will always be a
+work in progress. Feedback and advice is always appreciated!
    </p> 
   </li> 
  </ul> 
